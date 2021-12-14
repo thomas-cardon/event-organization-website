@@ -1,6 +1,7 @@
 <?php
 
 require dirname(__FILE__) . '/constants.php';
+require dirname(__FILE__) . '/../../config/sql.php';
 
 final class AutoLoad
 {
@@ -48,6 +49,7 @@ final class AutoLoad
 }
 
 // J'empile tout ce beau monde comme j'ai toujours appris à le faire...
+
 spl_autoload_register('AutoLoad::chargerClassesNoyau');
 spl_autoload_register('AutoLoad::chargerClassesException');
 spl_autoload_register('AutoLoad::chargerClassesModele');
