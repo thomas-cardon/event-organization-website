@@ -8,3 +8,5 @@ composer.phar
 config/sql.php
 
 .DS_Store
+
+config/config.php
