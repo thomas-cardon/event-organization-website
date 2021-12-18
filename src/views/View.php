@@ -25,14 +25,13 @@ final class View
         return ob_get_clean();
     }
 
-    public static function show ($S_localisation, $A_parametres = array())
+    public static function show ($path, $params = array())
     {
-        $S_fichier = Constants::getViewsPath() . $S_localisation . '.php';
+        $S_fichier = Constants::getViewsPath() . $path . '.php';
 
-        $A_vue = $A_parametres;
         // Démarrage d'un sous-tampon
         ob_start();
-        include $S_fichier; // c'est dans ce fichier que sera utilisé A_vue, la vue est inclue dans le sous-tampon
+        include $S_fichier;
         ob_end_flush();
     }
 }
