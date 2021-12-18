@@ -18,6 +18,10 @@ final class Constants
         return realpath(__DIR__ . '/../');
     }
 
+    public static function getPublicPath() {
+        return BASE_PATH . '/public';
+    }
+
     public static function getCorePath() {
         return self::root() . self::CORE_PATH;
     }
