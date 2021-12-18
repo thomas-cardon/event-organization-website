@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap');
+
+button, select {
+    text-transform: none;
+}
+
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+    margin: 0;
+}
+
+button, [type='button'], [type='reset'], [type='submit'] {
+    -webkit-appearance: button;
+    outline: none;
+    border: none;
+
+    border-radius: .25rem;
+
+    font-family: Poppins, sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    font-style: normal;
+    line-height: 4vh;
+    letter-spacing: 1.8px;
+    padding: 18px 20px;
+
+    align-items: center;
+    cursor: pointer;
+
+    padding: 0.5rem 1rem;
+
+    color: #fff;
+    background: #c25be9;
+    border: 1px solid #c25be9;
+    background-position: center;
+    transition: background .3s;
+
+    box-shadow: 5px 5px 5px #0000001a;
+
+    text-transform: uppercase;
+}
+
+button.sm {
+    font-size: 14px;
+    line-height: 2vh;
+    padding: 0.5rem 1rem;
+}
+
+button.green {
+    --bg-opacity: 1;
+    background-color: rgba(209, 250, 229, var(--bg-opacity));
+    
+    border: 1px solid #322636;
+}
+
+button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
+    margin-right: .5rem;
+}
+
+input {
+    --bg-opacity: 1;
+
+    margin: 0.5rem 0;
+
+    border-radius: 0.375rem;
+    border: none;
+    outline: none;
+
+    padding: 0.5rem 1rem;
+    color: #333;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+input.search {
+    background: url(public/vendor/svg/search.svg) no-repeat scroll 7px 7px;
+    padding-left: 30px;
+}
+
+input.green:focus {
+    outline: rgba(5, 150, 105, var(--bg-opacity)) solid 2px;
+}

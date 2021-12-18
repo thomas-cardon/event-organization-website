@@ -1,0 +1,33 @@
+section {
+    display: flex;
+    flex-direction: column;
+}
+
+section.horizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+section.horizontal > div {
+    margin: 0 1rem;
+}
+
+section.hero {
+    background: url(../../svg/landing-bg.svg);
+    background-size: cover;
+    background-position: center;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    padding-top: 40%;
+}
+
+section.lead {
+    margin: auto;
+}

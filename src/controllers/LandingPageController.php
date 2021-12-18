@@ -4,6 +4,7 @@ final class LandingPageController
 {
     public function defautAction()
     {
+        User::ensureExists();
         View::show('landing', array('body' => 'test'));
     }
 
