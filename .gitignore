@@ -6,3 +6,5 @@ composer.phar
 # composer.lock
 
 config/sql.php
+
+.DS_Store
