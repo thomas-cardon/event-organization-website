@@ -1,8 +1,38 @@
 <?php
 
+/**
+ * ControllerHelpers
+ * Gives other controllers some useful methods
+ * @author Thomas Cardon - https://github.com/thomas-cardon
+ */
+trait ControllerHelpers {
+    function redirect($endpoint, $params = array()) {
+        header('Location: ' . BASE_PATH . $endpoint);
+        exit();
+    }
+
+    /**
+     * isAuthentified
+     * Vérifie si l'utilisateur est authentifié
+     * @author : ???
+     * @return Boolean
+     */
+    public function isAuthentified() {
+        // return isset($_SESSION['user']); idées, à vous de voir? :)
+        // isset: renvoie true si la variable existe, false sinon
+        // $_SESSION: tableau associatif qui contient les variables de session
+        return false;
+    }
+
+    public function getCurrentUser() {
+        // return $_SESSION['user']; idées, à vous de voir? :)
+        return null;
+    }
+}
+
 final class Controller
 {
-    private $_A_urlDecortique;
+    private $_url;
 
     private $_A_urlParametres;
 
@@ -16,31 +46,31 @@ final class Controller
         }
 
         // On éclate l'URL, elle va prendre place dans un tableau
-        $A_urlDecortique = explode('/', $S_url);
+        $url = explode('/', $S_url);
 
-        if (empty($A_urlDecortique[0])) {
+        if (empty($url[0])) {
             // Nous avons pris le parti de préfixer tous les controleurs par "Controleur"
-            $A_urlDecortique[0] = 'LandingPageController';
+            $url[0] = 'LandingPageController';
         } else {
-            $A_urlDecortique[0] = ucfirst($A_urlDecortique[0]) . 'Controller';
+            $url[0] = ucfirst($url[0]) . 'Controller';
         }
 
-        if (empty($A_urlDecortique[1])) {
+        if (empty($url[1])) {
             // L'action est vide ! On la valorise par défaut
-            $A_urlDecortique[1] = 'defautAction';
+            $url[1] = 'defaultAction';
         } else {
             // On part du principe que toutes nos actions sont suffixées par 'Action'...à nous de le rajouter
-            $A_urlDecortique[1] = $A_urlDecortique[1] . 'Action';
+            $url[1] = $url[1] . 'Action';
         }
 
 
         // on dépile 2 fois de suite depuis le début, c'est à dire qu'on enlève de notre tableau le contrôleur et l'action
         // il ne reste donc que les éventuels parametres (si nous en avons)...
-        $this->_A_urlDecortique['controller'] = array_shift($A_urlDecortique); // on recupere le contrôleur
-        $this->_A_urlDecortique['action']     = array_shift($A_urlDecortique); // puis l'action
+        $this->_url['controller'] = array_shift($url); // on recupere le contrôleur
+        $this->_url['action']     = array_shift($url); // puis l'action
 
         // ...on stocke ces éventuels parametres dans la variable d'instance qui leur est réservée
-        $this->_A_urlParametres = $A_urlDecortique;
+        $this->_A_urlParametres = $url;
 
         // On  s'occupe du tableau $A_postParams
         $this->_A_postParams = $A_postParams;
@@ -48,25 +78,28 @@ final class Controller
 
     }
 
-    // On exécute notre triplet
-
-    public function executer()
+    /* 
+     * On exécute notre triplet
+     */
+    public function execute()
     {
-        if (!class_exists($this->_A_urlDecortique['controller'])) {
-            throw new ControllerException($this->_A_urlDecortique['controller'] . " n'est pas un controleur valide.");
+        if (!class_exists($this->_url['controller'])) {
+            throw new ControllerException($this->_url['controller'] . " n'est pas un contrôleur valide.");
         }
 
-        if (!method_exists($this->_A_urlDecortique['controller'], $this->_A_urlDecortique['action'])) {
-            throw new ControllerException($this->_A_urlDecortique['action'] . " du contrôleur " .
-                $this->_A_urlDecortique['controller'] . " n'est pas une action valide.");
+        if (!method_exists($this->_url['controller'], $this->_url['action'])) {
+            throw new ControllerException($this->_url['action'] . " du contrôleur " .
+                $this->_url['controller'] . " n'est pas une action valide.");
         }
 
-        $B_called = call_user_func_array(array(new $this->_A_urlDecortique['controller'],
-            $this->_A_urlDecortique['action']), array($this->_A_urlParametres, $this->_A_postParams ));
+        session_start();
+
+        $B_called = call_user_func_array(array(new $this->_url['controller'],
+            $this->_url['action']), array($this->_A_urlParametres, $this->_A_postParams ));
 
         if (false === $B_called) {
-            throw new ControllerException("L'action " . $this->_A_urlDecortique['action'] .
-                " du contrôleur " . $this->_A_urlDecortique['controller'] . " a rencontré une erreur.");
+            throw new ControllerException("L'action " . $this->_url['action'] .
+                " du contrôleur " . $this->_url['controller'] . " a rencontré une erreur.");
         }
     }
 }
