@@ -2,15 +2,18 @@
 
 final class LandingPageController
 {
-    public function defautAction()
+    public function defaultAction()
     {
         User::ensureExists();
-        View::show('landing', array('body' => 'test'));
+        
+        View::show('landing', array(
+            'authentified' => true
+        ));
     }
 
-    public function testformAction(Array $A_parametres = null, Array $A_postParams = null)
+    public function testformAction(Array $params = null, Array $post = null)
     {
-        View::show('landing', array('formData' => $A_postParams));
+        View::show('landing', array('formData' => $post));
     }
 
 }
