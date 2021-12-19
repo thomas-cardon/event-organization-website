@@ -1,0 +1,29 @@
+.glass {
+    padding: 1.25rem;
+    border-radius: .25rem;
+
+    backdrop-filter: blur(9px) saturate(30%);
+    -webkit-backdrop-filter: blur(9px) saturate(30%);
+    -moz-backdrop-filter: blur(9px) saturate(30%);
+    -o-backdrop-filter: blur(9px) saturate(30%);
+    -ms-backdrop-filter: blur(9px) saturate(30%);
+    
+    background-color: rgba(144, 19, 254, 0.13);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.glass.red {
+    background-color: rgba(255, 0, 0, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.glass.yellow {
+    background-color: rgba(255, 255, 0, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.glass.blue {
+    background-color: rgba(0, 0, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
