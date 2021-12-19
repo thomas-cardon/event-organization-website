@@ -38,12 +38,17 @@ button, [type='button'], [type='reset'], [type='submit'] {
 
     border: 1px solid #fff;
     background-position: center;
-    transition: background .3s;
+    transition: all .3s;
 
     box-shadow: 5px 5px 5px #0000001a;
 
     text-transform: uppercase;
 }
+
+button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
+    transform: scale(1.05);
+}
+
 
 button.action {
     color: #fff;

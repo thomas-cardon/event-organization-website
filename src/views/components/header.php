@@ -9,12 +9,17 @@
             </h1>
         <?php else : ?>
             <h1 style="font-family: 'BigNoodleTitling Oblique'">
-            E-Event.IO&nbsp;
-            <span class="text-white">|</span>
-            <span class="text-white">$NAME $LASTNAME</span>
+                E-Event.IO&nbsp;
+                <span class="text-white">|</span>
+                <span class="text-white"><?php echo $params['user']['firstName'] . ' ' . $params['user']['lastName']; ?></span>
             </h1>
         <?php endif; ?>
     </a>
     <nav>
+        <a class="text-gray-1" href="<?php echo BASE_PATH; ?>">Créer</a>
+        <a class="text-gray-1" href="<?php echo BASE_PATH; ?>">Mes évènements</a>
+        <a class="text-gray-1" href="<?php echo BASE_PATH; ?>">Mes invitations</a>
+        <a class="text-gray-1" href="<?php echo BASE_PATH; ?>">Contact</a>
+        <a class="text-gray-1" href="<?php echo BASE_PATH; ?>">Profil</a>
     </nav>
 </header>

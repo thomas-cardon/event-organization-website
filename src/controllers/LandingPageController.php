@@ -8,11 +8,11 @@ final class LandingPageController
         
         View::show('landing', array(
             'authentified' => true,
-            'alert' => $session['alert'] ?? null
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'] ?? array( 'firstName' => 'Jane', 'lastName' => 'Doe' ) /* NULL normalement, défini pour des tests frontend */,
         ));
 
         $_SESSION['alert'] = null;
     }
 }
-
 ?>
