@@ -1,7 +1,13 @@
 <?php View::$title = 'Accueil' ?>
 
 <main class="hero">
-    <?php View::show('components/header'); ?>
+    <?php View::show('components/header', $params); ?>
+        
+    <?php if (isset($params['alert'])) : ?>
+        <div id="alert" class="w-1/2 lead fade-in glass <?php echo $params['alert']['type'] ?? 'yellow'; ?> text-gray-less" style="margin: 2rem auto;">
+            <?php echo $params['alert']['message'] ?>
+        </div>
+    <?php endif; ?>
 
     <section class="p-2 horizontal lead" style="padding-right: 4rem; padding-left: 4rem;">
         <div class="w-1/2 lead">

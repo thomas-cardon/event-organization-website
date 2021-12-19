@@ -6,8 +6,10 @@
  * @author Thomas Cardon - https://github.com/thomas-cardon
  */
 trait ControllerHelpers {
-    function redirect($endpoint, $params = array()) {
+    function redirect($endpoint, $options = array()) {
         header('Location: ' . BASE_PATH . $endpoint);
+
+        $_SESSION['alert'] = $options['alert'] ?? null;
         exit();
     }
 
@@ -33,12 +35,10 @@ trait ControllerHelpers {
 final class Controller
 {
     private $_url;
+    private $_params;
+    private $_post;
 
-    private $_A_urlParametres;
-
-    private $_A_postParams;
-
-    public function __construct ($S_url, $A_postParams)
+    public function __construct ($S_url)
     {
         // On élimine l'éventuel slash en fin d'URL sinon notre explode renverra une dernière entrée vide
         if ('/' == substr($S_url, -1, 1)) {
@@ -70,12 +70,7 @@ final class Controller
         $this->_url['action']     = array_shift($url); // puis l'action
 
         // ...on stocke ces éventuels parametres dans la variable d'instance qui leur est réservée
-        $this->_A_urlParametres = $url;
-
-        // On  s'occupe du tableau $A_postParams
-        $this->_A_postParams = $A_postParams;
-
-
+        $this->_params = $url;
     }
 
     /* 
@@ -95,7 +90,7 @@ final class Controller
         session_start();
 
         $B_called = call_user_func_array(array(new $this->_url['controller'],
-            $this->_url['action']), array($this->_A_urlParametres, $this->_A_postParams ));
+            $this->_url['action']), array($this->_params, $_POST, $_SESSION));
 
         if (false === $B_called) {
             throw new ControllerException("L'action " . $this->_url['action'] .

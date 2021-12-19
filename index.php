@@ -10,7 +10,7 @@ View::openBuffer(); // on ouvre le tampon d'affichage, les contrôleurs qui appe
 
 try
 {
-$O_controleur = new Controller($route, $_POST /* Paramètres envoyés par POST, transférés en deuxième paramètre de méthode d'action */);
+    $O_controleur = new Controller($route);
     $O_controleur->execute();
 }
 catch (ControllerException $O_exception)
