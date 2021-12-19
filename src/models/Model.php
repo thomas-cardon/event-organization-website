@@ -11,9 +11,6 @@ class Model {
      * @return PDO
      */
     public function __construct() {
-        echo "Model::__construct()<br />";
-        echo print_r(self::$db, true);
-
         self::getDatabaseInstance();
     }
 

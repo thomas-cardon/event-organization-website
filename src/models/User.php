@@ -57,7 +57,7 @@ final class User extends Model
     public static function getUser($id)
     {
         $sql = "SELECT * FROM users WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch();
@@ -66,7 +66,7 @@ final class User extends Model
     public static function getUsers()
     {
         $sql = "SELECT * FROM users";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -74,7 +74,7 @@ final class User extends Model
     public static function deleteUser($id)
     {
         $sql = "DELETE FROM users WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
     }
@@ -82,7 +82,7 @@ final class User extends Model
     public static function createUser($data)
     {
         $sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindValue(':name', $data['name'], PDO::PARAM_STR);
         $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
@@ -92,7 +92,7 @@ final class User extends Model
     public static function updateUser($data)
     {
         $sql = "UPDATE users SET name = :name, email = :email, password = :password WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindValue(':name', $data['name'], PDO::PARAM_STR);
         $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
