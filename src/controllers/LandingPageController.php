@@ -2,20 +2,17 @@
 
 final class LandingPageController
 {
-    public function defaultAction()
+    public function defaultAction($params, $post, $session)
     {
         User::ensureExists();
         
         View::show('landing', array(
-            'authentified' => true
+            'authentified' => true,
+            'alert' => $session['alert'] ?? null
         ));
-    }
 
-    public function testformAction(Array $params = null, Array $post = null)
-    {
-        View::show('landing', array('formData' => $post));
+        $_SESSION['alert'] = null;
     }
-
 }
 
 ?>
