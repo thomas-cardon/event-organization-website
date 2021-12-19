@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap');
 
+form {
+    margin-top: 1.5rem;
+}
+
 button, select {
     text-transform: none;
 }
@@ -29,15 +33,22 @@ button, [type='button'], [type='reset'], [type='submit'] {
 
     padding: 0.5rem 1rem;
 
-    color: #fff;
-    background: #c25be9;
-    border: 1px solid #c25be9;
+    color: black;
+    background: #fff;
+
+    border: 1px solid #fff;
     background-position: center;
     transition: background .3s;
 
     box-shadow: 5px 5px 5px #0000001a;
 
     text-transform: uppercase;
+}
+
+button.action {
+    color: #fff;
+    background: #c25be9;
+    border: 1px solid #c25be9;
 }
 
 button.sm {
@@ -57,6 +68,15 @@ button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg
     margin-right: .5rem;
 }
 
+.button-group {
+    display: flex;
+    flex-direction: row;
+}
+
+.button-group > button:not(:last-child) {
+    margin-right: 1rem;
+}
+
 input {
     --bg-opacity: 1;
 
@@ -72,6 +92,18 @@ input {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
+input.glass {
+    backdrop-filter: blur(9px) saturate(30%);
+    -webkit-backdrop-filter: blur(9px) saturate(30%);
+    -moz-backdrop-filter: blur(9px) saturate(30%);
+    -o-backdrop-filter: blur(9px) saturate(30%);
+    -ms-backdrop-filter: blur(9px) saturate(30%);
+    
+    background-color: rgba(144, 19, 254, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: .5rem;
+}
+
 input.search {
     background: url(public/vendor/svg/search.svg) no-repeat scroll 7px 7px;
     padding-left: 30px;
@@ -79,4 +111,18 @@ input.search {
 
 input.green:focus {
     outline: rgba(5, 150, 105, var(--bg-opacity)) solid 2px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.input-group.horizontal {
+    flex-direction: row;
+}
+
+.input-group.horizontal > *:not(:last-child) {
+    margin-right: 1rem;
 }

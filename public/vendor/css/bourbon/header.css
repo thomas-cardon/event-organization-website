@@ -35,4 +35,6 @@ h1 {
 h6 {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: normal;
+
+  line-height: 0;
 }
