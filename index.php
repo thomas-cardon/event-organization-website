@@ -5,15 +5,13 @@ ini_set('display_errors', 'On');
 
 require 'src/core/AutoLoad.php';
 
-$S_urlADecortiquer = isset($_GET['route']) ? $_GET['route'] : null;
-$A_postParams = isset($_POST) ? $_POST : null;
-
+$route = isset($_GET['route']) ? $_GET['route'] : null;
 View::openBuffer(); // on ouvre le tampon d'affichage, les contrôleurs qui appellent des vues les mettront dedans
 
 try
 {
-    $O_controleur = new Controller($S_urlADecortiquer, $A_postParams);
-    $O_controleur->executer();
+$O_controleur = new Controller($route, $_POST /* Paramètres envoyés par POST, transférés en deuxième paramètre de méthode d'action */);
+    $O_controleur->execute();
 }
 catch (ControllerException $O_exception)
 {
