@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/main.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/section.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/input.css" />
+        <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/glass.css" />
 
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/assets/css/events.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/assets/css/extrafonts.css" />
