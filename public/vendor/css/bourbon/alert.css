@@ -1,0 +1,16 @@
+#alert {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+
+    animation: alertAnimation 0s 5s forwards;
+    transition: opacity 0.5s;
+    
+    opacity: 1; 
+}
+
+@keyframes alertAnimation {
+  to   { opacity: 0; }
+}
