@@ -1,1 +1,1 @@
-my-mvc-template
+# Site de gestion des évènements
