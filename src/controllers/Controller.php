@@ -79,22 +79,43 @@ final class Controller
     public function execute()
     {
         if (!class_exists($this->_url['controller'])) {
-            throw new ControllerException($this->_url['controller'] . " n'est pas un contrôleur valide.");
+            // Si le contrôleur n'existe pas, on affiche une erreur 404
+            header('HTTP/1.0 404 Not Found');
+            View::show('404');
+            View::show('_layout/document', array('body' => View::getBufferContents()));
+            exit();
         }
 
         if (!method_exists($this->_url['controller'], $this->_url['action'])) {
-            throw new ControllerException($this->_url['action'] . " du contrôleur " .
-                $this->_url['controller'] . " n'est pas une action valide.");
+            // Si le contrôleur n'existe pas, on affiche une erreur 404
+            header('HTTP/1.0 404 Not Found');
+            View::show('404', array('message' => 'L\'action demandée n\'existe pas !'));
+            View::show('_layout/document', array('body' => View::getBufferContents()));
+            exit();
         }
 
         session_start();
 
-        $B_called = call_user_func_array(array(new $this->_url['controller'],
+        $result = call_user_func_array(array(new $this->_url['controller'],
             $this->_url['action']), array($this->_params, $_POST, $_SESSION));
 
-        if (false === $B_called) {
+        if (false === $result) {
             throw new ControllerException("L'action " . $this->_url['action'] .
                 " du contrôleur " . $this->_url['controller'] . " a rencontré une erreur.");
+        }
+        
+        /**
+         * Dans le cadre d'une API REST par exemple, nous voudrons juste afficher le contenu
+         * sans passer par les tampons & vues
+         * De ce fait, on affiche simplement le résultat de call_user_func_array si il y en a un à afficher
+         */
+        else if (isset($result)) {
+            View::resetBuffer();
+            echo $result;
+        }
+        else {
+            $contenuPourAffichage = View::getBufferContents();
+            View::show('_layout/document', array('body' => $contenuPourAffichage));
         }
     }
 }
