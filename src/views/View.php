@@ -19,6 +19,12 @@ final class View
         ob_start();
     }
 
+    public static function resetBuffer()
+    {
+        // On vide le tampon de sortie
+        ob_clean();
+    }
+
     public static function getBufferContents()
     {
         // On retourne le contenu du tampon principal
