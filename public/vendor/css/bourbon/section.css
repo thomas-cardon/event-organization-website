@@ -30,7 +30,13 @@ main > header + section {
 }
 
 .lead {
-    margin: auto !important;
+    margin: auto 2rem !important;
+}
+
+@media (max-width: 767.98px) {
+    .lead {
+        margin: auto auto !important;
+    }
 }
 
 .lead > div {

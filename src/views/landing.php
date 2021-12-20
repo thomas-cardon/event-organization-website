@@ -10,7 +10,7 @@
     <?php endif; ?>
 
     <section class="hero">
-        <section class="p-2 horizontal lead" style="padding-right: 4rem; padding-left: 4rem;">
+        <section class="p-2 horizontal lead">
             <div id="desc">
                 <h1 class="font-hero slide-in-bottom-h1">
                         E-Event.IO
