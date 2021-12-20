@@ -2,14 +2,16 @@
 
 final class LandingPageController
 {
+    use ControllerHelpers;
+
     public function defaultAction($params, $post, $session)
     {
         User::ensureExists();
         
         View::show('landing', array(
-            'authentified' => true,
+            'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'user' => $session['user'] ?? array( 'firstName' => 'Jane', 'lastName' => 'Doe' ) /* NULL normalement, défini pour des tests frontend */,
+            'user' => $session['user'] ?? null
         ));
 
         $_SESSION['alert'] = null;

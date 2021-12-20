@@ -13,7 +13,7 @@ button, input, optgroup, select, textarea {
     margin: 0;
 }
 
-button, [type='button'], [type='reset'], [type='submit'] {
+.btn, button, [type='button'], [type='reset'], [type='submit'] {
     -webkit-appearance: button;
     outline: none;
     border: none;
@@ -45,31 +45,31 @@ button, [type='button'], [type='reset'], [type='submit'] {
     text-transform: uppercase;
 }
 
-button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
+.btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
     transform: scale(1.05);
 }
 
 
-button.action {
+button.action, .btn.action {
     color: #fff;
     background: #c25be9;
     border: 1px solid #c25be9;
 }
 
-button.sm {
+button.sm, .btn.sm {
     font-size: 14px;
     line-height: 2vh;
     padding: 0.5rem 1rem;
 }
 
-button.green {
+button.green, .btn.green {
     --bg-opacity: 1;
     background-color: rgba(209, 250, 229, var(--bg-opacity));
     
     border: 1px solid #322636;
 }
 
-button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
+.btn > svg, button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
     margin-right: .5rem;
 }
 
@@ -78,7 +78,7 @@ button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg
     flex-direction: row;
 }
 
-.button-group > button:not(:last-child) {
+.button-group > button:not(:last-child), .button-group > .btn:not(:last-child) {
     margin-right: 1rem;
 }
 
@@ -107,6 +107,8 @@ input.glass {
     background-color: rgba(144, 19, 254, 0.13);
     border: 1px solid rgba(255, 255, 255, 0.125);
     border-radius: .5rem;
+
+    font-family: monospace;
 }
 
 input.search {

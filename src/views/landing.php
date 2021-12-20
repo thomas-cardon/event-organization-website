@@ -3,12 +3,6 @@
 <main>
     <?php View::show('components/header', $params); ?>
 
-    <?php if (isset($params['alert'])) : ?>
-        <div id="alert" class="w-1/2 lead fade-in glass <?php echo $params['alert']['type'] ?? 'yellow'; ?> text-gray-less" style="margin: 2rem auto;">
-            <?php echo $params['alert']['message'] ?>
-        </div>
-    <?php endif; ?>
-
     <section class="hero">
         <section class="p-2 horizontal lead">
             <div id="desc">
@@ -20,8 +14,8 @@
                 </h6>
                 <div class="button-group" style="margin-top: 1rem">
                     <?php if (!$params['authentified']) : ?>
-                        <button class="action slide-in-bottom" style="margin-top: 1rem">Inscrivez-vous</button>
-                        <button class="slide-in-bottom" style="margin-top: 1rem">Connectez-vous</button>
+                        <a class="btn action slide-in-bottom" style="margin-top: 1rem">Inscrivez-vous</a>
+                        <a class="btn slide-in-bottom" href="<?php echo Constants::getPublicPath(); ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
                     <?php else : ?>
                         <button class="flex items-center px-4 py-2 text-sm font-medium slide-in-bottom sm text-green-6 green">
                             <svg class="text-green-5" width="12" height="20" fill="currentColor">
@@ -49,9 +43,6 @@
                         </button>
                     <?php endif; ?>
                 </header>
-                <!-- 
-                    <input class="w-full green search text-gray-less" type="text" aria-label="Filtrer les idées d'évènements" placeholder="Filtrer les idées d'évènements" />
-                -->
 
                 <ul>
                     <li>
