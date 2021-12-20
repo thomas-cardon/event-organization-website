@@ -15,7 +15,7 @@
                 <div class="button-group" style="margin-top: 1rem">
                     <?php if (!$params['authentified']) : ?>
                         <a class="btn action slide-in-bottom" style="margin-top: 1rem">Inscrivez-vous</a>
-                        <a class="btn slide-in-bottom" href="<?php echo Constants::getPublicPath(); ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
+                        <a class="btn slide-in-bottom" href="<?php echo BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
                     <?php else : ?>
                         <button class="flex items-center px-4 py-2 text-sm font-medium slide-in-bottom sm text-green-6 green">
                             <svg class="text-green-5" width="12" height="20" fill="currentColor">
@@ -46,7 +46,7 @@
 
                 <ul>
                     <li>
-                        <a href="<?php echo Constants::getPublicPath() ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -59,7 +59,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo Constants::getPublicPath() ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -72,7 +72,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo Constants::getPublicPath() ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -85,7 +85,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo Constants::getPublicPath() ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
