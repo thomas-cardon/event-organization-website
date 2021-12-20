@@ -12,17 +12,30 @@
         </h1>
     </a>
     <nav>
-        <a class="text-gray-1 active" href="<?php echo BASE_PATH; ?>">Accueil</a>
-        <?php if ($params['authentified'] ?? false) : ?>
-            <a class="text-gray-1" href="<?php echo BASE_PATH . '/events/create'; ?>">Créer</a>
+        <?php            
+            $links = array(
+                array( 'url' => '/', 'label' => 'Accueil' ),
+                array( 'url' => '/event/create', 'label' => 'Créer', 'authentified' => true ),
+                array( 'url' => '/dashboard/my-events', 'label' => 'Mes événements', 'authentified' => true ),
+                array( 'url' => '/dashboard/profile', 'label' => 'Profil', 'authentified' => true ),
+                array( 'url' => '/about', 'label' => 'A propos' ),
+                array( 'url' => '/contact-us', 'label' => 'Nous contacter' )
+            );
 
-            <a class="text-gray-1" href="<?php echo BASE_PATH . '/dashboard/my-events'; ?>">Mes évènements</a>
-            <a class="text-gray-1" href="<?php echo BASE_PATH; ?>">Mes invitations</a>
-            <a class="text-gray-1" href="<?php echo BASE_PATH . '/dashboard/profile'; ?>">Profil</a>
-        <?php endif; ?>
-            <a class="text-gray-1" href="<?php echo BASE_PATH . '/about'; ?>">A propos</a>
-            <a class="text-gray-1" href="<?php echo BASE_PATH . '/contact-us'; ?>">Contact</a>
+            foreach ($links as $link) {
+                $class = '';
+                
+                if (isset($link['url']) && BASE_PATH . $link['url'] === $_SERVER['REQUEST_URI']) {
+                    $class .= ' active';
+                }
 
+                if ($link['authentified'] ?? false && !$params['authentified']) {
+                    continue;
+                }
+                
+                echo '<a class="text-gray-1 ' . $class . '" href="' . BASE_PATH . $link['url'] . '">' . $link['label'] . '</a>';
+            }
+        ?>
         <a class="text-gray-1 close" href="javascript:void(0);" onclick="openNavbarMenu()">☰</a>
     </nav>
 </header>
