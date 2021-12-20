@@ -17,6 +17,3 @@ catch (ControllerException $O_exception)
 {
     echo ('Une erreur s\'est produite : ' . $O_exception->getMessage());
  }
-
-$contenuPourAffichage = View::getBufferContents();
-View::show('_layout/document', array('body' => $contenuPourAffichage));
