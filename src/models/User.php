@@ -13,6 +13,14 @@ final class User extends Model
     private $email;
     private $first_name;
     private $last_name;
+    private $created_at;
+    private $updated_at;
+    private $avatar;
+    private $role;
+    
+    /**
+     * TODO: getter et setters pour toute les variables, mettre-à-jour les méthodes SQL
+     */
 
     public function getId()
     {
