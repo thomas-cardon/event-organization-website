@@ -1,6 +1,6 @@
 <?php
     View::setTitle('Tableau de bord');
-    View::addStyleSheet('dashboard.css');
+    View::addStyleSheet('/vendor/css/bourbon/dashboard.css');
 ?>
 
 <main class="dashboard">

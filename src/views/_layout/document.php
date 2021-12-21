@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/box.css" />
 
         <?php foreach (View::getStyleSheets() as $stylesheet) : ?>
-            <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/<?php echo $stylesheet ?>" />
+            <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?><?php echo $stylesheet ?>" />
         <?php endforeach ?>
         
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/header.css" />
