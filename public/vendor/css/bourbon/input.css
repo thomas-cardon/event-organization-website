@@ -49,6 +49,38 @@ button, input, optgroup, select, textarea {
     transform: scale(1.05);
 }
 
+nav.buttons.vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+
+    background-color: #0C0C0E;
+
+    left: 3%;
+    top: 10%;
+    border-radius: 0.8rem;
+
+    padding: .8rem;
+}
+
+nav.buttons.vertical > * {
+    padding: 0.8rem;
+    border-radius: 0.4rem;
+    margin-bottom: 1rem;
+
+    color: white;
+}
+
+nav.buttons.vertical > *:hover {
+    background-color: #6746ED;
+}
+
+nav.buttons.vertical > *:last-child {
+    margin-bottom: 0;
+}
 
 button.action, .btn.action {
     color: #fff;
