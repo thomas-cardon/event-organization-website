@@ -86,10 +86,15 @@ final class Controller
             exit();
         }
 
+        $pos = strrpos($this->_url['action'], '-');
+        if ($pos !== false) {
+            $this->_url['action'] = substr($this->_url['action'], 0, $pos) . ucfirst(substr($this->_url['action'], $pos + 1));
+        }
+
         if (!method_exists($this->_url['controller'], $this->_url['action'])) {
             // Si le contrôleur n'existe pas, on affiche une erreur 404
             header('HTTP/1.0 404 Not Found');
-            View::show('404', array('message' => 'L\'action demandée n\'existe pas !'));
+            View::show('404', array('message' => 'L\'action demandée n\'existe pas: ' . $this->_url['action']));
             View::show('_layout/document', array('body' => View::getBufferContents()));
             exit();
         }
