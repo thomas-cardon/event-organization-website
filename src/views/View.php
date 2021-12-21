@@ -55,6 +55,12 @@ final class View
 
     public static function show ($path, $params = array())
     {
+        $params = array_merge(array(
+            'authentified' => false,
+            'user' => null
+            // Paramètres par défaut pour les vues
+        ), $params);
+
         $S_fichier = Constants::getViewsPath() . $path . '.php';
 
         // Démarrage d'un sous-tampon
