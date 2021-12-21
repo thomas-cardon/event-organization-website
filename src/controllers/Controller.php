@@ -22,7 +22,7 @@ trait ControllerHelpers {
     public function isAuthentified() {
         //$_SESSION['user'] = null;
        //var_dump($_SESSION);
-        if(isset($_SESSION['user']) !== null){
+        if(isset($_SESSION['user'])){
             return true;
         }
         else {
@@ -33,6 +33,12 @@ trait ControllerHelpers {
     public function getCurrentUser() {
         // return $_SESSION['user']; idées, à vous de voir? :)
         return null;
+    }
+
+    public function hasRole(){
+        $role = Model::getUserRole();
+        var_dump($role);
+        return $role;
     }
 }
 

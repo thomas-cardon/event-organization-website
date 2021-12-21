@@ -1,8 +1,8 @@
 <?php
 
 require dirname(__FILE__) . '/constants.php';
-require dirname(__FILE__) . '/../../config/config.php';
-require dirname(__FILE__) . '/../../config/sql.php';
+//require dirname(__FILE__) . '/../../config/config.php';
+//require dirname(__FILE__) . '/../../config/sql.php';
 
 final class AutoLoad
 {

@@ -13,7 +13,7 @@
                     Créez vos évènements en quelques clics, gérez vos invités, organisez sans inquiétude votre soirée.
                 </h6>
                 <div class="button-group" style="margin-top: 1rem">
-                    <?php if ($params['authentified'] == false) : ?>
+                    <?php if (!$params['authentified']) : ?>
                         <a class="btn action slide-in-bottom" style="margin-top: 1rem">Inscrivez-vous</a>
                         <a class="btn slide-in-bottom" href="<?php echo BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
                     <?php else : ?>
