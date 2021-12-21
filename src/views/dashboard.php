@@ -85,56 +85,7 @@
         </div>
 
         <div class="main_cards">
-            <div class="card card-transparent">
-                <header>
-                    <h2>Utilisateurs récents</h2>
-                    <a class="btn" href="<?php echo Constants::getPublicPath() ?>/dashboard/users/create">
-                        Créer
-                    </a>
-                </header>
-                <h2 class="title"></h2>
-                <table id="recentUsers" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Email</th>
-                            <th>Date d'inscription</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      <?php $params['recent_users'] = array(
-                            (object) array(
-                                'firstName' => 'John',
-                                'lastName' => 'Doe',
-                                'email' => 'test.test@test.fr',
-                                'createdAt' => '2020-01-01 00:00:00'
-                            ),
-                            (object) array(
-                                'firstName' => 'John',
-                                'lastName' => 'Doe',
-                                'email' => 'test.test@test.fr',
-                                'createdAt' => '2020-01-01 00:00:00'
-                            ),
-                            (object) array(
-                                'firstName' => 'John',
-                                'lastName' => 'Doe',
-                                'email' => 'test.test@test.fr',
-                                'createdAt' => '2020-01-01 00:00:00'
-                            )
-                        );
-                      ?>
-                      <?php foreach ($params['recent_users'] as $user) : ?>
-                          <tr>
-                              <td><?php echo $user->lastName ?></td>
-                              <td><?php echo $user->firstName ?></td>
-                              <td><?php echo $user->email ?></td>
-                              <td><?php echo $user->createdAt ?></td>
-                          </tr>
-                      <?php endforeach ?>
-                    </tbody>
-                </table>
-            </div>
+            <?php View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null )); ?>
             <div class="card">
               
             </div>
