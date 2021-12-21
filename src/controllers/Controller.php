@@ -36,7 +36,7 @@ trait ControllerHelpers {
     }
 
     public function hasRole(){
-        $role = Model::getUserRole();
+        $role = User::getUserRole();
         var_dump($role);
         return $role;
     }

@@ -34,10 +34,4 @@ class Model {
     public function __destruct() {
         self::$db = null;
     }
-
-    public function getUserRole(){
-        $id = $_SESSION['user'];
-        $req = $this->conn()->query("SELECT role FROM user WHERE `id`='".$id."'");
-        return $req;
-    }
 }

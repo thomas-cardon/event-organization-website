@@ -38,9 +38,10 @@ final class User extends Model
     {
         return $this->last_name;
     }
-    
+
     /* PDO methods */
-    public static function ensureExists() {
+    public static function ensureExists()
+    {
         $table = 'users';
         $sql = "CREATE TABLE IF NOT EXISTS $table (
             id INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -98,5 +99,14 @@ final class User extends Model
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
         $stmt->bindValue(':id', $data['id'], PDO::PARAM_INT);
         $stmt->execute();
+
+
+    }
+
+    public function getUserRole()
+    {
+        $id = $_SESSION['user'];
+        $req = $this->conn()->query("SELECT role FROM user WHERE `id`='" . $id . "'");
+        return $req;
     }
 }
