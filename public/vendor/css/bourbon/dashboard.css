@@ -81,9 +81,6 @@ aside.sidebar > ul > li:hover {
 }
 
 .card h2 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 100;
 }
@@ -103,6 +100,13 @@ aside.sidebar > ul > li:hover {
 	justify-content: space-between;
 	padding: 20px;
 	height: 100px;
+}
+
+.card-sm > .icon {
+    width: 2rem;
+    height: auto;
+
+    margin-left: 2rem;
 }
 
 .card-chart {
@@ -126,7 +130,7 @@ aside.sidebar > ul > li:hover {
     justify-content: space-between;
     align-items: center;
 
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Layout for main-cards section // below main_overview */
@@ -232,6 +236,25 @@ a {
     color: #2BEBC8;
     text-decoration: none;
 }
+
+a.btn {
+    color: white;
+    background-color: #6746ED;
+
+    border: none;
+    transition: all .2s ease-in-out;
+
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    text-transform: none;
+}
+
+a.btn:hover {
+    color: black;
+    background-color: white;
+    transform: none;
+}
+
 
 a.see-more {
     margin-top: 1rem;

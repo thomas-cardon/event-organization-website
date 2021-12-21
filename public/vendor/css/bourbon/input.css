@@ -14,6 +14,11 @@ button, input, optgroup, select, textarea {
 }
 
 .btn, button, [type='button'], [type='reset'], [type='submit'] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
     -webkit-appearance: button;
     outline: none;
     border: none;
@@ -71,7 +76,12 @@ nav.buttons.vertical > * {
     border-radius: 0.4rem;
     margin-bottom: 1rem;
 
-    color: white;
+    transition: background-color .2s ease-in-out;
+}
+
+nav.buttons.vertical svg {
+    fill: white;
+    width: 1rem;
 }
 
 nav.buttons.vertical > *:hover {
@@ -102,7 +112,8 @@ button.green, .btn.green {
 }
 
 .btn > svg, button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
+    width: 32px;
 }
 
 .button-group {
