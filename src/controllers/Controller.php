@@ -16,14 +16,18 @@ trait ControllerHelpers {
     /**
      * isAuthentified
      * Vérifie si l'utilisateur est authentifié
-     * @author : ???
+     * @author : Enzo Vargas
      * @return Boolean
      */
     public function isAuthentified() {
-        // return isset($_SESSION['user']); idées, à vous de voir? :)
-        // isset: renvoie true si la variable existe, false sinon
-        // $_SESSION: tableau associatif qui contient les variables de session
-        return false;
+        //$_SESSION['user'] = null;
+       //var_dump($_SESSION);
+        if(isset($_SESSION['user']) !== null){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public function getCurrentUser() {
@@ -98,7 +102,6 @@ final class Controller
 
         $result = call_user_func_array(array(new $this->_url['controller'],
             $this->_url['action']), array($this->_params, $_POST, $_SESSION));
-
         if (false === $result) {
             throw new ControllerException("L'action " . $this->_url['action'] .
                 " du contrôleur " . $this->_url['controller'] . " a rencontré une erreur.");
