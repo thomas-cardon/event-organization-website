@@ -3,13 +3,15 @@
 final class View
 {   
 
-    public static $title = 'foo';
+    private static $title = 'foo';
+    private static $stylesheets = array();
+    private static $scripts = array();
 
-    public function getTitle() {
+    public static function getTitle() {
         return self::$title;
     }
 
-    public function setTitle($t) {
+    public static function setTitle($t) {
         self::$title = $t;
     }
 
@@ -29,6 +31,26 @@ final class View
     {
         // On retourne le contenu du tampon principal
         return ob_get_clean();
+    }
+
+    public static function addStyleSheet($path)
+    {
+        self::$stylesheets[] = $path;
+    }
+
+    public static function getStyleSheets()
+    {
+        return self::$stylesheets;
+    }
+
+    public static function addScript($path)
+    {
+        self::$scripts[] = $path;
+    }
+
+    public static function getScripts()
+    {
+        return self::$scripts;
     }
 
     public static function show ($path, $params = array())

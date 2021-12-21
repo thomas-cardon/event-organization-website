@@ -1,4 +1,4 @@
-<?php View::$title = 'Inscription' ?>
+<?php View::setTitle('Inscription'); ?>
 
 <main class="hero">
     <?php View::show('components/header'); ?>
