@@ -16,6 +16,7 @@
             $links = array(
                 array( 'url' => '/', 'label' => 'Accueil' ),
                 array( 'url' => '/event/create', 'label' => 'Créer', 'authentified' => true ),
+                array( 'url' => '/dashboard', 'label' => 'Tableau de bord', 'authentified' => true ),
                 array( 'url' => '/dashboard/my-events', 'label' => 'Mes événements', 'authentified' => true ),
                 array( 'url' => '/dashboard/profile', 'label' => 'Profil', 'authentified' => true ),
                 array( 'url' => '/about', 'label' => 'A propos' ),
@@ -28,8 +29,8 @@
                 if (isset($link['url']) && BASE_PATH . $link['url'] === $_SERVER['REQUEST_URI']) {
                     $class .= ' active';
                 }
-
-                if ($link['authentified'] ?? false && !$params['authentified']) {
+                                
+                if (!$params['authentified'] && isset($link['authentified']) && $link['authentified']) {
                     continue;
                 }
                 
