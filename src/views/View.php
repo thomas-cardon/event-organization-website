@@ -74,11 +74,13 @@ final class View
             // Paramètres par défaut pour les vues
         ), $params);
 
-        $S_fichier = Constants::getViewsPath() . $path . '.php';
+        $S_fichier = Constants::getViewsPath() . $path;
 
         // Démarrage d'un sous-tampon
         ob_start();
-        include $S_fichier;
+        if(file_exists($S_fichier . '/index.php'))
+            include $S_fichier . '/index.php';
+        else include $S_fichier. '.php';
         ob_end_flush();
     }
 
@@ -97,11 +99,13 @@ final class View
             // Paramètres par défaut pour les vues
         ), $params);
 
-        $S_fichier = Constants::getViewsPath() . $path . '.php';
+        $S_fichier = Constants::getViewsPath() . $path;
 
         // Démarrage d'un sous-tampon
         ob_start();
-        include $S_fichier;
+        if(file_exists($S_fichier . '/index.php'))
+            include $S_fichier . '/index.php';
+        else include $S_fichier . '.php';
         return ob_get_clean();
     }
 }
