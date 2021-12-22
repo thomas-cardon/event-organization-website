@@ -1,18 +1,17 @@
 <?php
     View::setTitle('Tableau de bord');
-    View::addStyleSheet('/vendor/css/bourbon/dashboard.css');
+    View::addStyleSheet('/assets/css/dashboard.css');
 ?>
 
 <main class="dashboard">
     <?php View::show('components/header', $params); ?>
-
     <nav class="buttons vertical">
         <a href="<?php echo BASE_PATH ?>/dashboard">
             <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
             </svg>
         </a>
-        <a href="<?php echo BASE_PATH ?>/dashboard/users">
+        <a href="<?php echo BASE_PATH ?>/dashboard/create-user">
             <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
             </svg>
@@ -26,18 +25,13 @@
 
     <section class="content">
         <div class="overview">
-            <div class="card-chart">
-                <canvas id="myChart"></canvas>
-            </div>
-
-            <div class="card-chart">
-                <canvas id="pointsRepartition"></canvas>
-            </div>
+            <?php View::show('components/dashboard/widgets/userChart', $params['recent_users'] ?? array()); ?>
+            <?php View::show('components/dashboard/widgets/pointsRepartition', $params['points_repartition'] ?? array()); ?>
 
             <div>
                 <div class="card-sm">
                     <div class="info">
-                        <p>Evènements en attente</p>
+                        <p>Evènements en attente de validation</p>
                         <h2>
                             <?php echo $params['events_waiting'] ?? 0 ?>
                         </h2>
@@ -51,7 +45,7 @@
                 </div>
                 <div class="card-sm">
                     <div class="info">
-                        <p>Tournois en cours</p>
+                        <p>Campagnes en cours</p>
                         <h2>
                             <?php echo $params['tournaments_ongoing'] ?? 0 ?>
                         </h2>
@@ -62,7 +56,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="card-sm">
+                <div class="card-sm glow">
                     <div class="info">
                         <p>Points en circulation</p>
                         <h2>
@@ -79,130 +73,16 @@
             </div>
         </div>
 
-        <div class="main_cards">
-            <?php View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null )); ?>
-            <div class="card">
-              
+        <?php if (isset($params['content'])): ?>
+            <?php echo $params['content']; ?>
+        <?php else: ?>
+            <div class="main_cards">
+                <?php View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null )); ?>
+                <?php View::show('components/dashboard/widgets/pointsSpent', array( 'data' => $params['points_spent'] ?? null )); ?>
+                <div class="card">
+                </div>
             </div>
-            <div class="card card-transparent">
-              <canvas id="pointsSpent"></canvas>
-            </div>
-        </div>
+        <?php endif; ?>
     </section>
     <?php View::show('components/footer', array( 'dashboard' => true )); ?>
 </main>
-    <script type="text/javascript">
-      const menuIcon = document.querySelector('.menu-icon');
-      const aside = document.querySelector('.aside');
-      const asideClose = document.querySelector('.aside_close-icon');
-
-      function toggle(el, className) {
-        if (el.classList.contains(className)) {
-          el.classList.remove(className);
-        } else {
-          el.classList.add(className);
-        }
-      }
-
-      menuIcon.addEventListener('click', function() {
-        toggle(aside, 'active');
-      });
-
-      asideClose.addEventListener('click', function() {
-        toggle(aside, 'active');
-      });
-    </script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js" integrity="sha384-4OMvxyBTgFvMJK0tWjIk57FbleRvzmamjg6m+ERG0/p0rV83S6PHHUcLu84Gt+SF" crossorigin="anonymous"></script>
-<script>
-    Chart.defaults.color = 'white';
-    
-    let ctx = document.getElementById("myChart");
-    new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Administrateur', 'Organisateur', 'Jury', 'Participant'],
-                datasets: [{
-                label: '# of Tomatoes',
-                data: [12, 19, 3, 5],
-                backgroundColor: [
-                    '#A40E4C',
-                    '#818CF8',
-                    '#2BEBC8',
-                    '#60626C'
-                ],
-                borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        align: 'left'
-                    }
-                }
-            }
-        });
-
-        let points = [
-            ['Jane', 10000],
-            ['John', 8000],
-            ['Peter', 6000],
-            ['Mary', 4000],
-            ['Susan', 2000],
-            ['Julie', 1000]
-        ];
-
-        let labels = points.map(point => point[0]);
-        let data = points.map(point => point[1]);
-
-        ctx = document.getElementById("pointsRepartition");
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                datasets: [{
-                label: 'Répartition des points',
-                data,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)'
-                ],
-                borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        align: 'left'
-                    }
-                }
-            }
-        });
-
-        ctx = document.getElementById("pointsSpent");
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Janvier', 'Février', 'Mars'],
-                datasets: [{
-                    label: 'Dépense des points',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.4
-                }]
-            }
-        });
-
-
-</script>
