@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Back-office dashboard controller
+ */
 final class DashboardController
 {
     use ControllerHelpers;
