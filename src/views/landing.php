@@ -1,4 +1,7 @@
-<?php View::setTitle('Accueil'); ?>
+<?php 
+    View::setTitle('Accueil');
+    View::addStyleSheet('/assets/css/recent-events.css');
+?>
 
 <main>
     <?php View::show('components/header', $params); ?>
@@ -46,7 +49,7 @@
 
                 <ul>
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -59,7 +62,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -72,7 +75,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -85,7 +88,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
