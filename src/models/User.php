@@ -1,12 +1,7 @@
 <?php
+
 final class User extends Model
 {
-    public function __construct()
-    {
-        echo 'The model has been initiated';
-        parent::__construct();
-    }
-
     private $id;
     private $username;
     private $password;
@@ -16,38 +11,16 @@ final class User extends Model
     private $created_at;
     private $updated_at;
     private $role;
-    
-    /**
-     * TODO: getter et setters pour toute les variables, mettre-à-jour les méthodes SQL
-     */
 
-    public function getId()
+    public function __construct()
     {
-        return $this->id;
+        echo 'The model has been initiated';
+        parent::__construct();
     }
 
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function getFirstName()
-    {
-        return $this->first_name;
-    }
-
-    public function getLastName()
-    {
-        return $this->last_name;
-    }
-    
     /* PDO methods */
-    public static function ensureExists() {
+    public static function ensureExists()
+    {
         $table = 'users';
         $sql = "CREATE TABLE IF NOT EXISTS $table (
             id INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -108,6 +81,156 @@ final class User extends Model
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
         $stmt->bindValue(':id', $data['id'], PDO::PARAM_INT);
         $stmt->execute();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @param mixed $first_name
+     */
+    public function setFirstName($first_name)
+    {
+        $this->first_name = $first_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * @param mixed $last_name
+     */
+    public function setLastName($last_name)
+    {
+        $this->last_name = $last_name;
+    }
+
+    /**
+     * TODO: mettre-à-jour les méthodes SQL
+     */
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @param mixed $created_at
+     */
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @param mixed $updated_at
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 }
 
