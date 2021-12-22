@@ -23,7 +23,7 @@ final class DashboardController
                 'lastName' => 'Doe',
                 'email' => 'jane.doe@test.te',
                 'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'admin', /* admin, organizer, jury, donor */
+                'role' => 'organizer', /* admin, organizer, jury, donor, member */
                 'created_at' => '',
                 'updated_at' => ''
             )
