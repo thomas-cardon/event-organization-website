@@ -89,9 +89,9 @@ final class User extends Model
 
     public static function createUser($data)
     {
-        $sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
+        $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':name', $data['name'], PDO::PARAM_STR);
+        $stmt->bindValue(':username', $data['username'], PDO::PARAM_STR);
         $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
         $stmt->execute();
@@ -99,9 +99,9 @@ final class User extends Model
 
     public static function updateUser($data)
     {
-        $sql = "UPDATE users SET name = :name, email = :email, password = :password WHERE id = :id";
+        $sql = "UPDATE users SET username = :username, email = :email, password = :password WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':name', $data['name'], PDO::PARAM_STR);
+        $stmt->bindValue(':username', $data['username'], PDO::PARAM_STR);
         $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
         $stmt->bindValue(':id', $data['id'], PDO::PARAM_INT);
