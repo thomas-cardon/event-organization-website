@@ -15,7 +15,6 @@ final class User extends Model
     private $last_name;
     private $created_at;
     private $updated_at;
-    private $avatar;
     private $role;
     
     /**
@@ -56,7 +55,10 @@ final class User extends Model
             password VARCHAR(64) NOT NULL,
             last_name VARCHAR(20) NOT NULL,
             first_name VARCHAR(20) NOT NULL,
-            email VARCHAR(50) NOT NULL
+            email VARCHAR(50) NOT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NOT NULL,
+            role VARCHAR(20)    
         )";
 
         self::getDatabaseInstance()->query($sql);
@@ -108,3 +110,4 @@ final class User extends Model
         $stmt->execute();
     }
 }
+
