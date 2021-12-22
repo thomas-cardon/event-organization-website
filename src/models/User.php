@@ -3,7 +3,6 @@
 final class User extends Model
 {
     private $id;
-    private $username;
     private $password;
     private $email;
     private $first_name;
@@ -28,14 +27,13 @@ final class User extends Model
         $table = 'users';
         $sql = "CREATE TABLE IF NOT EXISTS $table (
             id INT(11) AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(20) NOT NULL,
             password VARCHAR(64) NOT NULL,
             last_name VARCHAR(20) NOT NULL,
             first_name VARCHAR(20) NOT NULL,
             email VARCHAR(50) NOT NULL,
             created_at DATETIME NOT NULL,
             updated_at DATETIME NOT NULL,
-            role VARCHAR(20)    
+            role VARCHAR(20) DEFAULT 'membre'
         )";
 
         self::getDatabaseInstance()->query($sql);
@@ -68,9 +66,10 @@ final class User extends Model
 
     public static function createUser($data)
     {
-        $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
+        $sql = "INSERT INTO users (last_name,first_name, email, password,created_at,updated_at) VALUES (:last_name,:first_name ,:email, :password,NOW(),NOW())";
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':username', $data['username'], PDO::PARAM_STR);
+        $stmt->bindValue(':last_name', $data['last_name'], PDO::PARAM_STR);
+        $stmt->bindValue(':first_name', $data['first_name'], PDO::PARAM_STR);
         $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
         $stmt->execute();
@@ -78,12 +77,15 @@ final class User extends Model
 
     public static function updateUser($data)
     {
-        $sql = "UPDATE users SET username = :username, email = :email, password = :password WHERE id = :id";
+        $sql = "UPDATE users SET last_name = :last_name, first_name= :first_name, email = :email, password = :password, role=:role, updated_at = NOW() WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':username', $data['username'], PDO::PARAM_STR);
+        $stmt->bindValue(':last_name', $data['last_name'], PDO::PARAM_STR);
+        $stmt->bindValue(':first_name', $data['first_name'], PDO::PARAM_STR);
         $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
         $stmt->bindValue(':id', $data['id'], PDO::PARAM_INT);
+        $stmt->bindValue(':role', $data['role'], PDO::PARAM_STR);
+
         $stmt->execute();
     }
 
@@ -103,21 +105,6 @@ final class User extends Model
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @param mixed $username
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
 
     /**
      * @return mixed
@@ -190,7 +177,6 @@ final class User extends Model
     {
         return $this->created_at;
     }
-
 
 
     /**
