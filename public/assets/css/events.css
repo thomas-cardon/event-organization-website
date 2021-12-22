@@ -1,66 +1,70 @@
-#recentEvents ul {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+.events {
+  margin: 3rem;
 
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0;
+  display: grid; 
+  grid-template-columns: 1.6fr 1.2fr; 
+  grid-template-rows: 1fr 1fr; 
+  gap: 1em 3em; 
+  grid-template-areas: 
+    "overview user"
+    "misc user"; 
 }
 
-#recentEvents li {
-    display: inline-block;
-
-    height: 5rem;
-    width: calc(50% - 1rem);
-    border-radius: 0.5rem;
-
-    text-align: center;
-
-    transition: all 0.5s;
-
-    margin-bottom: 1rem;
-
-    backdrop-filter: blur(18px) saturate(180%);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    background-color: rgba(8, 11, 11, 0.03);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.125);
+.overview { 
+  grid-area: overview;
+  padding: 0 !important;
 }
 
-#recentEvents li:hover {
-    transform: scale(1.05);
+.user { grid-area: user; }
+.misc { grid-area: misc; }
+
+
+.overview > header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  border-radius: 12px 12px 0 0;
+  background: url(../../vendor/svg/placeholder-bg.svg) no-repeat center center;
+  background-size: cover;
 }
 
-#recentEvents .title {
-    margin-top: 1rem;
-
-    font-size: 1.5rem;
-    font-weight: bold;
-
-    font-family: 'BigNoodleTitling Oblique';
+@media (max-width: 767.98px) {
+    .events {
+      grid-template-columns: 1fr; 
+      grid-template-rows: 1fr 1fr; 
+      gap: 1em; 
+      grid-template-areas: 
+        "overview"
+        "user"
+        "misc";
+    }
 }
 
-#recentEvents li:not(.new):hover {
-    filter: saturate(50%);
+h2 { /* Title */
+  margin-top: .5rem;
+  font-family: 'BigNoodleTitling Oblique';
+  font-size: clamp(1rem, -0.875rem + 8.333vw, 3.5rem);
 }
 
-#recentEvents li:nth-child(even) {
-    margin-left: 1rem;
+h3 { /* Subtitle */
+  font-size: clamp(0.5rem, -0.875rem + 2vw, 2rem);
+  font-weight: 400;
+  margin-top: -.25rem;
+  margin-bottom: 1rem;
 }
 
-#recentEvents li a {
-    text-decoration: none;
-    display: block;
+.avatar {
+  width: clamp(1.5rem, 2rem + 10vw, 20rem);
+  height: auto;
+  border-radius: 50%;
+  background: url(../../vendor/svg/placeholder-bg.svg) no-repeat center center;
+  background-size: cover;
 }
 
-#recentEvents li img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 0.5rem;
-}
-
-#recentEvents li.new {
-    border: 2px dashed rgb(229, 231, 235);
+.body {
+  margin: 0 2rem;
+  text-align: justify;
 }

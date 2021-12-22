@@ -28,6 +28,10 @@ main > header > nav {
   margin: 0 1rem;
 }
 
+main.page > header {
+  position: relative;
+  background-color: #001220;
+}
 
 @media (min-width: 640px) {
     main > header > nav {

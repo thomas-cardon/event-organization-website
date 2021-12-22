@@ -15,12 +15,9 @@
         <?php            
             $links = array(
                 array( 'url' => '/', 'label' => 'Accueil' ),
-                array( 'url' => '/event/create', 'label' => 'Créer', 'authentified' => true ),
-                array( 'url' => '/dashboard', 'label' => 'Tableau de bord', 'authentified' => true ),
-                array( 'url' => '/dashboard/my-events', 'label' => 'Mes événements', 'authentified' => true ),
-                array( 'url' => '/dashboard/profile', 'label' => 'Profil', 'authentified' => true ),
-                array( 'url' => '/about', 'label' => 'A propos' ),
-                array( 'url' => '/contact-us', 'label' => 'Nous contacter' )
+                array( 'url' => '/dashboard', 'label' => 'Tableau de bord' ),
+                array( 'url' => '/dashboard/my-events', 'label' => 'Mes événements' ),
+                array( 'url' => '/dashboard/profile', 'label' => 'Profil' ),
             );
 
             foreach ($links as $link) {
@@ -28,10 +25,6 @@
                 
                 if (isset($link['url']) && BASE_PATH . $link['url'] === $_SERVER['REQUEST_URI']) {
                     $class .= ' active';
-                }
-                                
-                if (!$params['authentified'] && isset($link['authentified']) && $link['authentified']) {
-                    continue;
                 }
                 
                 echo '<a class="text-gray-1 ' . $class . '" href="' . BASE_PATH . $link['url'] . '">' . $link['label'] . '</a>';
