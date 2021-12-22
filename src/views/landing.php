@@ -32,9 +32,9 @@
             <div id="recentEvents" class="fade-in glass text-gray-less">
                 <header class="flex items-center justify-between">
                     <div>
-                        <h6>Derniers événements en date</h6>
+                        <h6>Dernières idées d'événements en date</h6>
                         <h7 class="text-gray-4">
-                            Campagne du 01/01: <i>Tournoi voleyball</i>
+                            Campagne du 01/01: <i>Tournoi volleyball</i>
                         </h7>
                     </div>
                     <?php if ($params['authentified']) : ?>
