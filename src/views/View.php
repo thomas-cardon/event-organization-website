@@ -43,9 +43,16 @@ final class View
         return self::$stylesheets;
     }
 
-    public static function addScript($path)
+    public static function addScript($id, $path, $offline = false, $position = 'head', $async = false, $type = 'text/javascript', $integrity, $crossorigin)
     {
-        self::$scripts[] = $path;
+        self::$scripts[$position][$id] = array(
+            'path' => $path,
+            'type' => $type,
+            'async' => $async,
+            'offline' => $offline,
+            'integrity' => $integrity,
+            'crossorigin' => $crossorigin
+        );
     }
 
     public static function getScripts()
@@ -53,6 +60,12 @@ final class View
         return self::$scripts;
     }
 
+    /**
+     * function show
+     * Permet d'afficher une vue
+     * @param string $path
+     * @param array params
+     */
     public static function show ($path, $params = array())
     {
         $params = array_merge(array(
@@ -67,5 +80,28 @@ final class View
         ob_start();
         include $S_fichier;
         ob_end_flush();
+    }
+
+    /**
+     * function get
+     * Permet de récupérer le contenu d'un fichier de vue
+     * @author Thomas Cardon
+     * @param string $path
+     * @param array $params
+     */
+    public static function get ($path, $params = array())
+    {
+        $params = array_merge(array(
+            'authentified' => false,
+            'user' => null
+            // Paramètres par défaut pour les vues
+        ), $params);
+
+        $S_fichier = Constants::getViewsPath() . $path . '.php';
+
+        // Démarrage d'un sous-tampon
+        ob_start();
+        include $S_fichier;
+        return ob_get_clean();
     }
 }

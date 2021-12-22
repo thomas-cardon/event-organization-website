@@ -13,8 +13,9 @@
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/globals.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/box.css" />
 
-        <?php foreach (View::getStyleSheets() as $stylesheet) : ?>
-            <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?><?php echo $stylesheet ?>" />
+        <?php 
+            foreach (View::getStyleSheets() as $stylesheet) : ?>
+                <link rel="stylesheet" href="<?php echo Constants::getPublicPath(); ?><?php echo $stylesheet ?>" />
         <?php endforeach ?>
         
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/header.css" />
@@ -26,12 +27,28 @@
 
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/assets/css/events.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/assets/css/extrafonts.css" />
+
+        <?php
+            /**
+             * TODO:
+             * - Gérer l'intégrité et le crossorigin
+             */
+
+            foreach (View::getScripts()['head'] ?? array() as $k => $s) : ?>
+                <script type="<?php echo $s['type'] ?? 'text/javascript'; ?>" src="<?php echo $s['offline'] ? '' : Constants::getPublicPath(); ?><?php echo $s['path']; ?>"></script>
+        <?php endforeach ?>
     </head>
     <body class="bg-gray-less">
         <?php echo $params['body'] ?>
-    </body>
+        
+        <?php
+            /**
+             * TODO:
+             * - Gérer l'intégrité et le crossorigin
+             */
 
-    <?php foreach (View::getScripts() as $script) : ?>
-        <script src="<?php echo Constants::getPublicPath() ?>/<?php echo $script ?>"></script>
-    <?php endforeach ?>
+            foreach (View::getScripts()['footer'] ?? array() as $k => $s) : ?>
+                <script type="<?php echo $s['type'] ?? 'text/javascript'; ?>" src="<?php echo $s['offline'] ? '' : Constants::getPublicPath(); ?><?php echo $s['path']; ?>"></script>
+        <?php endforeach ?>
+    </body>
 </html>
