@@ -1,9 +1,7 @@
 <?php
     View::addScript('chart.js', 'https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js', true, 'head', true, 'text/javascript', 'sha384-4OMvxyBTgFvMJK0tWjIk57FbleRvzmamjg6m+ERG0/p0rV83S6PHHUcLu84Gt+SF', 'anonymous');
 ?>
-<div class="card">
-    <canvas id="pointsSpent"></canvas>
-</div>
+<canvas id="pointsSpent"></canvas>
 <script>
     const style = getComputedStyle(document.querySelector('main.dashboard'));
     const color = style.getPropertyValue('--primary');
@@ -26,8 +24,21 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
+                    title: {
+                        display: true,
+                        text: 'Répartition des points',
+                        font: {
+                            size: 20,
+                            color: 'white',
+                            weight: '200'
+                        },
+                        padding: {
+                            top: 0,
+                            bottom: 20
+                        }
+                    },
                     legend: {
-                        align: 'left'
+                        display: false
                     }
                 }
             }
