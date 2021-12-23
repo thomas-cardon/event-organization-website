@@ -21,6 +21,9 @@ final class User extends Model
      * TODO: mettre-à-jour les méthodes SQL
      */
 
+    public static function hydrate($data){
+        // TODO : retourne l'instance de l'objet avec les attributs redéfinis, ainsi on pourra utiliser hydrate sur les autres méthodes PDO de la classe.
+    }
 
     public static function ensureExists()
     {
@@ -33,7 +36,7 @@ final class User extends Model
             email VARCHAR(50) NOT NULL,
             created_at DATETIME NOT NULL,
             updated_at DATETIME NOT NULL,
-            role VARCHAR(20) DEFAULT 'membre'
+            role VARCHAR(20) DEFAULT 'membre' NOT NULL
         )";
 
         self::getDatabaseInstance()->query($sql);
