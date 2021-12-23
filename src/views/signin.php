@@ -1,4 +1,4 @@
-<?php View::$title = 'Accueil' ?>
+<?php View::setTitle('Connexion'); ?>
 
 <main>
     <?php View::show('components/header', $params); ?>

@@ -13,6 +13,14 @@ final class User extends Model
     private $email;
     private $first_name;
     private $last_name;
+    private $created_at;
+    private $updated_at;
+    private $avatar;
+    private $role;
+    
+    /**
+     * TODO: getter et setters pour toute les variables, mettre-à-jour les méthodes SQL
+     */
 
     public function getId()
     {
@@ -38,23 +46,7 @@ final class User extends Model
     {
         return $this->last_name;
     }
-
-    /* PDO methods */
-    public static function ensureExists()
-    {
-        $table = 'users';
-        $sql = "CREATE TABLE IF NOT EXISTS $table (
-            id INT(11) AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(20) NOT NULL,
-            password VARCHAR(64) NOT NULL,
-            last_name VARCHAR(20) NOT NULL,
-            first_name VARCHAR(20) NOT NULL,
-            email VARCHAR(50) NOT NULL
-        )";
-
-        self::getDatabaseInstance()->query($sql);
-    }
-
+  
     public static function getUser($id)
     {
         $sql = "SELECT * FROM users WHERE id = :id";

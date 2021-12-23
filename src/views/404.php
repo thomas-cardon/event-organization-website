@@ -1,4 +1,4 @@
-<?php View::$title = 'Page non trouvée' ?>
+<?php View::setTitle('Page introuvable'); ?>
 
 <main>
     <?php View::show('components/header', $params); ?>

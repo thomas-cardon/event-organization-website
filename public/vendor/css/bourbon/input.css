@@ -14,6 +14,11 @@ button, input, optgroup, select, textarea {
 }
 
 .btn, button, [type='button'], [type='reset'], [type='submit'] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
     -webkit-appearance: button;
     outline: none;
     border: none;
@@ -49,6 +54,43 @@ button, input, optgroup, select, textarea {
     transform: scale(1.05);
 }
 
+nav.buttons.vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+
+    background-color: #0C0C0E;
+
+    left: 3%;
+    top: 10%;
+    border-radius: 0.8rem;
+
+    padding: .8rem;
+}
+
+nav.buttons.vertical > * {
+    padding: 0.8rem;
+    border-radius: 0.4rem;
+    margin-bottom: 1rem;
+
+    transition: background-color .2s ease-in-out;
+}
+
+nav.buttons.vertical svg {
+    fill: white;
+    width: 1rem;
+}
+
+nav.buttons.vertical > *:hover {
+    background-color: #6746ED;
+}
+
+nav.buttons.vertical > *:last-child {
+    margin-bottom: 0;
+}
 
 button.action, .btn.action {
     color: #fff;
@@ -70,7 +112,8 @@ button.green, .btn.green {
 }
 
 .btn > svg, button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
+    width: 32px;
 }
 
 .button-group {
@@ -87,37 +130,28 @@ input {
 
     margin: 0.5rem 0;
 
-    border-radius: 0.375rem;
     border: none;
     outline: none;
 
-    padding: 0.5rem 1rem;
-    color: #333;
-    background-color: #fff;
+    padding: 1.2rem;
+    border-radius: .5rem;
+
+    background-color: transparent;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+}
+
+input::placeholder {
+    color: #fff;
+    font-style: italic;
 }
 
 input.glass {
-    backdrop-filter: blur(9px) saturate(30%);
-    -webkit-backdrop-filter: blur(9px) saturate(30%);
-    -moz-backdrop-filter: blur(9px) saturate(30%);
-    -o-backdrop-filter: blur(9px) saturate(30%);
-    -ms-backdrop-filter: blur(9px) saturate(30%);
-    
-    background-color: rgba(144, 19, 254, 0.13);
-    border: 1px solid rgba(255, 255, 255, 0.125);
     border-radius: .5rem;
-
     font-family: monospace;
-}
-
-input.search {
-    background: url(public/vendor/svg/search.svg) no-repeat scroll 7px 7px;
-    padding-left: 30px;
-}
-
-input.green:focus {
-    outline: rgba(5, 150, 105, var(--bg-opacity)) solid 2px;
 }
 
 .input-group {
@@ -130,6 +164,32 @@ input.green:focus {
     flex-direction: row;
 }
 
-.input-group.horizontal > *:not(:last-child) {
+.input-group:not(.horizontal) > *:not(:last-child) {
     margin-right: 1rem;
+}
+
+form > .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-top: 1.5rem;
+}
+
+form > .actions > * {
+    margin-right: 1rem;
+}
+
+.checkbox {
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5em;
+    margin-bottom: 0.125rem;
+}
+
+.checkbox.inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

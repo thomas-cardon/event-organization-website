@@ -1,4 +1,7 @@
-<?php View::$title = 'Accueil' ?>
+<?php 
+    View::setTitle('Accueil');
+    View::addStyleSheet('/assets/css/recent-events.css');
+?>
 
 <main>
     <?php View::show('components/header', $params); ?>
@@ -29,9 +32,9 @@
             <div id="recentEvents" class="fade-in glass text-gray-less">
                 <header class="flex items-center justify-between">
                     <div>
-                        <h6>Derniers événements en date</h6>
+                        <h6>Dernières idées d'événements en date</h6>
                         <h7 class="text-gray-4">
-                            Campagne du 01/01: <i>Tournoi voleyball</i>
+                            Campagne du 01/01: <i>Tournoi volleyball</i>
                         </h7>
                     </div>
                     <?php if ($params['authentified']) : ?>
@@ -46,7 +49,7 @@
 
                 <ul>
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -59,7 +62,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -72,7 +75,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball
@@ -85,7 +88,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/1" class="flex items-center text-gray-2">
+                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h6 class="title">
                                     Tournoi volleyball

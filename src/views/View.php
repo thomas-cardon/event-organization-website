@@ -3,13 +3,15 @@
 final class View
 {   
 
-    public static $title = 'foo';
+    private static $title = 'foo';
+    private static $stylesheets = array();
+    private static $scripts = array();
 
-    public function getTitle() {
+    public static function getTitle() {
         return self::$title;
     }
 
-    public function setTitle($t) {
+    public static function setTitle($t) {
         self::$title = $t;
     }
 
@@ -31,13 +33,79 @@ final class View
         return ob_get_clean();
     }
 
+    public static function addStyleSheet($path)
+    {
+        self::$stylesheets[] = $path;
+    }
+
+    public static function getStyleSheets()
+    {
+        return self::$stylesheets;
+    }
+
+    public static function addScript($id, $path, $offline = false, $position = 'head', $async = false, $type = 'text/javascript', $integrity, $crossorigin)
+    {
+        self::$scripts[$position][$id] = array(
+            'path' => $path,
+            'type' => $type,
+            'async' => $async,
+            'offline' => $offline,
+            'integrity' => $integrity,
+            'crossorigin' => $crossorigin
+        );
+    }
+
+    public static function getScripts()
+    {
+        return self::$scripts;
+    }
+
+    /**
+     * function show
+     * Permet d'afficher une vue
+     * @param string $path
+     * @param array params
+     */
     public static function show ($path, $params = array())
     {
-        $S_fichier = Constants::getViewsPath() . $path . '.php';
+        $params = array_merge(array(
+            'authentified' => false,
+            'user' => null
+            // Paramètres par défaut pour les vues
+        ), $params);
+
+        $S_fichier = Constants::getViewsPath() . $path;
 
         // Démarrage d'un sous-tampon
         ob_start();
-        include $S_fichier;
+        if(file_exists($S_fichier . '/index.php'))
+            include $S_fichier . '/index.php';
+        else include $S_fichier. '.php';
         ob_end_flush();
+    }
+
+    /**
+     * function get
+     * Permet de récupérer le contenu d'un fichier de vue
+     * @author Thomas Cardon
+     * @param string $path
+     * @param array $params
+     */
+    public static function get ($path, $params = array())
+    {
+        $params = array_merge(array(
+            'authentified' => false,
+            'user' => null
+            // Paramètres par défaut pour les vues
+        ), $params);
+
+        $S_fichier = Constants::getViewsPath() . $path;
+
+        // Démarrage d'un sous-tampon
+        ob_start();
+        if(file_exists($S_fichier . '/index.php'))
+            include $S_fichier . '/index.php';
+        else include $S_fichier . '.php';
+        return ob_get_clean();
     }
 }

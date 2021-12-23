@@ -106,8 +106,18 @@ a {
     position: relative;
 }
 
-.flex {
+section, .flex {
     display: flex;
+    flex-direction: column;
+}
+
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
 }
 
 .items-center {
