@@ -16,6 +16,7 @@
             $links = array(
                 array( 'url' => '/', 'label' => 'Accueil' ),
                 array( 'url' => '/dashboard', 'label' => 'Tableau de bord' ),
+                array( 'url' => '/winners', 'label' => 'Grands gagnants' ),
             );
 
             foreach ($links as $link) {
