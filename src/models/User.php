@@ -46,21 +46,6 @@ final class User extends Model
     {
         return $this->last_name;
     }
-    
-    /* PDO methods */
-    public static function ensureExists() {
-        $table = 'users';
-        $sql = "CREATE TABLE IF NOT EXISTS $table (
-            id INT(11) AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(20) NOT NULL,
-            password VARCHAR(64) NOT NULL,
-            last_name VARCHAR(20) NOT NULL,
-            first_name VARCHAR(20) NOT NULL,
-            email VARCHAR(50) NOT NULL
-        )";
-
-        self::getDatabaseInstance()->query($sql);
-    }
 
     public static function getUser($id)
     {

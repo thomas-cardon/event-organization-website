@@ -6,8 +6,6 @@ final class LandingPageController
 
     public function defaultAction($params, $post, $session)
     {
-        User::ensureExists();
-        
         View::show('landing', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,

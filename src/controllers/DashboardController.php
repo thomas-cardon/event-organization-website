@@ -9,8 +9,6 @@ final class DashboardController
 
     public function defaultAction($params, $post, $session)
     {
-        User::ensureExists();
-        
         if (false)//if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
@@ -34,8 +32,6 @@ final class DashboardController
 
     public function createUserAction($params, $post, $session)
     {
-        User::ensureExists();
-        
         if (false)//if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
@@ -63,8 +59,6 @@ final class DashboardController
 
     public function createCampaignAction($params, $post, $session)
     {
-        User::ensureExists();
-        
         if (false)//if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 

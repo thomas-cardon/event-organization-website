@@ -6,7 +6,6 @@ final class EventController
 
     public function seeAction($params, $post, $session)
     {
-        User::ensureExists();
         $id = $params[0];
         $event = array(
                     'id' => 1,

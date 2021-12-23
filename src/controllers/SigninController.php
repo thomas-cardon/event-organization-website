@@ -6,8 +6,6 @@ final class SigninController
 
     public function defaultAction()
     {
-        User::ensureExists();
-
         if ($this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous êtes déjà connecté.', 'type' => 'blue')));
 
@@ -15,8 +13,6 @@ final class SigninController
     }
 
     public function authAction($params, $post, $session) {
-        User::ensureExists();
-
         // On vérifie si l'utilisateur est déjà authentifié
         if ($this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous êtes déjà connecté.', 'type' => 'blue')));
