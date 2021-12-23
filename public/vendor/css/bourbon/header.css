@@ -10,6 +10,14 @@ main > header {
 
   justify-content: center;
   align-items: center;
+  
+  font-size: x-large;
+}
+
+main > header > h1 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 100;
+  font-size: 1.5rem;
 }
 
 main > header svg {
@@ -46,10 +54,6 @@ main.page > header {
 header a {
   text-decoration: none;
   color: white;
-}
-
-h1 {
-  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
 }
 
 h6 {

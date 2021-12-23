@@ -14,6 +14,9 @@ button, input, optgroup, select, textarea {
 }
 
 .btn, button, [type='button'], [type='reset'], [type='submit'] {
+    min-height: 48px;
+    min-width: 120px;
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -27,7 +30,7 @@ button, input, optgroup, select, textarea {
 
     font-family: Poppins, sans-serif;
     font-weight: 900;
-    font-size: 18px;
+    font-size: 1.2rem;
     font-style: normal;
     line-height: 4vh;
     letter-spacing: 1.8px;
@@ -58,13 +61,13 @@ nav.buttons.vertical {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: start;
 
     position: absolute;
 
     background-color: #0C0C0E;
 
-    left: 3%;
+    left: 2%;
     top: 10%;
     border-radius: 0.8rem;
 
@@ -81,7 +84,7 @@ nav.buttons.vertical > * {
 
 nav.buttons.vertical svg {
     fill: white;
-    width: 1rem;
+    width: 1.5rem;
 }
 
 nav.buttons.vertical > *:hover {
@@ -113,7 +116,7 @@ button.green, .btn.green {
 
 .btn > svg, button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
     margin-right: 0.5rem;
-    width: 32px;
+    width: 1rem;
 }
 
 .button-group {
@@ -125,7 +128,7 @@ button.green, .btn.green {
     margin-right: 1rem;
 }
 
-input {
+input, textarea {
     --bg-opacity: 1;
 
     margin: 0.5rem 0;
@@ -144,24 +147,27 @@ input {
     font-size: 1.1rem;
 }
 
-input::placeholder {
+input::placeholder, textarea::placeholder {
     color: #fff;
     font-style: italic;
 }
 
-input.glass {
+input.glass, textarea.glass {
     border-radius: .5rem;
     font-family: monospace;
 }
 
 .input-group {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap:wrap;
 }
 
 .input-group.horizontal {
     flex-direction: row;
+}
+
+.input-group > * {
+    width: 100%;
 }
 
 .input-group:not(.horizontal) > *:not(:last-child) {

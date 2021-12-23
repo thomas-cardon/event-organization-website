@@ -176,6 +176,10 @@ section, .flex {
     width: 25;
 }
 
+.w-2\/3 {
+    width: 66%;
+}
+
 .min-w-1\/2 {
     min-width: 50%;
 }
@@ -214,6 +218,20 @@ section, .flex {
 
 .m-0 {
     margin: 0;
+}
+
+.m-auto {
+    margin: auto;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.my-auto {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 

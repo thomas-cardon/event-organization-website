@@ -79,11 +79,46 @@ main.dashboard > footer {
     background-color: var(--dark-2);
 }
 
+@media screen and (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.3fr 1.7fr 0.3fr;
+        gap: 0;
+        grid-auto-flow: row;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";        
+        padding: 0;
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+    }
+
+    nav.buttons {
+        position: unset !important;
+        flex-direction: row !important;
+    }
+
+    .card, .numbers, .content {
+        width: 90vw;
+    }
+
+    .card-transparent {
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 1200px) {
     .dashboard {
         grid-template-columns: 2.1fr 1fr;
         grid-template-rows: 0.3fr 1.7fr 0.3fr;
-        gap: 2rem 20px;
+        gap: 2vh 10vw;
         grid-auto-flow: row;
         grid-template-areas:
             "header header"
@@ -94,38 +129,13 @@ main.dashboard > footer {
     .main {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr 1fr;
-        gap: 2rem 2rem;
+        gap: 2vh 10vw;
         grid-auto-flow: row;
         grid-template-areas:
             "numbers chart-aside-1"
             "content content"
             "chart-1 chart-2"
             "chart-aside-2 chart-aside-2";
-    }
-}
-
-@media screen and (max-width: 425px) {
-    .dashboard {
-        grid-template-columns: 1fr;
-        grid-template-rows: 0.3fr 1.7fr 0.3fr;
-        gap: 2rem 20px;
-        grid-auto-flow: row;
-        grid-template-areas:
-            "header"
-            "main"
-            "footer";
-    }
-
-    .main {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr;
-        gap: 2rem 2rem;
-        grid-auto-flow: row;
-        grid-template-areas:
-            "numbers"
-            "content"
-            "chart-1"
-            "chart-2";
     }
 }
 
@@ -189,6 +199,11 @@ main.dashboard > footer {
     margin-bottom: 1.5rem;
 }
 
+.card > header h2 {
+    font-size: clamp(1rem, 10px + 1.5vw, 2rem);
+    margin-left: 10px;
+}
+
 .card-transparent {
     background-color: transparent !important;
     box-shadow: none;
@@ -249,7 +264,7 @@ a.btn, [type="submit"] {
     transition: all .2s ease-in-out !important;
 
     font-family: 'Source Sans Pro', sans-serif !important;
-    font-weight: 600 !important;
+    font-weight: 400 !important;
     text-transform: none !important;
 }
 
@@ -284,11 +299,15 @@ a.see-more {
     box-shadow: 0 10px 20px var(--primary-a), 0 4px 8px var(--primary-a);
 }
 
-input[type=text] {
-    background-color: var(--dark-2);
+input:not([type="radio"], [type="submit"]), textarea {
+    background-color: var(--dark-1) !important;
 }
 
-input[type=text]:focus {
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+input:focus, textarea:focus {
     outline: var(--primary-0) solid 2px;
 }
 
