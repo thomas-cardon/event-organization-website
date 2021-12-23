@@ -19,9 +19,9 @@
                 data: {
                     labels: ['Administrateur', 'Organisateur', 'Jury', 'Participant'],
                     datasets: [{
-                    data: [12, 19, 3, 5],
-                    backgroundColor: [c0, c1, c2, c3],
-                    borderWidth: 0
+                        data: [12, 19, 3, 5],
+                        backgroundColor: [c0, c1, c2, c3],
+                        borderWidth: 0
                     }]
                 },
                 options: {
@@ -29,7 +29,19 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            align: 'left'
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Répartition des utilisateurs',
+                            font: {
+                                size: 20,
+                                weight: '200'
+                            },
+                            padding: {
+                                top: 0,
+                                bottom: 20
+                            }
                         }
                     }
                 }

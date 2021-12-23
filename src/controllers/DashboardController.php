@@ -9,8 +9,6 @@ final class DashboardController
 
     public function defaultAction($params, $post, $session)
     {
-        User::ensureExists();
-        
         if (false)//if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
@@ -23,7 +21,7 @@ final class DashboardController
                 'lastName' => 'Doe',
                 'email' => 'jane.doe@test.te',
                 'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'admin', /* admin, organizer, jury, donor */
+                'role' => 'organizer', /* admin, organizer, jury, donor, member */
                 'created_at' => '',
                 'updated_at' => ''
             )
@@ -34,8 +32,6 @@ final class DashboardController
 
     public function createUserAction($params, $post, $session)
     {
-        User::ensureExists();
-        
         if (false)//if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
@@ -63,8 +59,6 @@ final class DashboardController
 
     public function createCampaignAction($params, $post, $session)
     {
-        User::ensureExists();
-        
         if (false)//if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 

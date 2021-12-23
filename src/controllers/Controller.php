@@ -40,6 +40,11 @@ final class Controller
 
     public function __construct ($S_url)
     {
+        if (file_exists(Constants::root() . '/../config/initialize.php')) {
+            require_once(Constants::root() . '/../config/initialize.php');
+            exit();
+        }
+
         // On élimine l'éventuel slash en fin d'URL sinon notre explode renverra une dernière entrée vide
         if ('/' == substr($S_url, -1, 1)) {
             $S_url = substr($S_url, 0, strlen($S_url) - 1);
