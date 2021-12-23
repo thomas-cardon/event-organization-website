@@ -31,12 +31,11 @@
             type: 'doughnut',
             data: {
                 datasets: [{
-                label: 'Répartition des points',
-                data,
-                backgroundColor: [
-                    c0, c1, c2, c3, c4, c5
-                ],
-                borderWidth: 0
+                    data,
+                    backgroundColor: [
+                        c0, c1, c2, c3, c4, c5
+                    ],
+                    borderWidth: 0
                 }]
             },
             options: {
@@ -45,10 +44,18 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Répartition des points'
+                        text: 'Répartition des points',
+                        font: {
+                            size: 20,
+                            weight: '200'
+                        },
+                        padding: {
+                            top: 0,
+                            bottom: 20
+                        }
                     },
                     legend: {
-                        align: 'left'
+                        display: false
                     },
                     tooltip: {
                         callbacks: {

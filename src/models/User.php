@@ -21,24 +21,6 @@ final class User extends Model
      * TODO: mettre-à-jour les méthodes SQL
      */
 
-
-    public static function ensureExists()
-    {
-        $table = 'users';
-        $sql = "CREATE TABLE IF NOT EXISTS $table (
-            id INT(11) AUTO_INCREMENT PRIMARY KEY,
-            password VARCHAR(64) NOT NULL,
-            last_name VARCHAR(20) NOT NULL,
-            first_name VARCHAR(20) NOT NULL,
-            email VARCHAR(50) NOT NULL,
-            created_at DATETIME NOT NULL,
-            updated_at DATETIME NOT NULL,
-            role VARCHAR(20) DEFAULT 'membre'
-        )";
-
-        self::getDatabaseInstance()->query($sql);
-    }
-
     public static function getUser($id)
     {
         $sql = "SELECT * FROM users WHERE id = :id";

@@ -32,3 +32,8 @@
     background-color: rgba(6, 176, 117, 0.13);
     border: 1px solid rgba(255, 255, 255, 0.125);
 }
+
+.glass.gold {
+    background-color: rgba(251, 174, 60, 0.44);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}

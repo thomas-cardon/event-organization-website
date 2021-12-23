@@ -1,7 +1,7 @@
 main.dashboard {
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 50px 1fr 50px;
+	grid-template-rows: auto 1fr auto;
 	grid-template-areas: 'header' 'main' 'footer';
 
     --dark-1: #202125;
@@ -17,7 +17,7 @@ main.dashboard {
     --chart-color-1: #BA2B5D;
     --chart-color-2: #91EDCD;
     --chart-color-3: #F2558C;
-    --chart-color-4: #DADFF7;
+    --chart-color-4: #00cce7;
     --chart-color-5: #F1E0C5;
 
     background: var(--dark-2);
@@ -25,10 +25,8 @@ main.dashboard {
 }
 
 main.dashboard > header {
+    grid-area: header;
     position: unset !important;
-	grid-area: header;
-	background-color: var(--dark-2);
-    margin-top: 1rem;
 }
 
 .content {
@@ -123,12 +121,14 @@ main.dashboard > footer {
 /* Layout for main-cards section // below main_overview */
 
 .main_cards {
-	margin: 10px;
+	margin: .5rem 0;
 	display: grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 500px 200px 300px;
-	grid-template-areas: 'card1' 'card2' 'card3';
-	grid-gap: 10px;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        'card1'
+        'card2'
+        'card3';
+    grid-gap: 1rem 0;
 }
 
 .card {
@@ -171,7 +171,7 @@ main.dashboard > footer {
 		margin: 10px;
 		display: grid;
 		grid-template-columns: 2fr 1fr;
-		grid-template-rows: 200px 300px;
+		grid-template-rows: minmax(300px, 1fr) .8fr;
 		grid-template-areas: 'card1 card2' 'card1 card3';
 		grid-gap: 10px;
 	}
