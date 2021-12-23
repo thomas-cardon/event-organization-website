@@ -62,7 +62,34 @@ final class EventController
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? null,
             'body' => View::get('event/see', array(
-                'event' => $event
+                'event' => $event,
+                'donations' => array(
+                    array(
+                        'amount' => 1,
+                        'user' => array('firstName' => 'John', 'lastName' => 'Doe'),
+                        'created_at' => '2020-01-01 10:00:00'
+                    ),
+                    array(
+                        'amount' => 1,
+                        'user' => array('firstName' => 'John', 'lastName' => 'Doe'),
+                        'created_at' => '2020-01-01 10:00:00'
+                    ),
+                    array(
+                        'amount' => 1,
+                        'user' => array('firstName' => 'John', 'lastName' => 'Doe'),
+                        'created_at' => '2020-01-01 10:00:00'
+                    ),
+                    array(
+                        'amount' => 1,
+                        'user' => array('firstName' => 'John', 'lastName' => 'Doe'),
+                        'created_at' => '2020-01-01 10:00:00'
+                    ),
+                    array(
+                        'amount' => 1,
+                        'user' => array('firstName' => 'John', 'lastName' => 'Doe'),
+                        'created_at' => '2020-01-01 10:00:00'
+                    )
+                )
             ))
         ));
 
