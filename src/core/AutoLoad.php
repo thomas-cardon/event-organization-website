@@ -4,55 +4,57 @@ require dirname(__FILE__) . '/constants.php';
 require dirname(__FILE__) . '/../../config/config.php';
 require dirname(__FILE__) . '/../../config/sql.php';
 
+//changer nomDeClasse en className
+
 final class AutoLoad
 {
-    public static function chargerClassesNoyau ($S_nomDeClasse)
+    public static function loadCoreClass ($S_className)
     {
-        $S_fichier = Constants::getCorePath() . "$S_nomDeClasse.php";
-        return static::_charger($S_fichier);
+        $S_file = Constants::getCorePath() . "$S_className.php";
+        return static::_load($S_file);
     }
 
-    public static function chargerClassesException ($S_nomDeClasse)
+    public static function loadExceptionClass ($S_className)
     {
-        $S_fichier = Constants::getExceptionsPath() . "$S_nomDeClasse.php";
+        $S_file = Constants::getExceptionsPath() . "$S_className.php";
 
-        return static::_charger($S_fichier);
+        return static::_load($S_file);
     }
 
-    public static function chargerClassesModele ($S_nomDeClasse)
+    public static function loadModeleClass ($S_className)
     {
-        $S_fichier = Constants::getModelsPath() . "$S_nomDeClasse.php";
+        $S_file = Constants::getModelsPath() . "$S_className.php";
 
-        return static::_charger($S_fichier);
+        return static::_load($S_file);
     }
 
-    public static function chargerClassesVue ($S_nomDeClasse)
+    public static function loadViewClass ($S_className)
     {
-        $S_fichier = Constants::getViewsPath() . "$S_nomDeClasse.php";
+        $S_file = Constants::getViewsPath() . "$S_className.php";
 
-        return static::_charger($S_fichier);
+        return static::_load($S_file);
     }
 
-    public static function chargerClassesControleur ($S_nomDeClasse)
+    public static function loadControllerClass ($S_className)
     {
-        $S_fichier = Constants::getControllersPath() . "$S_nomDeClasse.php";
+        $S_file = Constants::getControllersPath() . "$S_className.php";
 
-        return static::_charger($S_fichier);
+        return static::_load($S_file);
     }
 
-    private static function _charger ($S_fichierACharger)
+    private static function _load ($S_fileToLoad)
     {
-        if (is_readable($S_fichierACharger))
+        if (is_readable($S_fileToLoad))
         {
-            require $S_fichierACharger;
+            require $S_fileToLoad;
         }
     }
 }
 
 // J'empile tout ce beau monde comme j'ai toujours appris à le faire...
 
-spl_autoload_register('AutoLoad::chargerClassesNoyau');
-spl_autoload_register('AutoLoad::chargerClassesException');
-spl_autoload_register('AutoLoad::chargerClassesModele');
-spl_autoload_register('AutoLoad::chargerClassesVue');
-spl_autoload_register('AutoLoad::chargerClassesControleur');
+spl_autoload_register('AutoLoad::loadCoreClass');
+spl_autoload_register('AutoLoad::loadExceptionClass');
+spl_autoload_register('AutoLoad::loadModeleClass');
+spl_autoload_register('AutoLoad::loadViewClass');
+spl_autoload_register('AutoLoad::loadControllerClass');
