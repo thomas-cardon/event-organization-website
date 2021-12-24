@@ -26,7 +26,7 @@ button, input, optgroup, select, textarea {
     outline: none;
     border: none;
 
-    border-radius: .25rem;
+    border-radius: 5px;
 
     font-family: Poppins, sans-serif;
     font-weight: 900;
@@ -55,6 +55,21 @@ button, input, optgroup, select, textarea {
 
 .btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
     transform: scale(1.05);
+}
+
+.buttons.horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 .5rem;
+    max-width: 100%;
+}
+
+.buttons.horizontal > * {
+    position: relative;
+    flex: 1 1 auto;
 }
 
 nav.buttons.vertical {

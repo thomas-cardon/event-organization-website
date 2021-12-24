@@ -9,13 +9,13 @@
     <section class="hero">
         <section class="p-2 horizontal lead">
             <div id="desc">
-                <h1 class="font-hero slide-in-bottom-h1">
+                <h1 class="slide-in-bottom-h1">
                         E-Event.IO
                 </h1>
                 <h6 class="text-gray-1 slide-in-bottom-subtitle">
                     Créez vos évènements en quelques clics, gérez vos invités, organisez sans inquiétude votre soirée.
                 </h6>
-                <div class="button-group" style="margin-top: 1rem">
+                <div class="buttons horizontal" style="margin-top: 1rem">
                     <?php if (!$params['authentified']) : ?>
                         <a class="btn action slide-in-bottom" style="margin-top: 1rem">Inscrivez-vous</a>
                         <a class="btn slide-in-bottom" href="<?php echo BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>

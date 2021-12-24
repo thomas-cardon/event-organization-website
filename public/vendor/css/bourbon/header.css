@@ -11,18 +11,12 @@ main > header {
   justify-content: center;
   align-items: center;
   
-  font-size: x-large;
-}
-
-main > header > h1 {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: 100;
-  font-size: 1.5rem;
+  font-size: clamp(1.5rem, 24px + .5vw, 2.5rem);
 }
 
 main > header svg {
   height: auto;
-  width: clamp(1.5rem, 2.5vw, 2.5rem);
+  width: clamp(1.5rem, 24px + 2.5vw, 10rem);
   fill: currentColor;
   padding-right: .5rem;
 }
@@ -52,6 +46,7 @@ main.page > header {
 }
 
 header a {
+  font-size: .7em;
   text-decoration: none;
   color: white;
 }
@@ -65,22 +60,22 @@ h6.subtitle {
   line-height: 0;
 }
 
-/* When the screen is les .brands than 767.98px pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+.close {
+  display: none;
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 767.98px) {
+  main > header {
+    line-height: 0.3;
+  }
+
   main > header a:not(.close, .brand) {display: none;}
   main > header a.icon {
     float: right;
     display: block;
   }
-}
 
-.close {
-  display: none;
-}
-
-
-/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-@media screen and (max-width: 767.98px) {
   .responsive {
     position: unset;
     flex-direction: column;
@@ -101,7 +96,6 @@ h6.subtitle {
     top: 0;
 
     font-size: 4rem;
-    line-height: 0.3;
     padding: 1rem 0;
   }
 
@@ -115,7 +109,7 @@ h6.subtitle {
   }
 }
 
-@media screen and (min-width: 767.98px) {
+@media screen and (min-width: 767.98px) {  
   main > header a.active {
     color: white;
     background: rgba(0,204,231,.35);
