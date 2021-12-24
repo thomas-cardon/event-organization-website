@@ -69,5 +69,18 @@ final class EventController
 
         $_SESSION['alert'] = null;
     }
+
+    public function winnersAction() {
+        View::show('event', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'] ?? null,
+            'body' => View::get('event/winners', array(
+                'winners' => array()
+            ))
+        ));
+
+        $_SESSION['alert'] = null;
+    }
 }
 ?>
