@@ -18,6 +18,8 @@ $sql = [
     'DROP TABLE IF EXISTS `users`',
     'DROP TABLE IF EXISTS `campaigns`',
     'DROP TABLE IF EXISTS `events`',
+    'DROP TABLE IF EXISTS `transactions`',
+    /* A partir d'ici, ce sont des exemples de requêtes générées automatiquement */
     'CREATE TABLE `users` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `firstName` varchar(255) NOT NULL,
@@ -44,7 +46,18 @@ $sql = [
         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8'
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
+        /* Transactions, @author Thomas Cardon */
+    'CREATE TABLE `transactions` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `user_id` int(11) NOT NULL,
+        `event_id` int(11) NOT NULL,
+        `amount` int(11) NOT NULL,
+        `created_at` datetime NOT NULL,
+        PRIMARY KEY (`id`),
+        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+        FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8'
 ];
 
 $sql_data = [
