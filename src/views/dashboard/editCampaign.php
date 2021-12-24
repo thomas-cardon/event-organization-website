@@ -3,7 +3,7 @@
     <h1><?php echo $params['edit'] ? 'Éditer' : 'Créer'; ?> une campagne</h1>
     <form action="<?php echo BASE_PATH . '/dashboard/edit-campaign'; ?>" method="POST">
         <div class="input-group horizontal">
-            <input type="text" class="text-white" aria-label="Nom" placeholder="Nom">
+            <input autofocus type="text" class="text-white" aria-label="Nom" placeholder="Nom">
             <textarea type="text" class="text-white" aria-label="Description" placeholder="Description" rows="5"></textarea>
 
             <input type="datetime-local" class="text-white" min="<?php echo date('Y-m-d');?>T00:00" aria-label="Date et heure de départ" placeholder="Commence le:">

@@ -121,6 +121,7 @@ final class DashboardController
                     'to' => '2020-01-01 12:00:00',
                     'location' => 'Paris',
                     'points' => 100,
+                    'canEdit' => false, /* si donations == 0 */
                     'owner' =>  array(
                         'id' => 1,
                         'firstName' => 'Jane',

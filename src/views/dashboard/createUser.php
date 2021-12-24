@@ -2,9 +2,9 @@
     <h1>Créer un utilisateur</h2>
     <form action="" method="POST">
         <div class="input-group horizontal">
-            <input class="w-full text-white" type="text" aria-label="Nom" placeholder="Nom">
-            <input class="w-full text-white" type="text" aria-label="Prénom" placeholder="Prénom">
-            <input class="w-full text-white" type="text" aria-label="Adresse e-mail" placeholder="Adresse e-mail">
+            <input autofocus class="w-full" type="text" aria-label="Nom" placeholder="Nom">
+            <input class="w-full" type="text" aria-label="Prénom" placeholder="Prénom">
+            <input class="w-full" type="text" aria-label="Adresse e-mail" placeholder="Adresse e-mail">
          </div>
         <div class="flex justify-center horizontal">
 
