@@ -17,15 +17,11 @@ button, input, optgroup, select, textarea {
     min-height: 48px;
     min-width: 120px;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    display: block;
 
     -webkit-appearance: button;
     outline: none;
     border: none;
-
     border-radius: 5px;
 
     font-family: Poppins, sans-serif;
@@ -42,19 +38,26 @@ button, input, optgroup, select, textarea {
     padding: 0.5rem 1rem;
 
     color: black;
-    background: #fff;
+    background: var(--color-light);
 
-    border: 1px solid #fff;
     background-position: center;
-    transition: all .3s;
+    transition: all .3s ease;
 
     box-shadow: 5px 5px 5px #0000001a;
 
     text-transform: uppercase;
+    text-align: center;
+}
+
+.btn:has(svg), button:has(svg), [type='button']:has(svg), [type='reset']:has(svg), [type='submit']:has(svg) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
-    transform: scale(1.05);
+    background-color: var(--color-light-hover);
 }
 
 .buttons.horizontal {
@@ -102,18 +105,17 @@ nav.buttons.vertical svg {
     width: 1.5rem;
 }
 
-nav.buttons.vertical > *:hover {
-    background-color: #6746ED;
-}
-
 nav.buttons.vertical > *:last-child {
     margin-bottom: 0;
 }
 
 button.action, .btn.action {
     color: #fff;
-    background: #c25be9;
-    border: 1px solid #c25be9;
+    background: var(--color-primary);
+}
+
+.action:hover, nav.buttons.vertical > *:hover {
+    background-color: var(--color-primary-hover);
 }
 
 button.sm, .btn.sm {

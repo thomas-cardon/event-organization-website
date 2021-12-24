@@ -1,3 +1,10 @@
+<script>
+    function openNavbarMenu() {
+        var x = document.getElementById('layout');
+        if (x.className === '') x.className = 'responsive';
+        else x.className = '';
+    }
+</script>
 <header id="layout">
     <a class="flex items-center horizontal text-indigo-4 brand" href="<?php echo BASE_PATH; ?>">
 		<svg class="text-indigo-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -37,10 +44,3 @@
         <?php echo $params['alert']['message'] ?>
     </div>
 <?php endif; ?>
-<script>
-    function openNavbarMenu() {
-        var x = document.getElementById('layout');
-        if (x.className === '') x.className = 'responsive';
-        else x.className = '';
-    }
-</script>

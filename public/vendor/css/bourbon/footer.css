@@ -8,4 +8,6 @@ main > footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
+
+    grid-area: footer;
 }

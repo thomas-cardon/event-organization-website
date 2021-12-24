@@ -1,15 +1,5 @@
 .dashboard {
-    display: grid;
-    grid-template-columns: 2.1fr;
-    grid-template-rows: 0.3fr 1.7fr 0.3fr;
-    gap: 2rem 20px;
-    grid-auto-flow: row;
-    grid-template-areas:
-        "header"
-        "main"
-        "footer";
-    
-    --dark-1: #202125;
+    --dark-1: #2a2a2b;
     --dark-2: #16171B;
     --dark-3: #28292D;
 
@@ -30,11 +20,6 @@
     padding: 0 max(50px, 10rem);
 }
 
-.dashboard > header {
-    grid-area: header;
-    position: initial;
-}
-
 .main {  
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -45,7 +30,7 @@
         "content content numbers"
         "content content chart-aside-1"
         "chart-1 chart-2 chart-aside-2";
-    grid-area: main;
+    grid-area: content;
 }
 
 .numbers { 

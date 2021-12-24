@@ -11,21 +11,30 @@ section.horizontal {
     align-content: center;
 }
 
-section.hero {
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: "header" "content" "footer";
+    grid-gap: 1rem;
+
     background: url(../../svg/landing-bg.svg);
     background-size: cover;
     background-position: center;
 
-    margin: auto;
     min-height: 100vh;
 }
 
 main > header + section {
-  padding-top: 3.5rem;
+  grid-area: content;
+}
+
+.hero {
+    margin: auto auto;
 }
 
 .lead {
-    margin: auto auto !important;
+    margin: 0 auto;
 }
 
 .lead > div {

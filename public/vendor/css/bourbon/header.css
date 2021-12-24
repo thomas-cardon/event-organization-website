@@ -3,7 +3,7 @@
 * @author: Thomas Cardon
 */
 main > header {
-  position: fixed;
+  grid-area: header;
   display: flex;
 
   width: 100%;
@@ -33,6 +33,11 @@ main > header > nav {
 main.page > header {
   position: relative;
   background-color: #001220;
+}
+
+.brand {
+  color: var(--color-primary);
+  fill: currentColor;
 }
 
 @media (min-width: 640px) {

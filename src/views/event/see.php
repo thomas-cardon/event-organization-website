@@ -24,10 +24,10 @@
                 <?php if ($params['event']['unlockableContent'] ?? null) {
                     foreach ($params['event']['unlockableContent'] as $content) { ?>
                         <div class="glass gold unlockable-content locked" <?php if (isset($content['image'])) { ?>style="background-image: url(<?php echo $content['image']; ?>);color: <?php echo $content['textColor'] ?? 'white'; ?>"<?php } ?>>
-                            <h3 class="title">
+                            <h3>
                                 <?php echo $content['title']; ?>
                             </h3>
-                            <p>
+                            <p class="desc">
                                 <?php echo $content['description']; ?>
                             </p>
                             
