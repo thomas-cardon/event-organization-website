@@ -17,7 +17,7 @@
                 </h6>
                 <div class="buttons horizontal" style="margin-top: 1rem">
                     <?php if (!$params['authentified']) : ?>
-                        <a class="btn action slide-in-bottom" style="margin-top: 1rem">Inscrivez-vous</a>
+                        <a class="btn action slide-in-bottom" href="<?php echo BASE_PATH ?>/signup" style="margin-top: 1rem" style="margin-top: 1rem">Inscrivez-vous</a>
                         <a class="btn slide-in-bottom" href="<?php echo BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
                     <?php else : ?>
                         <button class="flex items-center px-4 py-2 text-sm font-medium slide-in-bottom sm text-green-6 green">

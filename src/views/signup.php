@@ -1,10 +1,10 @@
 <?php View::setTitle('Inscription'); ?>
 
-<main class="hero">
+<main class="lead">
     <?php View::show('components/header'); ?>
 
-    <section class="p-2 lead">
-        <h1 class="font-hero slide-in-bottom-h1">Inscription</h1>
+    <section class="p-2">
+        <h1 class="slide-in-bottom-h1">Inscription</h1>
         <h6 class="text-gray-1 slide-in-bottom-subtitle subtitle">
             Rejoignez la communauté et découvrez les évènements de votre région.
         </h6>
