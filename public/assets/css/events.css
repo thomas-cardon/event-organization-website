@@ -36,7 +36,6 @@ aside {
 
 @media (max-width: 767.98px) {
     .events {
-      margin: auto 2rem;
       gap: .5rem;
       grid-template-columns: 1fr;
       grid-template-areas:

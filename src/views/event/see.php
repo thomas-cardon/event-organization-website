@@ -3,7 +3,7 @@
 ?>
 
 <section class="hero">
-    <section class="events">
+    <section class="events wrapper">
         <div class="overview glass slide-in-bottom">
             <header class="flex items-center">
                 <h2 class="font-hero">
