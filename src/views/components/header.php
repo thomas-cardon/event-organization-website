@@ -10,13 +10,13 @@
 		<svg class="text-indigo-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
 			<path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm-5.6-4.29a9.95 9.95 0 0 1 11.2 0 8 8 0 1 0-11.2 0zm6.12-7.64l3.02-3.02 1.41 1.41-3.02 3.02a2 2 0 1 1-1.41-1.41z" />
 		</svg>
-        <h1 style="font-family: 'BigNoodleTitling Oblique'">
+        <h3 class="font-hero">
             E-Event.IO&nbsp;
             <?php if ($params['authentified'] ?? false) : ?>
             <span class="text-white">|</span>
             <span class="text-white"><?php echo $params['user']['firstName'] . ' ' . $params['user']['lastName']; ?></span>
             <?php endif; ?>
-        </h1>
+        </h3>
     </a>
     <nav>
         <?php            
@@ -33,7 +33,7 @@
                     $class .= ' active';
                 }
                 
-                echo '<a class="text-gray-1 ' . $class . '" href="' . BASE_PATH . $link['url'] . '">' . $link['label'] . '</a>';
+                echo '<a class="' . $class . '" href="' . BASE_PATH . $link['url'] . '">' . $link['label'] . '</a>';
             }
         ?>
         <a class="text-gray-1 close" href="javascript:void(0);" onclick="openNavbarMenu()">☰</a>

@@ -7,6 +7,7 @@
         <title>E-Event.IO | <?php echo View::getTitle() ?></title>
 
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+        <link rel="preload" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/font/BigNoodleTooOblique.woff2" as="font" type="font/woff2" crossorigin>
 
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/normalize.css" />
 
@@ -18,14 +19,13 @@
                 <link rel="stylesheet" href="<?php echo Constants::getPublicPath(); ?><?php echo $stylesheet ?>" />
         <?php endforeach ?>
         
+        <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/headings.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/header.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/footer.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/section.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/input.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/glass.css" />
         <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/vendor/css/bourbon/alert.css" />
-
-        <link rel="stylesheet" href="<?php echo Constants::getPublicPath() ?>/assets/css/extrafonts.css" />
 
         <?php
             /**

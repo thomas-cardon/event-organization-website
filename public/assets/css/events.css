@@ -1,10 +1,10 @@
 .events {
-  margin: 2rem;
+  margin: 1rem 2rem;
 
   display: grid; 
   grid-template-columns: 2fr 1.2fr; 
   grid-template-rows: 1fr; 
-  gap: 1em 3em; 
+  gap: 0 9rem; 
   grid-template-areas: 
     "overview aside"
     ". aside"; 
@@ -17,11 +17,9 @@
 
 aside {
   grid-area: aside;
-}
-
-.user {
-  height: fit-content;
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem 0;
 }
 
 .overview > header {
@@ -38,7 +36,7 @@ aside {
 
 @media (max-width: 767.98px) {
     .events {
-      margin: auto auto;
+      margin: auto 2rem;
       gap: .5rem;
       grid-template-columns: 1fr;
       grid-template-areas:

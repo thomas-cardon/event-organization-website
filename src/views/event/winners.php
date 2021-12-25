@@ -3,7 +3,7 @@
 ?>
 
 <section class="lead">
-    <h1 class="slide-in-bottom-h1">Grands gagnants</h1>
+    <h1 class="font-hero slide-in-bottom-h1">Grands gagnants</h1>
     <div class="glass">
         <table>
             <thead>

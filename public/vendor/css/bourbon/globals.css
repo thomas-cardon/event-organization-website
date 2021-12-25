@@ -1,13 +1,13 @@
-/**
-* Reset CSS
-* @author Thomas Cardon
-*/
-body {
-    font-family: 'Source Sans Pro', sans-serif;
-    --color-primary: #9980FA;
+
+:root {
+	--color-primary: #9980FA;
     --color-primary-hover: #6746ED;
     --color-light: #fafafa;
     --color-light-hover: #ecf0f1;
+};
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 a {

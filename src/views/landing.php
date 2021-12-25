@@ -9,12 +9,12 @@
     <section class="hero">
         <section class="p-2 horizontal lead">
             <div id="desc">
-                <h1 class="slide-in-bottom-h1">
+                <h1 class="font-hero slide-in-bottom-h1">
                         E-Event.IO
                 </h1>
-                <h6 class="text-gray-1 slide-in-bottom-subtitle">
+                <p class="text-gray-1 slide-in-bottom-subtitle">
                     Créez vos évènements en quelques clics, gérez vos invités, organisez sans inquiétude votre soirée.
-                </h6>
+                </p>
                 <div class="buttons horizontal" style="margin-top: 1rem">
                     <?php if (!$params['authentified']) : ?>
                         <a class="btn action slide-in-bottom" href="<?php echo BASE_PATH ?>/signup" style="margin-top: 1rem" style="margin-top: 1rem">Inscrivez-vous</a>
@@ -32,10 +32,10 @@
             <div id="recentEvents" class="fade-in glass text-gray-less">
                 <header class="flex items-center justify-between">
                     <div>
-                        <h6>Dernières idées d'événements en date</h6>
-                        <h7 class="text-gray-4">
+                        <h3 class="font-hero">Dernières idées d'événements en date</h3>
+                        <p class="text-gray-3">
                             Campagne du 01/01: <i>Tournoi volleyball</i>
-                        </h7>
+                        </p>
                     </div>
                     <?php if ($params['authentified']) : ?>
                         <button class="flex items-center px-4 py-2 text-sm font-medium sm text-green-6 green">
@@ -51,12 +51,12 @@
                     <li>
                         <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
-                                <h6 class="title">
+                                <h4 class="font-hero">
                                     Tournoi volleyball
-                                </h6>
-                                <h7 class="author">
+                                </h4>
+                                <p class="text-gray-2">
                                     Jane Doe
-                                </h7>
+                                </p>
                             </div>
                         </a>
                     </li>
@@ -64,12 +64,12 @@
                     <li>
                         <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
-                                <h6 class="title">
+                                <h4 class="font-hero">
                                     Tournoi volleyball
-                                </h6>
-                                <h7 class="author">
+                                </h4>
+                                <p class="text-gray-2">
                                     Jane Doe
-                                </h7>
+                                </p>
                             </div>
                         </a>
                     </li>
@@ -77,12 +77,12 @@
                     <li>
                         <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
-                                <h6 class="title">
+                                <h4 class="font-hero">
                                     Tournoi volleyball
-                                </h6>
-                                <h7 class="author">
+                                </h4>
+                                <p class="text-gray-2">
                                     Jane Doe
-                                </h7>
+                                </p>
                             </div>
                         </a>
                     </li>
@@ -90,12 +90,12 @@
                     <li>
                         <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
-                                <h6 class="title">
+                                <h4 class="font-hero">
                                     Tournoi volleyball
-                                </h6>
-                                <h7 class="author">
+                                </h4>
+                                <p class="text-gray-2">
                                     Jane Doe
-                                </h7>
+                                </p>
                             </div>
                         </a>
                     </li>

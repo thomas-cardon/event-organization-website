@@ -49,9 +49,5 @@ main > header + section {
 }
 
 .lead h1:first-of-type {
-    font-family: 'BigNoodleTitling Oblique';
-    font-size: clamp(2.5rem, 24px + 2.5vw, 10rem);
-    font-weight: bold;
-    line-height: 1.2;
     margin-bottom: 1rem;
 }
