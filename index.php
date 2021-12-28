@@ -5,7 +5,7 @@ ini_set('display_errors', 'On');
 
 require 'src/core/AutoLoad.php';
 
-$route = isset($_GET['route']) ? $_GET['route'] : null;
+$route = $_GET['route'] ?? null;
 View::openBuffer(); // on ouvre le tampon d'affichage, les contrôleurs qui appellent des vues les mettront dedans
 
 try
