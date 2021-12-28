@@ -15,13 +15,13 @@ final class User extends Model
      * @param $email
      * @param $firstName
      * @param $lastName
-     * @param $password
      * @param null $id
      * @param null $role
      * @param null $created_at
      * @param null $updated_at
+     * @param $password
      */
-    public function __construct($email, $firstName, $lastName, $password, $id = null, $role = null, $created_at = null, $updated_at = null)
+    public function __construct($email, $firstName, $lastName, $id = null, $role = null, $created_at = null, $updated_at = null, $password = null)
     {
         parent::__construct();
         echo 'The model has been initiated';
@@ -37,21 +37,21 @@ final class User extends Model
 
     public static function findAll(): array
     {
-        $sql = 'SELECT * FROM users';
+        $sql = 'SELECT  * FROM users';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach ($rows as $row) {
-            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['password'], $row['id'],
-                $row['role'], $row['created_at'], $row['updated_at']);
+            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['id'],
+                $row['role'], $row['created_at'], $row['updated_at'], $row['password']);
             $user[] = $user;
         }
         return $users;
 
     }
 
-    public static function find($id)
+    public static function get($id)
     {
         $sql = 'SELECT * FROM users WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -59,12 +59,13 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'], $row['id'],
-                $row['role'], $row['created_at'], $row['updated_at']);
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['id'],
+                $row['role'], $row['created_at'], $row['updated_at'], $row['password']);
         }
         return null;
     }
-    public static function findByEmail($email)
+
+    public static function getByMail($email)
     {
         $sql = 'SELECT * FROM users WHERE email = :email';
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -72,25 +73,27 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'], $row['id'],
-                $row['role'], $row['created_at'], $row['updated_at']);
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['id'],
+                $row['role'], $row['created_at'], $row['updated_at'], $row['password']);
         }
         return null;
     }
-    public static function findByEmailAndPassword($email,$password)
+
+    public static function getByEmailAndPassword($email, $password)
     {
         $sql = 'SELECT * FROM users WHERE email = :email AND password = :password';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password',$password);
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'], $row['id'],
-                $row['role'], $row['created_at'], $row['updated_at']);
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['id'],
+                $row['role'], $row['created_at'], $row['updated_at'], $row['password']);
         }
         return null;
     }
+
     public function __toString()
     {
 
@@ -113,13 +116,12 @@ final class User extends Model
     public function update()
     {
         $sql = 'UPDATE users 
-                SET last_name = :last_name, first_name= :first_name, email = :email, password = :password, role=:role 
+                SET last_name = :last_name, first_name= :first_name, email = :email, role=:role 
                 WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':last_name', $this->lastName);
         $stmt->bindParam(':first_name', $this->firstName);
         $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':role', $this->role);
         $stmt->execute();
@@ -256,7 +258,7 @@ final class User extends Model
     }
 }
 //demo :
-//$user = new User('bonjour@test', '222', 'test','test');
+//$user = new User('bonjour@test', '222', 'test',$password='test');
 //$user->save();
 //$user = User::findByEmail($user->getEmail());
 //echo $user;
