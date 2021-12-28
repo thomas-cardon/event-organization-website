@@ -50,8 +50,8 @@ final class User extends Model
     {
         $sql = "INSERT INTO users (last_name,first_name, email, password,created_at,updated_at) VALUES (:last_name,:first_name ,:email, :password,NOW(),NOW())";
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':last_name', $data['last_name'], PDO::PARAM_STR);
-        $stmt->bindValue(':first_name', $data['first_name'], PDO::PARAM_STR);
+        $stmt->bindValue(':last_name', $data['lastName'], PDO::PARAM_STR);
+        $stmt->bindValue(':first_name', $data['firstName'], PDO::PARAM_STR);
         $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
         $stmt->execute();
@@ -61,8 +61,8 @@ final class User extends Model
     {
         $sql = "UPDATE users SET last_name = :last_name, first_name= :first_name, email = :email, password = :password, role=:role, updated_at = NOW() WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':last_name', $data['last_name'], PDO::PARAM_STR);
-        $stmt->bindValue(':first_name', $data['first_name'], PDO::PARAM_STR);
+        $stmt->bindValue(':last_name', $data['lastName'], PDO::PARAM_STR);
+        $stmt->bindValue(':first_name', $data['firstName'], PDO::PARAM_STR);
         $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
         $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
         $stmt->bindValue(':id', $data['id'], PDO::PARAM_INT);
