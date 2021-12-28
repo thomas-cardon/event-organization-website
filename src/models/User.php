@@ -15,13 +15,13 @@ final class User extends Model
      * @param $email
      * @param $firstName
      * @param $lastName
+     * @param $password
      * @param null $id
      * @param null $role
      * @param null $created_at
      * @param null $updated_at
-     * @param $password
      */
-    public function __construct($email, $firstName, $lastName, $id = null, $role = null, $created_at = null, $updated_at = null, $password = null)
+    public function __construct($email, $firstName, $lastName, $password, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
         parent::__construct();
         echo 'The model has been initiated';
@@ -43,8 +43,8 @@ final class User extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach ($rows as $row) {
-            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['id'],
-                $row['role'], $row['created_at'], $row['updated_at'], $row['password']);
+            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
             $user[] = $user;
         }
         return $users;
@@ -59,8 +59,8 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['id'],
-                $row['role'], $row['created_at'], $row['updated_at'], $row['password']);
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
     }
@@ -73,8 +73,8 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['id'],
-                $row['role'], $row['created_at'], $row['updated_at'], $row['password']);
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
     }
@@ -88,16 +88,10 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['id'],
-                $row['role'], $row['created_at'], $row['updated_at'], $row['password']);
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
-    }
-
-    public function __toString()
-    {
-
-        return $this->id . $this->updated_at;
     }
 
     public function save()
@@ -257,8 +251,3 @@ final class User extends Model
         $this->role = $role;
     }
 }
-//demo :
-//$user = new User('bonjour@test', '222', 'test',$password='test');
-//$user->save();
-//$user = User::findByEmail($user->getEmail());
-//echo $user;
