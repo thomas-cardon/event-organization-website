@@ -110,13 +110,14 @@ final class User extends Model
     public function update()
     {
         $sql = 'UPDATE users 
-                SET last_name = :last_name, first_name= :first_name, email = :email, role=:role 
+                SET last_name = :last_name, first_name= :first_name, email = :email, role=:role, password=:password 
                 WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':last_name', $this->lastName);
         $stmt->bindParam(':first_name', $this->firstName);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':role', $this->role);
         $stmt->execute();
     }
