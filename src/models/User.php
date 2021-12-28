@@ -3,71 +3,133 @@
 final class User extends Model
 {
     private $id;
-    private $password;
     private $email;
-    private $first_name;
-    private $last_name;
+    private $firstName;
+    private $lastName;
+    private $password;
+    private $role;
     private $created_at;
     private $updated_at;
-    private $role;
-
-    public function __construct()
-    {
-        echo 'The model has been initiated';
-        parent::__construct();
-    }
 
     /**
-     * TODO: mettre-à-jour les méthodes SQL
+     * @param $email
+     * @param $firstName
+     * @param $lastName
+     * @param $password
+     * @param null $id
+     * @param null $role
+     * @param null $created_at
+     * @param null $updated_at
      */
-
-    public static function getUser($id)
+    public function __construct($email, $firstName, $lastName, $password, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
-        $sql = "SELECT * FROM users WHERE id = :id";
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch();
+        parent::__construct();
+        echo 'The model has been initiated';
+        $this->id = $id;
+        $this->password = $password;
+        $this->email = $email;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
+        $this->role = $role;
     }
 
-    public static function getUsers()
+    public static function findAll(): array
     {
-        $sql = "SELECT * FROM users";
+        $sql = 'SELECT * FROM users';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $users = [];
+        foreach ($rows as $row) {
+            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['password'], $row['id'],
+                $row['role'], $row['created_at'], $row['updated_at']);
+            $user[] = $user;
+        }
+        return $users;
+
     }
 
-    public static function deleteUser($id)
+    public static function find($id)
+    {
+        $sql = 'SELECT * FROM users WHERE id = :id';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'], $row['id'],
+                $row['role'], $row['created_at'], $row['updated_at']);
+        }
+        return null;
+    }
+    public static function findByEmail($email)
+    {
+        $sql = 'SELECT * FROM users WHERE email = :email';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'], $row['id'],
+                $row['role'], $row['created_at'], $row['updated_at']);
+        }
+        return null;
+    }
+    public static function findByEmailAndPassword($email,$password)
+    {
+        $sql = 'SELECT * FROM users WHERE email = :email AND password = :password';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password',$password);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'], $row['id'],
+                $row['role'], $row['created_at'], $row['updated_at']);
+        }
+        return null;
+    }
+    public function __toString()
+    {
+
+        return $this->id . $this->updated_at;
+    }
+
+    public function save()
+    {
+        $sql = 'INSERT INTO users ( password, email, first_name,last_name) 
+                VALUES ( :password, :email, :first_name,:last_name)';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':first_name', $this->firstName);
+        $stmt->bindParam(':last_name', $this->lastName);
+        $stmt->execute();
+    }
+
+    public function update()
+    {
+        $sql = 'UPDATE users 
+                SET last_name = :last_name, first_name= :first_name, email = :email, password = :password, role=:role 
+                WHERE id = :id';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':last_name', $this->lastName);
+        $stmt->bindParam(':first_name', $this->firstName);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':role', $this->role);
+        $stmt->execute();
+    }
+
+    public function delete()
     {
         $sql = "DELETE FROM users WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-    }
-
-    public static function createUser($data)
-    {
-        $sql = "INSERT INTO users (last_name,first_name, email, password,created_at,updated_at) VALUES (:last_name,:first_name ,:email, :password,NOW(),NOW())";
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':last_name', $data['lastName'], PDO::PARAM_STR);
-        $stmt->bindValue(':first_name', $data['firstName'], PDO::PARAM_STR);
-        $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
-        $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
-        $stmt->execute();
-    }
-
-    public static function updateUser($data)
-    {
-        $sql = "UPDATE users SET last_name = :last_name, first_name= :first_name, email = :email, password = :password, role=:role, updated_at = NOW() WHERE id = :id";
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindValue(':last_name', $data['lastName'], PDO::PARAM_STR);
-        $stmt->bindValue(':first_name', $data['firstName'], PDO::PARAM_STR);
-        $stmt->bindValue(':email', $data['email'], PDO::PARAM_STR);
-        $stmt->bindValue(':password', $data['password'], PDO::PARAM_STR);
-        $stmt->bindValue(':id', $data['id'], PDO::PARAM_INT);
-        $stmt->bindValue(':role', $data['role'], PDO::PARAM_STR);
-
+        $stmt->bindParam(':id', $this->id);
         $stmt->execute();
     }
 
@@ -125,15 +187,15 @@ final class User extends Model
      */
     public function getFirstName()
     {
-        return $this->first_name;
+        return $this->firstName;
     }
 
     /**
-     * @param mixed $first_name
+     * @param mixed $firstName
      */
-    public function setFirstName($first_name)
+    public function setFirstName($firstName)
     {
-        $this->first_name = $first_name;
+        $this->firstName = $firstName;
     }
 
     /**
@@ -141,15 +203,15 @@ final class User extends Model
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->lastName;
     }
 
     /**
-     * @param mixed $last_name
+     * @param mixed $lastName
      */
-    public function setLastName($last_name)
+    public function setLastName($lastName)
     {
-        $this->last_name = $last_name;
+        $this->lastName = $lastName;
     }
 
     /**
@@ -193,4 +255,8 @@ final class User extends Model
         $this->role = $role;
     }
 }
-
+//demo :
+//$user = new User('bonjour@test', '222', 'test','test');
+//$user->save();
+//$user = User::findByEmail($user->getEmail());
+//echo $user;
