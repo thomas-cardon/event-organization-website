@@ -3,7 +3,7 @@
  * Pour des raisons de sécurité, ce script
  * doit être exécuté, puis supprimé.
  * Ce fichier vous permettra d'initialiser d'une traite la base de données.
- * PENSEZ à créer les fichiers de configuration de votre projet. (voir fichiers sql.example.php et config.example.php)
+ * PENSEZ à créer les fichiers de configuration de votre projet. (voir fichiers sql.example.php et config.example.php) et à créer une base de donnée 
  */
 
 
@@ -15,15 +15,16 @@ if (file_exists($p . '/sql.php')) require_once $p . '/sql.php';
 else die('Le fichier de configuration de la base de données SQL n\'existe pas.');
 
 $sql = [
+    'DROP TABLE IF EXISTS `transactions`',
     'DROP TABLE IF EXISTS `users`',
     'DROP TABLE IF EXISTS `campaigns`',
     'DROP TABLE IF EXISTS `events`',
-    'DROP TABLE IF EXISTS `transactions`',
+    
     /* A partir d'ici, ce sont des exemples de requêtes générées automatiquement */
     'CREATE TABLE `users` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
-        `firstName` varchar(255) NOT NULL,
-        `lastName` varchar(255) NOT NULL,
+        `first_name` varchar(255) NOT NULL,
+        `last_name` varchar(255) NOT NULL,
         `password` varchar(255),
         `email` varchar(255) NOT NULL,
         `role` varchar(255) NOT NULL DEFAULT "member",
@@ -31,6 +32,7 @@ $sql = [
         `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
+
     'CREATE TABLE IF NOT EXISTS `campaigns` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
@@ -39,6 +41,8 @@ $sql = [
         `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
+
+
     'CREATE TABLE IF NOT EXISTS `events` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
@@ -61,7 +65,7 @@ $sql = [
 ];
 
 $sql_data = [
-    'INSERT INTO `users` (`firstName`, `lastName`, `password`, `email`, `role`) VALUES
+    'INSERT INTO `users` (`first_name`, `last_name`, `password`, `email`, `role`) VALUES
         ("admin", "admin", NULL, "test.test@test.fr", "admin");'];
 
 $db = Model::getDatabaseInstance();
