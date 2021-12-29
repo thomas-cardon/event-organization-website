@@ -21,18 +21,30 @@ final class User extends Model
      * @param null $created_at
      * @param null $updated_at
      */
-    public function __construct($email, $firstName, $lastName, $password, $id = null, $role = null, $created_at = null, $updated_at = null)
+    public function __construct($email, $firstName, $lastName, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
         parent::__construct();
         echo 'The model has been initiated';
         $this->id = $id;
-        $this->password = $password;
+        $this->password = self::generatePassword();
         $this->email = $email;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
         $this->role = $role;
+    }
+
+    public static function generatePassword(): string
+    {
+        $comb = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array();
+        $combLen = strlen($comb) - 1;
+        for ($i = 0; $i < 12; $i++) {
+            $n = rand(0, $combLen);
+            $pass[] = $comb[$n];
+        }
+        return implode($pass);
     }
 
     public static function findAll(): array
