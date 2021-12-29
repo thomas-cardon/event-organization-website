@@ -43,7 +43,7 @@ final class View
         return self::$stylesheets;
     }
 
-    public static function addScript($id, $path, $offline = false, $position = 'head', $async = false, $type = 'text/javascript', $integrity, $crossorigin)
+    public static function addScript($id, $path, $integrity, $crossorigin, $async = false, $type = 'text/javascript', $position = 'head', $offline = false)
     {
         self::$scripts[$position][$id] = array(
             'path' => $path,
