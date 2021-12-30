@@ -9,7 +9,10 @@ trait ControllerHelpers {
     function redirect($endpoint, $options = array()) {
         header('Location: ' . BASE_PATH . $endpoint);
 
-        $_SESSION['alert'] = $options['alert'] ?? null;
+        if (isset($options['alert'])) {
+            $_SESSION['alert'] = $options['alert'];
+        }
+        
         exit();
     }
 
