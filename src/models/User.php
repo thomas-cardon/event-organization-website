@@ -89,21 +89,6 @@ final class User extends Model
         return null;
     }
 
-    public static function getByEmailAndPassword($email, $password)
-    {
-        $sql = 'SELECT * FROM users WHERE email = :email AND password = :password';
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
-        }
-        return null;
-    }
-
     public function save()
     {
         $sql = 'INSERT INTO users ( password, email, first_name,last_name) 
