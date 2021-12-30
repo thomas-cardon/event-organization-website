@@ -41,7 +41,7 @@ final class User extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach ($rows as $row) {
-            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
+            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
             $user[] = $user;
         }
@@ -57,7 +57,7 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
@@ -71,7 +71,7 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
@@ -79,11 +79,11 @@ final class User extends Model
 
     public function save()
     {
-        $sql = 'INSERT INTO users ( password, email, first_name,last_name) 
-                VALUES ( :password, :email, :first_name,:last_name)';
+        $sql = 'INSERT INTO users ( hash, email, first_name,last_name) 
+                VALUES ( :hash, :email, :first_name,:last_name)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
 
-        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':first_name', $this->firstName);
         $stmt->bindParam(':last_name', $this->lastName);
@@ -93,14 +93,14 @@ final class User extends Model
     public function update()
     {
         $sql = 'UPDATE users 
-                SET last_name = :last_name, first_name= :first_name, email = :email, role=:role, password=:password 
+                SET last_name = :last_name, first_name= :first_name, email = :email, role=:role, hash=:hash 
                 WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':last_name', $this->lastName);
         $stmt->bindParam(':first_name', $this->firstName);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':id', $this->id);
-        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':role', $this->role);
         $stmt->execute();
     }
