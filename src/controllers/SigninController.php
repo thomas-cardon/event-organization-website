@@ -16,10 +16,6 @@ final class SigninController
         ));
     }
 
-    private function userError($msg, $type = 'red') {
-        $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
-    }
-
     public function authAction($params, $post, $session) {
         // On vérifie si l'utilisateur est déjà authentifié
         if ($this->isAuthentified())
@@ -52,6 +48,10 @@ final class SigninController
             else $this->userError('Vos identifiants sont incorrects.');
         }
         else $this->userError('Aucun utilisateur avec cet identifiant existe.');
+    }
+
+    private function userError($msg, $type = 'red') {
+        $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
     }
 }
 
