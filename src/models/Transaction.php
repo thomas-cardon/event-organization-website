@@ -32,7 +32,7 @@ final class Transaction extends Model
 
     public function getUser()
     {
-        return User::findById($this->user_id);
+        return User::getById($this->user_id);
     }
 
     public function getEventId()

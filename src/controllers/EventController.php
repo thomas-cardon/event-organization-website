@@ -5,7 +5,7 @@ final class EventController
     use ControllerHelpers;
 
     public function seeAction($params, $post, $session)
-    {
+    {        
         $id = $params[0];
         $event = array(
                     'id' => 1,
