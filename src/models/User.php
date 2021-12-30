@@ -15,7 +15,6 @@ final class User extends Model
      * @param $email
      * @param $firstName
      * @param $lastName
-     * @param $password
      * @param null $id
      * @param null $role
      * @param null $created_at
@@ -24,7 +23,6 @@ final class User extends Model
     public function __construct($email, $firstName, $lastName, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
         parent::__construct();
-        echo 'The model has been initiated';
         $this->id = $id;
         $this->password = self::generatePassword();
         $this->email = $email;

@@ -82,23 +82,23 @@ final class Transaction extends Model
 
     public function save()
     {
-        $sql = "INSERT INTO transactions (user_id, event_id, amount, created_at) VALUES (:user_id, :event_id, :amount, :created_at)";
+        $sql = "INSERT INTO transactions (user_id, event_id, amount,comment) VALUES (:user_id, :event_id, :amount,:comment)";
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':event_id', $this->event_id);
         $stmt->bindParam(':amount', $this->amount);
-        $stmt->bindParam(':created_at', $this->created_at);
+        $stmt->bindParam(':comment', $this->comment);
+
         $stmt->execute();
     }
 
     public function update()
     {
-        $sql = "UPDATE transactions SET user_id = :user_id, event_id = :event_id, amount = :amount, comment = :comment, created_at = :created_at WHERE id = :id";
+        $sql = "UPDATE transactions SET user_id = :user_id, event_id = :event_id, amount = :amount, comment = :comment WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':event_id', $this->event_id);
         $stmt->bindParam(':amount', $this->amount);
-        $stmt->bindParam(':created_at', $this->created_at);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':comment', $this->comment);
         $stmt->execute();
