@@ -96,7 +96,7 @@ foreach ($sql_data as $query) {
 
 echo '</ul>';
 
-echo '<h5><i>Utilisateur Jane Doe créé avec en mot de passe: <code>this is a test password</code></i><h5>';
+echo '<h3><i>Utilisateur Jane Doe créé avec en mot de passe: <code>this is a test password</code></i><h3>';
 
 echo '<h1>Supprimez ce script</h1>';
 echo '<h2>Ce script est maintenant inutile, il à été renommé en .old.php.</h2>';
