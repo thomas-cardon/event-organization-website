@@ -61,7 +61,7 @@ final class User extends Model
 
     }
 
-    public static function get($id)
+    public static function getById($id)
     {
         $sql = 'SELECT * FROM users WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -75,7 +75,7 @@ final class User extends Model
         return null;
     }
 
-    public static function getByMail($email)
+    public static function getByEmail($email)
     {
         $sql = 'SELECT * FROM users WHERE email = :email';
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -219,6 +219,11 @@ final class User extends Model
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+    }
+
+    public function getName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**
