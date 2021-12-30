@@ -25,6 +25,36 @@ final class SignupController
             'authentified' => false
         ));
     }
+
+    /**
+     * Génère un mot de passe aléatoire
+     * @param $chars int Nombre de caractères du mot de passe
+     * @return string
+     * @author Thomas Cardon
+     */
+    private function generateRandomPassword($chars = 12) {
+        $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz!$%&/()=?*+-_.,;:';
+        return substr(str_shuffle($data), 0, $chars);
+    }
+
+    /**
+     * Génère un mot de passe aléatoire pour un utilisateur spécifié, le hashe et l'enregistre dans la base de données
+     * @todo: créer une action pour le tableau de bord qui utilisera cette fonction et enverra un mail, afin
+     * que l'administrateur puisse réinitialiser les mots de passes des utilisateurs
+     * @return string Mot de passe généré aléatoirement non hashé
+     * @author Thomas Cardon
+     */
+    public static function resetPassword($userId) {
+        $user = User::getById($userId);
+        if ($user) {
+            $password = $self->generatePassword(uniqid());
+            $user->password = password_hash($password, PASSWORD_DEFAULT);
+            $user->save();
+            return $password;
+        }
+
+        throw new Exception('Utilisateur inconnu');
+    }
 }
 
 ?>

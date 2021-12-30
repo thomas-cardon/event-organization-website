@@ -27,8 +27,8 @@ main, header, section, aside, footer {
 }
 
 a {
-    text-decoration: none;
-	color: #FBAE3C;
+  text-decoration: none;
+	color: rgb(231, 209, 177);
 }
 
 /**

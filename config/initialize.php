@@ -25,7 +25,7 @@ $sql = [
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `first_name` varchar(255) NOT NULL,
         `last_name` varchar(255) NOT NULL,
-        `password` varchar(255),
+        `hash` varchar(255),
         `email` varchar(255) NOT NULL,
         `role` varchar(255) NOT NULL DEFAULT \'member\',
         `created_at` DATETIME DEFAULT NOW(),
@@ -70,8 +70,8 @@ $sql_data = [
 (1, 'la campagne', 'la description', '2021-12-29 11:52:28', '2021-12-29 12:52:28');",
     "INSERT INTO `events` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
 (1, 'event1', 'la description', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
-    "INSERT INTO `users` (`id`, `first_name`, `last_name`, `password`, `email`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'admin2', 'admin', NULL, 'test.test@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
+    "INSERT INTO `users` (`id`, `first_name`, `last_name`, `hash`, `email`, `role`, `created_at`, `updated_at`) VALUES
+(1, 'Jane', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test.test@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
     "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES
 (2, 1, 1, 3333, '2021-12-29 12:41:48', 'le commentaire');"];
 
@@ -93,7 +93,11 @@ foreach ($sql_data as $query) {
     echo '<li>' . $query . '</li>';
     $db->query($query);
 }
+
 echo '</ul>';
+
+echo '<h3><i>Utilisateur Jane Doe créé avec en mot de passe: <code>this is a test password</code></i><h3>';
+
 echo '<h1>Supprimez ce script</h1>';
 echo '<h2>Ce script est maintenant inutile, il à été renommé en .old.php.</h2>';
 
