@@ -30,6 +30,11 @@ final class Transaction extends Model
         return $this->user_id;
     }
 
+    public function getUser()
+    {
+        return User::getById($this->user_id);
+    }
+
     public function getEventId()
     {
         return $this->event_id;
@@ -112,7 +117,7 @@ final class Transaction extends Model
         $stmt->execute();
     }
 
-    public static function find($id)
+    public static function getById($id)
     {
         $sql = "SELECT * FROM transactions WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -170,7 +175,7 @@ final class Transaction extends Model
         return $transactions;
     }
 
-    public static function findByUserIdAndEventId($user_id, $event_id)
+    public static function getByUserIdAndEventId($user_id, $event_id)
     {
         $sql = "SELECT * FROM transactions WHERE user_id = :user_id AND event_id = :event_id";
         $stmt = self::getDatabaseInstance()->prepare($sql);

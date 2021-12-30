@@ -6,7 +6,7 @@ final class User extends Model
     private $email;
     private $firstName;
     private $lastName;
-    private $password;
+    private $hash;
     private $role;
     private $created_at;
     private $updated_at;
@@ -20,29 +20,17 @@ final class User extends Model
      * @param null $created_at
      * @param null $updated_at
      */
-    public function __construct($email, $firstName, $lastName, $id = null, $role = null, $created_at = null, $updated_at = null)
+    public function __construct($email, $firstName, $lastName, $hash, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
         parent::__construct();
         $this->id = $id;
-        $this->password = self::generatePassword();
+        $this->hash = $hash;
         $this->email = $email;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
         $this->role = $role;
-    }
-
-    public static function generatePassword(): string
-    {
-        $comb = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass = array();
-        $combLen = strlen($comb) - 1;
-        for ($i = 0; $i < 12; $i++) {
-            $n = rand(0, $combLen);
-            $pass[] = $comb[$n];
-        }
-        return implode($pass);
     }
 
     public static function findAll(): array
@@ -61,7 +49,7 @@ final class User extends Model
 
     }
 
-    public static function get($id)
+    public static function getById($id)
     {
         $sql = 'SELECT * FROM users WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -75,26 +63,11 @@ final class User extends Model
         return null;
     }
 
-    public static function getByMail($email)
+    public static function getByEmail($email)
     {
         $sql = 'SELECT * FROM users WHERE email = :email';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['password'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
-        }
-        return null;
-    }
-
-    public static function getByEmailAndPassword($email, $password)
-    {
-        $sql = 'SELECT * FROM users WHERE email = :email AND password = :password';
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
@@ -160,17 +133,8 @@ final class User extends Model
     /**
      * @return mixed
      */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
+    public function getHash() {
+        return $this->hash;
     }
 
     /**
@@ -219,6 +183,11 @@ final class User extends Model
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+    }
+
+    public function getName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**
