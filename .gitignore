@@ -10,3 +10,5 @@ config/sql.php
 .DS_Store
 
 config/config.php
+
+config/initialize.old.php

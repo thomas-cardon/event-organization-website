@@ -1,13 +1,12 @@
 <section class="dashboard-content">
     <h1>Créer un utilisateur</h2>
-    <form action="/my-mvc-template/signin/auth" method="POST">
-        <div class="w-1/2 input-group horizontal">
-            <input class="w-full text-white" type="text" aria-label="Son nom" placeholder="Votre nom">
-            <input class="w-full text-white" type="text" aria-label="Son prénom" placeholder="Votre prénom">
-            <input class="w-full text-white" type="text" aria-label="Son adresse-mail" placeholder="Votre adresse-mail">
-            <input class="w-full text-white" type="text" aria-label="Son mot de passe" placeholder="Votre mot de passe">
+    <form action="" method="POST">
+        <div class="input-group horizontal">
+            <input autofocus class="w-full" type="text" aria-label="Nom" placeholder="Nom">
+            <input class="w-full" type="text" aria-label="Prénom" placeholder="Prénom">
+            <input class="w-full" type="text" aria-label="Adresse e-mail" placeholder="Adresse e-mail">
          </div>
-        <div class="flex justify-center w-1/2 horizontal">
+        <div class="flex justify-center horizontal">
 
             <div class="inline checkbox">
                 <input type="radio" id="admin" name="role" aria-label="Rôle choisi: administrateur">
@@ -30,6 +29,12 @@
                 <label class="w-full text-white" for="public">Public</label>
             </div>
         </div>
+
+        <p style="margin-top: 1.5rem; text-align: justify; font-size: large">
+            <i>
+                Le mot de passe sera créé par l'utilisateur lors de sa première connexion.
+            </i>
+        </p>
 
         <div class="actions">
             <input type="submit" value="Créer">

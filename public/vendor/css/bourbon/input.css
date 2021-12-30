@@ -14,20 +14,19 @@ button, input, optgroup, select, textarea {
 }
 
 .btn, button, [type='button'], [type='reset'], [type='submit'] {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    min-height: 48px;
+    min-width: 120px;
+
+    display: block;
 
     -webkit-appearance: button;
     outline: none;
     border: none;
-
-    border-radius: .25rem;
+    border-radius: 5px;
 
     font-family: Poppins, sans-serif;
     font-weight: 900;
-    font-size: 18px;
+    font-size: 1.2rem;
     font-style: normal;
     line-height: 4vh;
     letter-spacing: 1.8px;
@@ -39,32 +38,54 @@ button, input, optgroup, select, textarea {
     padding: 0.5rem 1rem;
 
     color: black;
-    background: #fff;
+    background: var(--color-light);
 
-    border: 1px solid #fff;
     background-position: center;
-    transition: all .3s;
+    transition: all .3s ease;
 
     box-shadow: 5px 5px 5px #0000001a;
 
     text-transform: uppercase;
+    text-align: center;
+}
+
+.btn:has(svg), button:has(svg), [type='button']:has(svg), [type='reset']:has(svg), [type='submit']:has(svg) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn:hover, button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover {
-    transform: scale(1.05);
+    background-color: var(--color-light-hover);
+}
+
+.buttons.horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 .5rem;
+    max-width: 100%;
+}
+
+.buttons.horizontal > * {
+    position: relative;
+    flex: 1 1 auto;
 }
 
 nav.buttons.vertical {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: start;
 
     position: absolute;
 
     background-color: #0C0C0E;
 
-    left: 3%;
+    left: 2%;
     top: 10%;
     border-radius: 0.8rem;
 
@@ -81,11 +102,7 @@ nav.buttons.vertical > * {
 
 nav.buttons.vertical svg {
     fill: white;
-    width: 1rem;
-}
-
-nav.buttons.vertical > *:hover {
-    background-color: #6746ED;
+    width: 1.5rem;
 }
 
 nav.buttons.vertical > *:last-child {
@@ -94,8 +111,11 @@ nav.buttons.vertical > *:last-child {
 
 button.action, .btn.action {
     color: #fff;
-    background: #c25be9;
-    border: 1px solid #c25be9;
+    background: var(--color-primary);
+}
+
+.action:hover, nav.buttons.vertical > *:hover {
+    background-color: var(--color-primary-hover);
 }
 
 button.sm, .btn.sm {
@@ -113,7 +133,7 @@ button.green, .btn.green {
 
 .btn > svg, button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
     margin-right: 0.5rem;
-    width: 32px;
+    width: 1rem;
 }
 
 .button-group {
@@ -125,7 +145,7 @@ button.green, .btn.green {
     margin-right: 1rem;
 }
 
-input {
+input, textarea {
     --bg-opacity: 1;
 
     margin: 0.5rem 0;
@@ -144,24 +164,27 @@ input {
     font-size: 1.1rem;
 }
 
-input::placeholder {
+input::placeholder, textarea::placeholder {
     color: #fff;
     font-style: italic;
 }
 
-input.glass {
+input.glass, textarea.glass {
     border-radius: .5rem;
     font-family: monospace;
 }
 
 .input-group {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap:wrap;
 }
 
 .input-group.horizontal {
     flex-direction: row;
+}
+
+.input-group > * {
+    width: 100%;
 }
 
 .input-group:not(.horizontal) > *:not(:last-child) {

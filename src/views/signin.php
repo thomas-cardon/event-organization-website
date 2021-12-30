@@ -9,9 +9,9 @@
         </div>
     <?php endif; ?>
 
-    <section class="hero">
+    <section class="lead">
         <section class="p-2" style="margin: auto auto !important;width: 50rem;">
-            <h1 class="font-hero slide-in-bottom-h1">Connexion</h1>
+            <h1 class="slide-in-bottom-h1">Connexion</h1>
             <h6 class="text-gray-1 slide-in-bottom-subtitle subtitle">
                 Connectez-vous pour accéder à votre espace personnel et gérer vos évènements.
             </h6>            

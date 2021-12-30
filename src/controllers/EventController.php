@@ -5,7 +5,7 @@ final class EventController
     use ControllerHelpers;
 
     public function seeAction($params, $post, $session)
-    {
+    {        
         $id = $params[0];
         $event = array(
                     'id' => 1,
@@ -62,7 +62,21 @@ final class EventController
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? null,
             'body' => View::get('event/see', array(
-                'event' => $event
+                'event' => $event,
+                'donations' => Transaction::findByEventId($id)
+            ))
+        ));
+
+        $_SESSION['alert'] = null;
+    }
+
+    public function winnersAction() {
+        View::show('event', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'] ?? null,
+            'body' => View::get('event/winners', array(
+                'winners' => array()
             ))
         ));
 

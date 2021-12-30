@@ -12,63 +12,62 @@
     <table id="recentUsers" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th>Rôle</th>
+                <th>Statut</th>
                 <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Date d'inscription</th>
+                <th>Campagne</th>
+                <th>Points</th>
+                <th>Voir</th>
+                <th>Modifier</th>
             </tr>
         </thead>
         <tbody>
-          <?php $params['recent_users'] = array(
+          <?php $params['recent_events'] = array(
                 (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'admin',
-                    'createdAt' => '2020-01-01 00:00:00'
+                    'id' => 1,
+                    'name' => 'Event 1',
+                    'campaignName' => 'Campaign 1',
+                    'status' => 'success', // inProgress, success, failure
+                    'points' => 1000
                 ),
                 (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'organizer',
-                    'createdAt' => '2020-01-01 00:00:00'
+                    'id' => 2,
+                    'name' => 'Event 2',
+                    'campaignName' => 'Campaign 1',
+                    'status' => 'inProgress', // inProgress, success, failure
+                    'points' => 1000
                 ),
                 (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'admin',
-                    'createdAt' => '2020-01-01 00:00:00'
+                    'id' => 3,
+                    'name' => 'Event 3',
+                    'campaignName' => 'Campaign 1',
+                    'status' => 'inProgress', // inProgress, success, failure
+                    'points' => 1000
                 ),
                 (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'organizer',
-                    'createdAt' => '2020-01-01 00:00:00'
+                    'id' => 4,
+                    'name' => 'Event 4',
+                    'campaignName' => 'Campaign 1',
+                    'status' => 'inProgress', // inProgress, success, failure
+                    'points' => 1000
                 ),
-                (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'donor',
-                    'createdAt' => '2020-01-01 00:00:00'
-                )
             );
           ?>
-          <?php foreach ($params['recent_users'] as $user) : ?>
+          <?php foreach ($params['recent_events'] as $event) : ?>
             <tr>
                 <td>
-                    <div class="role <?php echo $user->role ?>"></div>
+                    <div class="role <?php echo $event->status ?>"></div>
                 </td>
                 <td>
-                    <?php echo $user->lastName ?>
+                    <?php echo $event->name ?>
                 </td>
-                <td><?php echo $user->firstName ?></td>
-                <td><?php echo $user->email ?></td>
-                <td><?php echo $user->createdAt ?></td>
+                <td>
+                    <i>
+                        <?php echo $event->campaignName ?>
+                    </i>
+                </td>
+                <td><?php echo $event->points ?></td>
+                <td><a href="<?php echo BASE_PATH . '/event/see/' . $event->id; ?>">Voir</a></td>
+                <td><a href="<?php echo BASE_PATH . '/dashboard/edit-event/' . $event->id; ?>">Modifier</a></td>
             </tr>
           <?php endforeach ?>
         </tbody>

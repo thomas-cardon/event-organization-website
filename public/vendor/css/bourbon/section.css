@@ -2,27 +2,39 @@ section.horizontal > div {
     margin: 0 1rem;
 }
 
-section.hero {
+section.horizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: "header" "content" "footer";
+    grid-gap: 1rem;
+
     background: url(../../svg/landing-bg.svg);
     background-size: cover;
     background-position: center;
 
-    margin: auto;
     min-height: 100vh;
 }
 
 main > header + section {
-  padding-top: 3.5rem;
+  grid-area: content;
+}
+
+.hero {
+    margin: auto auto;
 }
 
 .lead {
-    margin: auto 2rem !important;
-}
-
-@media (max-width: 767.98px) {
-    .lead {
-        margin: auto auto !important;
-    }
+    margin: 0 auto;
 }
 
 .lead > div {
@@ -30,11 +42,12 @@ main > header + section {
 }
 
 @media only screen and (max-width: 1440px) {
-    .lead > div:first-child {
-        padding-top: 3rem;
+    .lead {
+        gap: 3rem;
+        margin-top: 3rem;
     }
+}
 
-    .lead > div:not(:last-child) {
-        padding-bottom: 3rem;
-    }
+.lead h1:first-of-type {
+    margin-bottom: 1rem;
 }

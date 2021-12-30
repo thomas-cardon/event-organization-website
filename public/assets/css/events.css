@@ -1,10 +1,10 @@
 .events {
-  margin: 1.5rem 12rem;
+  margin: 1rem 2rem;
 
   display: grid; 
   grid-template-columns: 2fr 1.2fr; 
   grid-template-rows: 1fr; 
-  gap: 1em 3em; 
+  gap: 0 9rem; 
   grid-template-areas: 
     "overview aside"
     ". aside"; 
@@ -17,11 +17,9 @@
 
 aside {
   grid-area: aside;
-}
-
-.user {
-  height: fit-content;
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem 0;
 }
 
 .overview > header {
@@ -38,13 +36,11 @@ aside {
 
 @media (max-width: 767.98px) {
     .events {
-      grid-template-columns: 1fr; 
-      grid-template-rows: 1fr 1fr; 
-      gap: 1em; 
-      grid-template-areas: 
-        "overview"
-        "user"
-        "misc";
+      gap: .5rem;
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "overview overview"
+        "aside aside";
     }
 }
 
@@ -57,10 +53,14 @@ h2 { /* Title */
 h2.sm { font-size: clamp(1rem, -0.875rem + 6.667vw, 2.5rem); }
 
 h3 { /* Subtitle */
-  font-size: clamp(0.5rem, -0.875rem + 2vw, 2rem);
-  font-weight: 400;
-  margin-top: -.25rem;
-  margin-bottom: 1rem;
+  font-size: clamp(1rem, -0.875rem + 2vw, 2.5rem);
+  font-weight: bold;
+}
+
+.desc {
+  font-weight: normal;
+  text-align: left;
+  font-style: italic;
 }
 
 .meta {
@@ -133,11 +133,8 @@ h3 { /* Subtitle */
 }
 
 .unlockable-content-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 50%;
-  grid-auto-columns: 50%;
-  grid-gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .unlockable-content {
@@ -146,12 +143,14 @@ h3 { /* Subtitle */
   justify-content: center;
   align-items: center;
 
-  height: 10vmax;
-  width: 100%;
+  width: calc(50% - 1rem);
+  margin: .5rem;
 }
 
-.unlockable-content > h3, .unlockable-content > p {
-  margin: 0 !important;
+@media screen and (max-width: 767.98px) {
+  .unlockable-content {
+    width: calc(100% - 1rem);
+  }
 }
 
 .unlockable-content > svg {
@@ -159,4 +158,102 @@ h3 { /* Subtitle */
   width: 3.5vmax;
 
   margin: 1rem 0;
+}
+
+#donationSorting {
+  color: white;
+  text-decoration: none;
+}
+
+table svg {
+  height: 1.5rem;
+  width: 1.5rem;
+
+  vertical-align: middle;
+}
+
+table {
+  margin: 1rem 2rem;
+  width: 100%;
+  
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: .5em 0 .75em;
+}
+
+table tr {
+  padding: .35em;
+}
+
+table th,
+table td {
+  padding: .625em;
+  text-align: center;
+}
+
+table th {
+  font-weight: bolder;
+  font-size: 1.05em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+table thead {
+  border-bottom: 2px solid #e6e6e63b;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+  
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  table td:last-child {
+    border-bottom: 0;
+  }
 }

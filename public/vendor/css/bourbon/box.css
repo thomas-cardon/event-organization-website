@@ -1,9 +1,0 @@
-main, header, section, aside, footer {
-    margin: 0;
-    color: #ffffff;
-}
-
-.wrapper {
-    margin: auto;
-    max-width: 75rem;
-}

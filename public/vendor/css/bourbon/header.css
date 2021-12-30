@@ -3,18 +3,19 @@
 * @author: Thomas Cardon
 */
 main > header {
-  position: fixed;
-  display: flex;
+  grid-area: header;
 
   width: 100%;
+  padding: 1rem;
 
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 main > header svg {
   height: auto;
-  width: clamp(1.5rem, 2.5vw, 2.5rem);
+  width: var(--size-700);
   fill: currentColor;
   padding-right: .5rem;
 }
@@ -28,9 +29,9 @@ main > header > nav {
   margin: 0 1rem;
 }
 
-main.page > header {
-  position: relative;
-  background-color: #001220;
+.brand {
+  color: var(--color-primary);
+  fill: currentColor;
 }
 
 @media (min-width: 640px) {
@@ -44,39 +45,29 @@ main.page > header {
 }
 
 header a {
-  text-decoration: none;
   color: white;
-}
-
-h1 {
-  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-}
-
-h6 {
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  font-weight: normal;
 }
 
 h6.subtitle {
   line-height: 0;
 }
 
-/* When the screen is les .brands than 767.98px pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+.close {
+  display: none;
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 767.98px) {
+  main > header {
+    line-height: 0.3;
+  }
+
   main > header a:not(.close, .brand) {display: none;}
   main > header a.icon {
     float: right;
     display: block;
   }
-}
 
-.close {
-  display: none;
-}
-
-
-/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-@media screen and (max-width: 767.98px) {
   .responsive {
     position: unset;
     flex-direction: column;
@@ -96,9 +87,8 @@ h6.subtitle {
     right: 0;
     top: 0;
 
-    font-size: 4rem;
-    line-height: 0.3;
-    padding: 1rem 0;
+    font-size: var(--size-1000);
+    padding: .75rem 0;
   }
 
   main > header.responsive a:not(.brand, .close) {
@@ -111,7 +101,7 @@ h6.subtitle {
   }
 }
 
-@media screen and (min-width: 767.98px) {
+@media screen and (min-width: 767.98px) {  
   main > header a.active {
     color: white;
     background: rgba(0,204,231,.35);
