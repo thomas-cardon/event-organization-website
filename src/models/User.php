@@ -6,7 +6,7 @@ final class User extends Model
     private $email;
     private $firstName;
     private $lastName;
-    private $password;
+    private $hash;
     private $role;
     private $created_at;
     private $updated_at;
@@ -20,29 +20,17 @@ final class User extends Model
      * @param null $created_at
      * @param null $updated_at
      */
-    public function __construct($email, $firstName, $lastName, $id = null, $role = null, $created_at = null, $updated_at = null)
+    public function __construct($email, $firstName, $lastName, $hash, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
         parent::__construct();
         $this->id = $id;
-        $this->password = self::generatePassword();
+        $this->hash = $hash;
         $this->email = $email;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
         $this->role = $role;
-    }
-
-    public static function generatePassword(): string
-    {
-        $comb = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass = array();
-        $combLen = strlen($comb) - 1;
-        for ($i = 0; $i < 12; $i++) {
-            $n = rand(0, $combLen);
-            $pass[] = $comb[$n];
-        }
-        return implode($pass);
     }
 
     public static function findAll(): array
@@ -145,17 +133,8 @@ final class User extends Model
     /**
      * @return mixed
      */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
+    public function getHash() {
+        return $this->hash;
     }
 
     /**
