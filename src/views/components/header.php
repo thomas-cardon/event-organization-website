@@ -14,7 +14,7 @@
             E-Event.IO&nbsp;
             <?php if ($params['authentified'] ?? false) : ?>
             <span class="text-white">|</span>
-            <span class="text-white"><?php echo $params['user']['firstName'] . ' ' . $params['user']['lastName']; ?></span>
+            <span class="text-white"><?php echo $params['user']->getName(); ?></span>
             <?php endif; ?>
         </h3>
     </a>
