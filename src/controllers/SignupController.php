@@ -52,7 +52,7 @@ final class SignupController
             $user->setHash(password_hash($password, PASSWORD_DEFAULT)) ;
             $user->save();
             $message =  'Here are your registration details:\n'.
-                'Email: '.$user->getEmail().
+                'Email: '.$user->getEmail().'\n'.
                 'Password : '.$password;
 
             mail($user->getEmail(),"Your identifiers",$message);
