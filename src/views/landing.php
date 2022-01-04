@@ -15,19 +15,19 @@
                 <p class="text-gray-1 slide-in-bottom-subtitle">
                     Créez vos évènements en quelques clics, gérez vos invités, organisez sans inquiétude votre soirée.
                 </p>
-                <div class="buttons horizontal" style="margin-top: 1rem">
-                    <?php if (!$params['authentified']) : ?>
-                        <a class="btn action slide-in-bottom" href="<?php echo BASE_PATH ?>/signup" style="margin-top: 1rem" style="margin-top: 1rem">Inscrivez-vous</a>
-                        <a class="btn slide-in-bottom" href="<?php echo BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
-                    <?php else : ?>
-                        <button class="flex items-center px-4 py-2 text-sm font-medium slide-in-bottom sm text-green-6 green">
-                            <svg class="text-green-5" width="12" height="20" fill="currentColor">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 5a1 1 0 011 1v3h3a1 1 0 110 2H7v3a1 1 0 11-2 0v-3H2a1 1 0 110-2h3V6a1 1 0 011-1z"></path>
-                            </svg>
-                            Nouveau
-                        </button>
-                    <?php endif; ?>
-                </div>
+                <?php if (!$params['authentified']) : ?>
+                    <div class="buttons horizontal" style="margin-top: 1rem">
+                            <a class="btn action slide-in-bottom" href="<?php echo BASE_PATH ?>/signup" style="margin-top: 1rem" style="margin-top: 1rem">Inscrivez-vous</a>
+                            <a class="btn slide-in-bottom" href="<?php echo BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
+                    </div>
+                <?php else : ?>
+                    <button style="margin-top: 1rem" class="flex items-center text-sm font-medium slide-in-bottom text-green-6 green">
+                        <svg class="text-green-5" width="12" height="20" fill="currentColor">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6 5a1 1 0 011 1v3h3a1 1 0 110 2H7v3a1 1 0 11-2 0v-3H2a1 1 0 110-2h3V6a1 1 0 011-1z"></path>
+                        </svg>
+                        Nouveau
+                    </button>
+                <?php endif; ?>
             </div>
             <div id="recentEvents" class="fade-in glass text-gray-less">
                 <header class="flex items-center justify-between">
@@ -37,14 +37,6 @@
                             Campagne du 01/01: <i>Tournoi volleyball</i>
                         </p>
                     </div>
-                    <?php if ($params['authentified']) : ?>
-                        <button class="flex items-center px-4 py-2 text-sm font-medium sm text-green-6 green">
-                            <svg class="text-green-5" width="12" height="20" fill="currentColor">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 5a1 1 0 011 1v3h3a1 1 0 110 2H7v3a1 1 0 11-2 0v-3H2a1 1 0 110-2h3V6a1 1 0 011-1z"></path>
-                            </svg>
-                            Nouveau
-                        </button>
-                    <?php endif; ?>
                 </header>
 
                 <ul>

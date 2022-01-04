@@ -70,7 +70,7 @@ final class EventController
         $_SESSION['alert'] = null;
     }
 
-    public function winnersAction() {
+    public function winnersAction($params, $post, $session) {
         View::show('event', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
