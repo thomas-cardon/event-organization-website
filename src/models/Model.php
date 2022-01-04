@@ -1,10 +1,4 @@
 <?php
-    define('DB_HOST', 'localhost');
-    define('DB_NAME', 'e-event.io');
-    define('DB_USER', 'root');
-    define('DB_PASS', '');
-    define('DB_CHARSET', 'utf8');
-    define('DB_COLLATE', '');
 class Model {
     protected static $db = null;
 
