@@ -7,38 +7,27 @@
  */
 trait ControllerHelpers {
     function redirect($endpoint, $options = array()) {
+        $_SESSION['alert'] = $options['alert'] ?? $_SESSION['alert'] ?? null;
         header('Location: ' . BASE_PATH . $endpoint);
-
-        $_SESSION['alert'] = $options['alert'] ?? null;
         exit();
     }
 
     /**
      * isAuthentified
      * Vérifie si l'utilisateur est authentifié
-     * @author : Enzo Vargas
+     * @author : ???
      * @return Boolean
      */
     public function isAuthentified() {
-        //$_SESSION['user'] = null;
-       //var_dump($_SESSION);
-        if(isset($_SESSION['user'])){
-            return true;
-        }
-        else {
-            return false;
-        }
+        // return isset($_SESSION['user']); idées, à vous de voir? :)
+        // isset: renvoie true si la variable existe, false sinon
+        // $_SESSION: tableau associatif qui contient les variables de session
+        return false;
     }
 
     public function getCurrentUser() {
         // return $_SESSION['user']; idées, à vous de voir? :)
         return null;
-    }
-
-    public function hasRole(){
-        $role = User::getUserRole();
-        var_dump($role);
-        return $role;
     }
 }
 
@@ -118,6 +107,7 @@ final class Controller
 
         $result = call_user_func_array(array(new $this->_url['controller'],
             $this->_url['action']), array($this->_params, $_POST, $_SESSION));
+
         if (false === $result) {
             throw new ControllerException("L'action " . $this->_url['action'] .
                 " du contrôleur " . $this->_url['controller'] . " a rencontré une erreur.");
