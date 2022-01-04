@@ -51,11 +51,11 @@ final class SignupController
             $password = (new SignupController)->generateRandomPassword(uniqid());
             $user->setHash(password_hash($password, PASSWORD_DEFAULT)) ;
             $user->save();
-            $message =  'Here are your registration details:\n'.
-                'Email: '.$user->getEmail().'\n'.
-                'Password : '.$password;
+            $message =  'Voici vos identifiants pour se connecter à E-event.io\n'.
+                'email: '.$user->getEmail().'\n'.
+                'mot de passe: '.$password;
 
-            mail($user->getEmail(),"Your identifiers",$message);
+            mail($user->getEmail(),"vos identifiant pour se conecter à E-event.io",$message);
 
             return $password;
         }
