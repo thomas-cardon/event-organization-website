@@ -6,6 +6,11 @@
  * @author Thomas Cardon - https://github.com/thomas-cardon
  */
 trait ControllerHelpers {
+    /**
+     * Redirect to a given url
+     * @param string $endpoint
+     * @param array $options
+     */
     function redirect($endpoint, $options = array()) {
         $_SESSION['alert'] = $options['alert'] ?? $_SESSION['alert'] ?? null;
         header('Location: ' . BASE_PATH . $endpoint);
@@ -19,15 +24,11 @@ trait ControllerHelpers {
      * @return Boolean
      */
     public function isAuthentified() {
-        // return isset($_SESSION['user']); idées, à vous de voir? :)
-        // isset: renvoie true si la variable existe, false sinon
-        // $_SESSION: tableau associatif qui contient les variables de session
-        return false;
+        return isset($_SESSION['user']);
     }
 
     public function getCurrentUser() {
-        // return $_SESSION['user']; idées, à vous de voir? :)
-        return null;
+        return $_SESSION['user'];
     }
 }
 
