@@ -230,11 +230,4 @@ final class User extends Model
     {
         $this->role = $role;
     }
-
-    public function getUserRole()
-    {
-        $id = $_SESSION['user'];
-        $req = $this->conn()->query("SELECT role FROM user WHERE `id`='" . $id . "'");
-        return $req;
-    }
 }
