@@ -37,6 +37,7 @@ final class SignupController
         return substr(str_shuffle($data), 0, $chars);
     }
 
+
     /**
      * Génère un mot de passe aléatoire pour un utilisateur spécifié, le hashe et l'enregistre dans la base de données
      * @todo: créer une action pour le tableau de bord qui utilisera cette fonction et enverra un mail, afin
@@ -47,14 +48,21 @@ final class SignupController
     public static function resetPassword($userId) {
         $user = User::getById($userId);
         if ($user) {
-            $password = $self->generatePassword(uniqid());
-            $user->password = password_hash($password, PASSWORD_DEFAULT);
+            $password = (new SignupController)->generateRandomPassword(uniqid());
+            $user->setHash(password_hash($password, PASSWORD_DEFAULT)) ;
             $user->save();
+            $message =  'Here are your registration details:\n'.
+                'Email: '.$user->getEmail().
+                'Password : '.$password;
+
+            mail($user->getEmail(),"Your identifiers",$message);
+
             return $password;
         }
 
         throw new Exception('Utilisateur inconnu');
     }
+
 }
 
 ?>
