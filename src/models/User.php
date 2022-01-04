@@ -10,17 +10,10 @@ final class User extends Model
     private $role;
     private $created_at;
     private $updated_at;
+    private $point;
 
-    /**
-     * @param $email
-     * @param $firstName
-     * @param $lastName
-     * @param null $id
-     * @param null $role
-     * @param null $created_at
-     * @param null $updated_at
-     */
-    public function __construct($email, $firstName, $lastName, $hash, $id = null, $role = null, $created_at = null, $updated_at = null)
+
+    public function __construct($email, $firstName, $lastName, $hash, $point = null, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
         parent::__construct();
         $this->id = $id;
@@ -41,7 +34,7 @@ final class User extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach ($rows as $row) {
-            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],
+            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['point'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
             $user[] = $user;
         }
@@ -57,7 +50,7 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['point'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
@@ -71,7 +64,7 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['point'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
@@ -80,13 +73,14 @@ final class User extends Model
     public function save()
     {
         $sql = 'INSERT INTO users ( hash, email, first_name,last_name) 
-                VALUES ( :hash, :email, :first_name,:last_name)';
+                VALUES ( :hash, :email, :first_name,:last_name,:point)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
 
         $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':first_name', $this->firstName);
         $stmt->bindParam(':last_name', $this->lastName);
+        $stmt->bindParam(':point', $this->point);
         $stmt->execute();
     }
 
@@ -102,6 +96,7 @@ final class User extends Model
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':role', $this->role);
+        $stmt->bindParam(':point', $this->point);
         $stmt->execute();
     }
 
