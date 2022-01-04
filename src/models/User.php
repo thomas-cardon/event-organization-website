@@ -13,7 +13,7 @@ final class User extends Model
     private $point;
 
 
-    public function __construct($email, $firstName, $lastName, $hash, $point = null, $id = null, $role = null, $created_at = null, $updated_at = null)
+    public function __construct($email, $firstName, $lastName, $hash, $point = 0, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
         parent::__construct();
         $this->id = $id;
@@ -24,6 +24,7 @@ final class User extends Model
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
         $this->role = $role;
+        $this->point= $point;
     }
 
     public static function findAll(): array
@@ -72,7 +73,7 @@ final class User extends Model
 
     public function save()
     {
-        $sql = 'INSERT INTO users ( hash, email, first_name,last_name) 
+        $sql = 'INSERT INTO users ( hash, email, first_name,last_name,point) 
                 VALUES ( :hash, :email, :first_name,:last_name,:point)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
 
@@ -81,6 +82,7 @@ final class User extends Model
         $stmt->bindParam(':first_name', $this->firstName);
         $stmt->bindParam(':last_name', $this->lastName);
         $stmt->bindParam(':point', $this->point);
+
         $stmt->execute();
     }
 
