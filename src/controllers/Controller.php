@@ -30,8 +30,7 @@ trait ControllerHelpers {
     }
 
     public function getCurrentUser() {
-        // return $_SESSION['user']; idées, à vous de voir? :)
-        return null;
+        return $_SESSION['user'];
     }
 }
 
