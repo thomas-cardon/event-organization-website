@@ -60,18 +60,25 @@ final class SignupController
      * @return string Mot de passe généré aléatoirement non hashé
      * @author Thomas Cardon
      */
-    public static function resetPassword($userId) {
+    public static function resetPassword($userId, $new = true) {
         $user = User::getById($userId);
         if ($user) {
             $password = (new SignupController)->generateRandomPassword(uniqid());
             $user->setHash(password_hash($password, PASSWORD_DEFAULT));
             $user->save();
 
-            $message =  'Voici vos identifiants pour se connecter à E-event.io\n'.
-                'Email: '.$user->getEmail().'\n' .
-                'Mot de passe: '. $password . '\n' .
-                'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
-
+            if ($new)
+                $message =  'Voici vos identifiants pour se connecter à E-event.io\n' .
+                    'Email: '.$user->getEmail().'\n' .
+                    'Mot de passe: '. $password . '\n' .
+                    'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
+            else
+                $message = 'Votre mot de passe a été réinitialisé.\n' .
+                    'Voici vos identifiants pour se connecter à E-event.io\n' .
+                    'Email: '.$user->getEmail().'\n' .
+                    'Mot de passe: '. $password . '\n' .
+                    'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
+                    
             mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message);
 
             return $password;
