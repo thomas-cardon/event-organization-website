@@ -20,13 +20,11 @@
                             <a class="btn action slide-in-bottom" href="<?php echo BASE_PATH ?>/signup" style="margin-top: 1rem" style="margin-top: 1rem">Inscrivez-vous</a>
                             <a class="btn slide-in-bottom" href="<?php echo BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
                     </div>
-                <?php else : ?>
-                    <button style="margin-top: 1rem" class="flex items-center text-sm font-medium slide-in-bottom text-green-6 green">
-                        <svg class="text-green-5" width="12" height="20" fill="currentColor">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6 5a1 1 0 011 1v3h3a1 1 0 110 2H7v3a1 1 0 11-2 0v-3H2a1 1 0 110-2h3V6a1 1 0 011-1z"></path>
-                        </svg>
+                <?php elseif ($params['user']->getRole() === 'organizer' || $params['user']->getRole() === 'admin'): ?>
+                    <a href="<?php echo BASE_PATH; ?>/dashboard/create-event" style="margin-top: 1rem; width: 12rem;" class="btn horizontal text-sm font-medium slide-in-bottom text-green-6 green">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="text-green-5" fill="currentColor" width="50" height="50" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>
                         Nouveau
-                    </button>
+                    </a>
                 <?php endif; ?>
             </div>
             <div id="recentEvents" class="fade-in glass text-gray-less">
