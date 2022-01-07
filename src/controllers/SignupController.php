@@ -4,28 +4,43 @@ final class SignupController
 {
     use ControllerHelpers;
 
-    /**
-    * @todo: Afficher la page d'inscription ?
-    * En fait, je n'étais pas sûr, car j'ai l'impression que ce n'est pas nécessaire, je cite:
-    * "Le login / mot de passe est défini arbitrairement par un administrateur dans un premier temps"
-    * @see https://www.mickael-martin-nevot.com/univ-amu/iut/dut-informatique/programmation-web-cote-serveur/?:s24-projet.pdf
-    * @author Thomas Cardon
-    */
     public function defaultAction()
     {
-        /* ControllerHelpers#redirect arrête le script immédiatement */
-        $this->redirect('/', array('alert' => array('message' => 'Cette action est désactivée.', 'type' => 'yellow')));
-        
-        User::ensureExists();
-
         if ($this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous êtes déjà connecté.', 'type' => 'blue')));
 
         View::show('signup', array(
-            'authentified' => false
+            'authentified' => false,
+            'user' => null,
+            'alert' => $session['alert'] ?? null,
         ));
     }
 
+    public function SignUpAction($param, $post, $session)
+    {
+        //on vérifie si l'utilisateur est déja connecté
+        if ($this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous êtes déjà connecté.', 'type' => 'blue')));
+        //si les champs sont vides affiche une erreur
+        else if (empty($post['email']) || empty($post['nom']) || empty($post['prenom']))
+            $this->userError('Veuillez remplir tous les champs.');
+        $this->checkExist($post['email']);
+
+    }
+
+    private function checkExist($email)
+    {
+        //On vérifie si l'utilisateur existe déja
+        $user = User::getByEmail($email);
+        if ($user)
+        {
+           $this->userError('Votre compte existe déja, ou cet email est déja utilisé');
+        }
+    }
+
+    private function userError($msg, $type = 'red') {
+        $this->redirect('/signup', array('alert' => array('message' => $msg, 'type' => $type)));
+    }
     /**
      * Génère un mot de passe aléatoire
      * @param $chars int Nombre de caractères du mot de passe
