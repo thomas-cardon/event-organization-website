@@ -10,7 +10,7 @@ final class DashboardController
     public function defaultAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
@@ -41,7 +41,7 @@ final class DashboardController
     public function createUserAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
@@ -76,7 +76,7 @@ final class DashboardController
     public function editCampaignAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
@@ -108,7 +108,7 @@ final class DashboardController
     public function createCampaignAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
@@ -140,7 +140,7 @@ final class DashboardController
     public function editEventAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
                 $event = array(
                     'id' => 1,
@@ -223,7 +223,7 @@ final class DashboardController
     public function createEventAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
         
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
