@@ -71,9 +71,11 @@ $sql_data = [
     "INSERT INTO `events` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
 (1, 'event1', 'la description', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
     "INSERT INTO `users` (`id`, `first_name`, `last_name`, `hash`, `email`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Jane', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test.test@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
+(1, 'Jane', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test.test@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+(2, 'Thor', 'Odinson', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'thomas.cardon@etu.univ-amu.fr', 'organizer', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+(3, 'John', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test1.test2@test.fr', 'member', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
     "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES
-(2, 1, 1, 3333, '2021-12-29 12:41:48', 'le commentaire');"];
+(2, 1, 1, 3333, '2021-12-29 12:41:48', 'Le commentaire');"];
 
 $db = Model::getDatabaseInstance();
 
