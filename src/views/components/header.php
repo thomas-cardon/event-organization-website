@@ -24,6 +24,7 @@
                 array( 'url' => '/', 'label' => 'Accueil' ),
                 array( 'url' => '/dashboard', 'label' => 'Tableau de bord' ),
                 array( 'url' => '/event/winners', 'label' => 'Grands gagnants' ),
+                array( 'url' => '/signin/logout', 'label' => 'Déconnexion', 'authRequired' => true ),
             );
 
             foreach ($links as $link) {
@@ -31,6 +32,10 @@
                 
                 if (isset($link['url']) && BASE_PATH . $link['url'] === $_SERVER['REQUEST_URI']) {
                     $class .= ' active';
+                }
+
+                if (isset($link['authRequired']) && $link['authRequired'] && !$params['authentified']) {
+                    continue;
                 }
                 
                 echo '<a class="' . $class . '" href="' . BASE_PATH . $link['url'] . '">' . $link['label'] . '</a>';
