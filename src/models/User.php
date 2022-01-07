@@ -10,10 +10,10 @@ final class User extends Model
     private $role;
     private $created_at;
     private $updated_at;
-    private $point;
+    private $points;
 
 
-    public function __construct($email, $firstName, $lastName, $hash, $point = 0, $id = null, $role = null, $created_at = null, $updated_at = null)
+    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = null, $created_at = null, $updated_at = null)
     {
         parent::__construct();
         $this->id = $id;
@@ -24,7 +24,7 @@ final class User extends Model
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
         $this->role = $role;
-        $this->point= $point;
+        $this->points= $points;
     }
 
     public static function findAll(): array
@@ -35,7 +35,7 @@ final class User extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach ($rows as $row) {
-            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['point'],
+            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['points'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
             $user[] = $user;
         }
@@ -51,7 +51,7 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['point'],
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['points'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
@@ -65,7 +65,7 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['point'],
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['points'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
         return null;
@@ -73,15 +73,15 @@ final class User extends Model
 
     public function save()
     {
-        $sql = 'INSERT INTO users ( hash, email, first_name,last_name,point) 
-                VALUES ( :hash, :email, :first_name,:last_name,:point)';
+        $sql = 'INSERT INTO users ( hash, email, first_name,last_name,points) 
+                VALUES ( :hash, :email, :first_name,:last_name,:points)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
 
         $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':first_name', $this->firstName);
         $stmt->bindParam(':last_name', $this->lastName);
-        $stmt->bindParam(':point', $this->point);
+        $stmt->bindParam(':points', $this->points);
 
         $stmt->execute();
     }
@@ -98,7 +98,7 @@ final class User extends Model
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':role', $this->role);
-        $stmt->bindParam(':point', $this->point);
+        $stmt->bindParam(':points', $this->points);
         $stmt->execute();
     }
 
@@ -181,7 +181,7 @@ final class User extends Model
     {
         $this->lastName = $lastName;
     }
-
+    
     public function getName()
     {
         return $this->firstName . ' ' . $this->lastName;
@@ -213,7 +213,7 @@ final class User extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRole()
     {
@@ -221,10 +221,24 @@ final class User extends Model
     }
 
     /**
-     * @param mixed $role
+     * @param string $role
      */
     public function setRole($role)
     {
         $this->role = $role;
+    }
+
+    /**
+     * @return int points
+     */
+    public function getPoints() {
+        return $this->points;
+    }
+
+    /**
+     * @param int $points
+     */
+    public function setPoints($points) {
+        $this->points = $points;
     }
 }
