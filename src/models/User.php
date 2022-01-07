@@ -7,6 +7,14 @@ final class User extends Model
     private $firstName;
     private $lastName;
     private $hash;
+
+    /**
+     * @param mixed $hash
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+    }
     private $role;
     private $created_at;
     private $updated_at;

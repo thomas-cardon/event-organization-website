@@ -20,7 +20,7 @@ trait ControllerHelpers {
     /**
      * isAuthentified
      * Vérifie si l'utilisateur est authentifié
-     * @author : ???
+     * @author : Enzo Vargas
      * @return Boolean
      */
     public function isAuthentified() {

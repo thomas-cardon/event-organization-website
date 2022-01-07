@@ -9,11 +9,11 @@ final class DashboardController
 
     public function defaultAction($params, $post, $session)
     {
-        if (false)//if (!$this->isAuthentified())
+        if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
         View::show('dashboard', array(
-            'authentified' => true,//$this->isAuthentified(),
+            'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? array( 
                 'id' => 0,
@@ -30,13 +30,21 @@ final class DashboardController
         $_SESSION['alert'] = null;
     }
 
+    /**
+     * Création d'un nouvel utilisateur, avec un mot de passe temporaire
+     * Endpoint: /dashboard/create-user
+     * @param $params array
+     * @param $post array
+     * @param $session array
+     * @author Thomas Cardon
+     */
     public function createUserAction($params, $post, $session)
     {
-        if (false)//if (!$this->isAuthentified())
+        if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
         View::show('dashboard', array(
-            'authentified' => true,//$this->isAuthentified(),
+            'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? array( 
                 'id' => 0,
@@ -44,7 +52,7 @@ final class DashboardController
                 'lastName' => 'Doe',
                 'email' => 'jane.doe@test.te',
                 'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'admin', /* admin, organizer, jury, donor */
+                'role' => 'admin', /* admin, organizer, jury, donor, public */
                 'created_at' => '',
                 'updated_at' => ''
             ),
@@ -57,13 +65,21 @@ final class DashboardController
         $_SESSION['alert'] = null;
     }
 
+    /**
+     * Edition d'une campagne existante
+     * Endpoint: /dashboard/edit-campaign
+     * @param $params array
+     * @param $post array
+     * @param $session array
+     * @author Thomas Cardon
+     */
     public function editCampaignAction($params, $post, $session)
     {
-        if (false)//if (!$this->isAuthentified())
+        if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
         View::show('dashboard', array(
-            'authentified' => true,//$this->isAuthentified(),
+            'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? array( 
                 'id' => 0,
@@ -81,13 +97,21 @@ final class DashboardController
         $_SESSION['alert'] = null;
     }
 
+    /**
+     * Création d'une nouvelle campagne
+     * Endpoint: /dashboard/create-campaign
+     * @param $params array
+     * @param $post array
+     * @param $session array
+     * @author Thomas Cardon
+     */
     public function createCampaignAction($params, $post, $session)
     {
-        if (false)//if (!$this->isAuthentified())
+        if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
         View::show('dashboard', array(
-            'authentified' => true,//$this->isAuthentified(),
+            'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? array( 
                 'id' => 0,
@@ -105,9 +129,17 @@ final class DashboardController
         $_SESSION['alert'] = null;
     }
 
+    /**
+     * Edition d'un évènement existant
+     * Endpoint: /dashboard/edit-event
+     * @param $params array
+     * @param $post array
+     * @param $session array
+     * @author Thomas Cardon
+     */
     public function editEventAction($params, $post, $session)
     {
-        if (false)//if (!$this->isAuthentified())
+        if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
 
                 $event = array(
@@ -162,7 +194,7 @@ final class DashboardController
                 );// TODO: get event from DB by id
 
         View::show('dashboard', array(
-            'authentified' => true,//$this->isAuthentified(),
+            'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? array( 
                 'id' => 0,
@@ -180,13 +212,21 @@ final class DashboardController
         $_SESSION['alert'] = null;
     }
 
+    /**
+     * Création d'un nouvel évènement
+     * Endpoint: /dashboard/create-event
+     * @param $params array
+     * @param $post array
+     * @param $session array
+     * @author Thomas Cardon
+     */
     public function createEventAction($params, $post, $session)
     {
-        if (false)//if (!$this->isAuthentified())
+        if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'warn')));
         
         View::show('dashboard', array(
-            'authentified' => true,//$this->isAuthentified(),
+            'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? array( 
                 'id' => 0,
