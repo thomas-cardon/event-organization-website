@@ -49,13 +49,15 @@ final class SignupController
         $user = User::getById($userId);
         if ($user) {
             $password = (new SignupController)->generateRandomPassword(uniqid());
-            $user->setHash(password_hash($password, PASSWORD_DEFAULT)) ;
+            $user->setHash(password_hash($password, PASSWORD_DEFAULT));
             $user->save();
-            $message =  'Voici vos identifiants pour se connecter à E-event.io\n'.
-                'email: '.$user->getEmail().'\n'.
-                'mot de passe: '.$password;
 
-            mail($user->getEmail(),"vos identifiant pour se conecter à E-event.io",$message);
+            $message =  'Voici vos identifiants pour se connecter à E-event.io\n'.
+                'Email: '.$user->getEmail().'\n' .
+                'Mot de passe: '. $password . '\n' .
+                'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
+
+            mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message);
 
             return $password;
         }
