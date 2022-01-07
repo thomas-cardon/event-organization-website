@@ -19,14 +19,7 @@ trait ControllerHelpers {
      * @return Boolean
      */
     public function isAuthentified() {
-        //$_SESSION['user'] = null;
-        //var_dump($_SESSION);
-        if(isset($_SESSION['user'])){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return isset($_SESSION['user']);
     }
 
     public function getCurrentUser() {
