@@ -279,6 +279,22 @@ a.see-more {
   background-color: goldenrod;
 }
 
+.member {
+  background-color: #3498db;
+}
+
+.admin {
+  background-color: #c0392b;
+}
+
+.organizer {
+    background-color: #16a085;
+}
+
+.juror {
+  background-color: #9b59b6;
+}
+
 .glow {
     background-color: var(--primary);
     box-shadow: 0 10px 20px var(--primary-a), 0 4px 8px var(--primary-a);
