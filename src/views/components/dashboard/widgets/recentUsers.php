@@ -17,6 +17,7 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Date d'inscription</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,8 +30,19 @@
                     <?php echo $user->getLastName(); ?>
                 </td>
                 <td><?php echo $user->getFirstName(); ?></td>
-                <td><?php echo $user->getEmail(); ?></td>
-                <td><?php echo $user->getCreatedAt(); ?></td>
+                <td class="xs"><?php echo $user->getEmail(); ?></td>
+                <td><?php echo date('d-m-Y', strtotime($user->getCreatedAt())); ?></td>
+                <td>
+                    <a class="xs" href="<?php echo BASE_PATH; ?>/dashboard/regenerate-password/<?php echo $user->getId(); ?>"/>
+                        Regénérer mot de passe
+                    </a>
+
+                    <span> | </span>
+
+                    <a class="xs" href="<?php echo BASE_PATH; ?>/dashboard/edit-user/<?php echo $user->getId(); ?>"/>
+                        Modifier
+                    </a>
+                </td>
             </tr>
           <?php endforeach ?>
         </tbody>
