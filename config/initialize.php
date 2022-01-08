@@ -94,7 +94,7 @@ $sql_data = [
         (2, 'Thor', 'Odinson', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'thomas.cardon@etu.univ-amu.fr', 'organizer', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
         (3, 'John', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test1.test2@test.fr', 'member', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
     
-    "INSERT INTO `events` (`id`, `name`, `author`, `description`, `created_at`, `updated_at`) VALUES (2, 'event2', 1, 'la description', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
+    "INSERT INTO `events` (`id`, `name`, `author`, `description`, `from`, `to`, `created_at`, `updated_at`) VALUES (2, 'event2', 1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
     "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');"
 ];
 
