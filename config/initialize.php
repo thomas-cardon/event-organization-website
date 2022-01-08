@@ -28,6 +28,7 @@ $sql = [
         `hash` varchar(255),
         `email` varchar(255) NOT NULL,
         `role` varchar(255) NOT NULL DEFAULT \'member\',
+        `points` int(11) NOT NULL DEFAULT 0,
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
         PRIMARY KEY (`id`)
@@ -58,7 +59,7 @@ $sql = [
         `event_id` int(11) NOT NULL,
         `amount` int(11) NOT NULL,
         `created_at` DATETIME DEFAULT NOW(),
-        `comment` TEXT NOT NULL ,
+        `comment` TEXT NOT NULL,
         PRIMARY KEY (`id`),
         FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
         FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE
@@ -98,9 +99,9 @@ foreach ($sql_data as $query) {
 
 echo '</ul>';
 
-echo '<h3><i>Utilisateur Jane Doe créé avec en mot de passe: <code>this is a test password</code></i><h3>';
+echo '<h3><i>Utilisateurs créé avec par défaut le mot de passe: <code>this is a test password</code></i><h3>';
 
-echo '<h1>Supprimez ce script</h1>';
+echo '<h1>Goodbye</h1>';
 echo '<h2>Ce script est maintenant inutile, il à été renommé en .old.php.</h2>';
 
 rename($p . '/initialize.php', $p . '/initialize.old.php');
