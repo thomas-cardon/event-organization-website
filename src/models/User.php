@@ -43,6 +43,25 @@ final class User extends Model
 
     }
 
+    public static function nbCountPerRole(): array
+    {
+        $sql = 'SELECT COUNT(*) as nb, role FROM users GROUP BY role';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $rows;
+    }
+
+    public static function sumPoints(): int
+    {
+        $sql = 'SELECT SUM(points) as sum FROM users';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (int) $row['sum'];
+    }
+
     public static function getById($id)
     {
         $sql = 'SELECT * FROM users WHERE id = :id';

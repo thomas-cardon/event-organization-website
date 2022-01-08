@@ -48,7 +48,7 @@
             <div class="info">
                 <p>Points en circulation</p>
                 <h2>
-                    <?php echo $params['points_circulation'] ?? 0 ?>
+                    <?php echo $params['sum_points'] ?? 0 ?>
                 </h2>
             </div>
             <div class="icon">
@@ -64,7 +64,7 @@
     </div>
     <div class="card chart chart-aside-2"></div>
     <div class="card chart chart-1">
-        <?php View::show('components/dashboard/widgets/userChart', $params['recent_users'] ?? array()); ?>
+        <?php View::show('components/dashboard/widgets/userChart', array( 'data' => $params['nb_users_per_role'] ?? null)); ?>
     </div>
     <div class="card chart chart-2">
         <?php View::show('components/dashboard/widgets/pointsRepartition', $params['points_repartition'] ?? array()); ?>

@@ -11,12 +11,14 @@ final class DashboardController
     {
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
-
+            
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? null,
-            'recent_users' => $session['user']->getRole() === 'admin' ? User::findAll(5) : null
+            'recent_users' => $session['user']->getRole() === 'admin' ? User::findAll(5) : null,
+            'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
+            'sum_points' => $session['user']->getRole() === 'admin' ? User::sumPoints() : null,
         ));
 
         $_SESSION['alert'] = null;
