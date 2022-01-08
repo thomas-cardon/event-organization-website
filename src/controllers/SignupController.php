@@ -47,9 +47,10 @@ final class SignupController
      * @return string
      * @author Thomas Cardon
      */
-    private function generateRandomPassword($chars = 12) {
-        $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz!$%&/()=?*+-_.,;:';
-        return substr(str_shuffle($data), 0, $chars);
+    private function generateRandomPassword($chars = 12): string {
+        $comb = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $shfl = str_shuffle($comb);
+        return substr($shfl,0, $chars);
     }
 
 
@@ -60,10 +61,10 @@ final class SignupController
      * @return string Mot de passe généré aléatoirement non hashé
      * @author Thomas Cardon
      */
-    public static function resetPassword($userId, $new = true) {
+    public static function resetPassword($userId, $new = true): string {
         $user = User::getById($userId);
         if ($user) {
-            $password = (new SignupController)->generateRandomPassword(uniqid());
+            $password = (new SignupController)->generateRandomPassword();
             $user->setHash(password_hash($password, PASSWORD_DEFAULT));
             $user->save();
 
@@ -79,7 +80,8 @@ final class SignupController
                     'Mot de passe: '. $password . '\n' .
                     'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
                     
-            mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message);
+            if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
+                throw new Exception('Erreur lors de l\'envoi du mail');
 
             return $password;
         }

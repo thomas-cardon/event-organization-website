@@ -237,4 +237,25 @@ final class DashboardController
 
         $_SESSION['alert'] = null;
     }
+
+    public function resetPasswordAction($params, $post, $session)
+    {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        if ($session['user']->getRole() !== 'admin')
+            $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+        
+        $id = $params[0];
+
+        if (!$id)
+            $this->redirect('/dashboard', array('alert' => array('message' => 'L\'identifiant de l\'utilisateur est manquant.', 'type' => 'red')));
+        
+        try {
+            SignupController::resetPassword($id, false);
+            $this->redirect('/dashboard',  array('alert' => array('message' => 'Le mot de passe de l\'utilisateur a été réinitialisé. Le mail à normalement été envoyé à l\'adresse mail reliée au compte.', 'type' => 'green')));
+        } catch (Exception $e) {
+            $this->redirect('/dashboard',  array('alert' => array('message' => $e->getMessage(), 'type' => 'red')));
+        }
+    }
 }

@@ -96,10 +96,11 @@ final class User extends Model
 
     public function save()
     {
-        $sql = 'REPLACE INTO users (hash, email, first_name, last_name, points) 
-                VALUES ( :hash, :email, :first_name,:last_name, :points)';
+        $sql = 'REPLACE INTO users (id, hash, email, first_name, last_name, points) 
+                VALUES (:id, :hash, :email, :first_name,:last_name, :points)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
 
+        $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':first_name', $this->firstName);
