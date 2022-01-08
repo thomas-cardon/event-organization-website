@@ -9,10 +9,13 @@ final class Event extends Model
 
     private $status = 'pending';
 
+    private $from;
+    private $to;
+
     private $created_at;
     private $updated_at;
 
-    public function __construct($id, $name, $description, $author, $status = 'pending', $created_at, $updated_at)
+    public function __construct($id, $name, $description, $author, $status = 'pending', $from, $to, $created_at, $updated_at)
     {
         parent::__construct();
 
@@ -21,45 +24,47 @@ final class Event extends Model
         $this->description = $description;
         $this->author = $author;
         $this->status = $status;
+        $this->from = $from;
+        $this->to = $to;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
     }
 
+    public static function getById($id): Event
+    {
+        $sql = 'SELECT  * FROM events WHERE id = :id';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['status'], $row['from'], $row['to'], $row['created_at'], $row['updated_at']);
+        return $event;
+    }
+
     public static function findAll($limit = -1): array
     {
-        $sql = 'SELECT  * FROM event ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '');
+        $sql = 'SELECT * FROM events ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['status'], $row['created_at'], $row['updated_at']);
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['status'], $row['from'], $row['to'], $row['created_at'], $row['updated_at']);
             $events[] = $event;
         }
         return $events;
     }
 
-    public static function findById($id): Event
-    {
-        $sql = 'SELECT  * FROM event WHERE id = :id';
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['created_at'], $row['updated_at']);
-        return $event;
-    }
-
     public static function findByAuthor($author): array
     {
-        $sql = 'SELECT  * FROM event WHERE author = :author';
+        $sql = 'SELECT * FROM events WHERE author = :author';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':author', $author);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['created_at'], $row['updated_at']);
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at']);
             $events[] = $event;
         }
         return $events;
@@ -67,7 +72,7 @@ final class Event extends Model
 
     public static function nbCountPerAuthor(): array
     {
-        $sql = 'SELECT COUNT(*) as nb, author FROM event GROUP BY author';
+        $sql = 'SELECT COUNT(*) as nb, author FROM events GROUP BY author';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -86,7 +91,7 @@ final class Event extends Model
 
     public static function sumPendingEvents(): int
     {
-        $sql = 'SELECT SUM(points) as sum FROM event WHERE status = "pending" AND created_at > :campaign_start AND created_at < :campaign_end';
+        $sql = 'SELECT SUM(points) as sum FROM events WHERE status = "pending" AND created_at > :campaign_start AND created_at < :campaign_end';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':campaign_start', $campaign_start);
         $stmt->bindParam(':campaign_end', $campaign_end);
@@ -98,7 +103,7 @@ final class Event extends Model
 
     public static function sumAcceptedEvents(): int
     {
-        $sql = 'SELECT SUM(points) as sum FROM event WHERE status = "accepted" AND created_at > :campaign_start AND created_at < :campaign_end';
+        $sql = 'SELECT SUM(points) as sum FROM events WHERE status = "accepted" AND created_at > :campaign_start AND created_at < :campaign_end';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':campaign_start', $campaign_start);
         $stmt->bindParam(':campaign_end', $campaign_end);
@@ -110,7 +115,7 @@ final class Event extends Model
 
     public static function sumRejectedEvents(): int
     {
-        $sql = 'SELECT SUM(points) as sum FROM event WHERE status = "rejected" AND created_at > :campaign_start AND created_at < :campaign_end';
+        $sql = 'SELECT SUM(points) as sum FROM events WHERE status = "rejected" AND created_at > :campaign_start AND created_at < :campaign_end';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':campaign_start', $campaign_start);
         $stmt->bindParam(':campaign_end', $campaign_end);
@@ -122,14 +127,14 @@ final class Event extends Model
 
     public static function findByStatus($status): array
     {
-        $sql = 'SELECT  * FROM event WHERE status = :status';
+        $sql = 'SELECT * FROM events WHERE status = :status';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':status', $status);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['status'], $row['created_at'], $row['updated_at']);
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['status'], $row['from'], $row['to'], $row['created_at'], $row['updated_at']);
             $events[] = $event;
         }
         return $events;
@@ -137,7 +142,7 @@ final class Event extends Model
 
     public static function findByStatusAndAuthor($status, $author): array
     {
-        $sql = 'SELECT  * FROM event WHERE status = :status AND author = :author';
+        $sql = 'SELECT * FROM events WHERE status = :status AND author = :author';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':author', $author);
@@ -145,7 +150,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['status'], $row['created_at'], $row['updated_at']);
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['status'], $row['from'], $row['to'], $row['created_at'], $row['updated_at']);
             $events[] = $event;
         }
         return $events;
@@ -153,13 +158,15 @@ final class Event extends Model
 
     public function save(): void
     {
-        $sql = 'REPLACE INTO event (name, description, author, status, created_at, updated_at) VALUES (:name, :description, :author, :status, :created_at, :updated_at)';
+        $sql = 'REPLACE INTO events (name, description, author, status, from, to, created_at, updated_at) VALUES (:name, :description, :author, :status, :from, :to, :created_at, :updated_at)';
         $stmt = self::getDatabaseInstance();
         $stmt->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':author', $this->author);
         $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':from', $this->from);
+        $stmt->bindParam(':to', $this->to);
         $stmt->bindParam(':created_at', $this->created_at);
         $stmt->bindParam(':updated_at', $this->updated_at);
         $stmt->execute();
@@ -167,7 +174,7 @@ final class Event extends Model
 
     public function update(): void
     {
-        $sql = 'UPDATE event SET name = :name, description = :description, author = :author, status = :status, updated_at = :updated_at WHERE id = :id';
+        $sql = 'UPDATE events SET name = :name, description = :description, author = :author, status = :status, from = :from, to = :to, updated_at = :updated_at WHERE id = :id';
         $stmt = self::getDatabaseInstance();
         $stmt->prepare($sql);
         $stmt->bindParam(':id', $this->id);
@@ -175,6 +182,8 @@ final class Event extends Model
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':author', $this->author);
         $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':from', $this->from);
+        $stmt->bindParam(':to', $this->to);
         $stmt->bindParam(':created_at', $this->created_at);
         $stmt->bindParam(':updated_at', $this->updated_at);
         $stmt->execute();
@@ -182,7 +191,7 @@ final class Event extends Model
 
     public function delete(): void
     {
-        $sql = 'DELETE FROM event WHERE id = :id';
+        $sql = 'DELETE FROM events WHERE id = :id';
         $stmt = self::getDatabaseInstance();
         $stmt->prepare($sql);
         $stmt->bindParam(':id', $this->id);
@@ -217,6 +226,16 @@ final class Event extends Model
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    public function getFrom(): Date
+    {
+        return $this->from;
+    }
+
+    public function getTo(): Date
+    {
+        return $this->to;
     }
 
     public function getCreatedAt(): string
@@ -257,6 +276,16 @@ final class Event extends Model
     public function setUpdatedAt(string $updated_at): void
     {
         $this->updated_at = $updated_at;
+    }
+
+    public function setFrom(Date $from): void
+    {
+        $this->from = $from;
+    }
+
+    public function setTo(Date $to): void
+    {
+        $this->to = $to;
     }
 
     public function getPointsAmount(): int
