@@ -279,10 +279,6 @@ a.see-more {
   background-color: goldenrod;
 }
 
-.member {
-  background-color: #3498db;
-}
-
 .admin {
   background-color: #c0392b;
 }
@@ -293,6 +289,10 @@ a.see-more {
 
 .juror {
   background-color: #9b59b6;
+}
+
+.donor {
+  background-color: #D980FA;
 }
 
 .glow {
