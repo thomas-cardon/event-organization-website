@@ -124,18 +124,12 @@ main.dashboard > footer {
     }
 }
 
-.content h1 {
-    font-family: 'Source Sans Pro', sans-serif;
+.card h2 {
     font-weight: 100;
-    font-size: 1.5rem;
-
-    line-height: 0;
-    margin-bottom: 0.5rem;
 }
 
-.card h2 {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: 100;
+.numbers > .card h2 {
+    font-weight: 600;
 }
 
 .card {

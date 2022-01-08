@@ -1,6 +1,6 @@
 <?php View::setTitle(($params['edit'] ? 'Editer' : 'Créer') . ' une campagne'); ?>
 <section class="dashboard-content">
-    <h1><?php echo $params['edit'] ? 'Éditer' : 'Créer'; ?> une campagne</h1>
+    <h4 class="font-thin"><?php echo $params['edit'] ? 'Éditer' : 'Créer'; ?> une campagne</h4>
     <form action="<?php echo BASE_PATH . '/dashboard/edit-campaign'; ?>" method="POST">
         <div class="input-group horizontal">
             <input autofocus type="text" class="text-white" aria-label="Nom" placeholder="Nom">
