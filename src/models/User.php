@@ -6,15 +6,7 @@ final class User extends Model
     private $email;
     private $firstName;
     private $lastName;
-    private $hash;
-
-    /**
-     * @param mixed $hash
-     */
-    public function setHash($hash)
-    {
-        $this->hash = $hash;
-    }
+    private $hash;    
     private $role;
     private $created_at;
     private $updated_at;
@@ -32,7 +24,7 @@ final class User extends Model
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
         $this->role = $role;
-        $this->points= $points;
+        $this->points = $points;
     }
 
     public static function findAll(): array
@@ -43,7 +35,7 @@ final class User extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach ($rows as $row) {
-            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['points'],
+            $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
             $user[] = $user;
         }
@@ -58,10 +50,12 @@ final class User extends Model
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['points'],
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
+
         return null;
     }
 
@@ -72,17 +66,19 @@ final class User extends Model
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
         if ($row) {
-            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'],$row['points'],
+            return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
+        
         return null;
     }
 
     public function save()
     {
-        $sql = 'INSERT INTO users ( hash, email, first_name,last_name,points) 
-                VALUES ( :hash, :email, :first_name,:last_name,:points)';
+        $sql = 'REPLACE INTO users (hash, email, first_name, last_name, points) 
+                VALUES ( :hash, :email, :first_name,:last_name, :points)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
 
         $stmt->bindParam(':hash', $this->hash);
@@ -134,12 +130,19 @@ final class User extends Model
         $this->id = $id;
     }
 
-
     /**
      * @return mixed
      */
     public function getHash() {
         return $this->hash;
+    }
+    
+    /**
+     * @param mixed $hash
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
     }
 
     /**
@@ -240,7 +243,7 @@ final class User extends Model
      * @return int points
      */
     public function getPoints() {
-        return $this->points;
+        return $this->points ?? 0;
     }
 
     /**
