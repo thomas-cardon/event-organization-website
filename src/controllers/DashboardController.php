@@ -15,16 +15,8 @@ final class DashboardController
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'user' => $session['user'] ?? array( 
-                'id' => 0,
-                'firstName' => 'Jane', 
-                'lastName' => 'Doe',
-                'email' => 'jane.doe@test.te',
-                'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'organizer', /* admin, organizer, jury, donor, member */
-                'created_at' => '',
-                'updated_at' => ''
-            )
+            'user' => $session['user'] ?? null,
+            'recent_users' => $session['user']->getRole() === 'admin' ? User::findAll(5) : null
         ));
 
         $_SESSION['alert'] = null;

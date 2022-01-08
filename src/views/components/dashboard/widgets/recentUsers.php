@@ -20,55 +20,17 @@
             </tr>
         </thead>
         <tbody>
-          <?php $params['recent_users'] = array(
-                (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'admin',
-                    'createdAt' => '2020-01-01 00:00:00'
-                ),
-                (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'organizer',
-                    'createdAt' => '2020-01-01 00:00:00'
-                ),
-                (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'admin',
-                    'createdAt' => '2020-01-01 00:00:00'
-                ),
-                (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'organizer',
-                    'createdAt' => '2020-01-01 00:00:00'
-                ),
-                (object) array(
-                    'firstName' => 'John',
-                    'lastName' => 'Doe',
-                    'email' => 'test.test@test.fr',
-                    'role' => 'donor',
-                    'createdAt' => '2020-01-01 00:00:00'
-                )
-            );
-          ?>
-          <?php foreach ($params['recent_users'] as $user) : ?>
+          <?php foreach ($params['data'] as $user) : ?>
             <tr>
                 <td>
-                    <div class="role <?php echo $user->role ?>"></div>
+                    <div class="role <?php echo $user->getRole(); ?>"></div>
                 </td>
                 <td>
-                    <?php echo $user->lastName ?>
+                    <?php echo $user->getLastName(); ?>
                 </td>
-                <td><?php echo $user->firstName ?></td>
-                <td><?php echo $user->email ?></td>
-                <td><?php echo $user->createdAt ?></td>
+                <td><?php echo $user->getFirstName(); ?></td>
+                <td><?php echo $user->getEmail(); ?></td>
+                <td><?php echo $user->getCreatedAt(); ?></td>
             </tr>
           <?php endforeach ?>
         </tbody>

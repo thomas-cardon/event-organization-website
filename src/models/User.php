@@ -27,9 +27,9 @@ final class User extends Model
         $this->points = $points;
     }
 
-    public static function findAll(): array
+    public static function findAll($limit = -1): array
     {
-        $sql = 'SELECT  * FROM users';
+        $sql = 'SELECT  * FROM users ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -37,7 +37,7 @@ final class User extends Model
         foreach ($rows as $row) {
             $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'],
                 $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
-            $user[] = $user;
+            $users[] = $user;
         }
         return $users;
 
