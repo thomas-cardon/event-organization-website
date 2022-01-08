@@ -16,12 +16,14 @@ final class DashboardController
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? null,
-            'recent_users' => $session['user']->getRole() === 'admin' ? User::findAll(5) : null,
+            'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::findAll(5) : null,
             'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
             'sum_points' => $session['user']->getRole() === 'admin' ? User::sumPoints() : null,
+            'hide_all_users_button' => isset($session['cached_recent_users'])
         ));
 
         $_SESSION['alert'] = null;
+        $_SESSION['cached_recent_users'] = null;
     }
 
     /**
@@ -236,6 +238,18 @@ final class DashboardController
         ));
 
         $_SESSION['alert'] = null;
+    }
+
+    public function usersAction($params, $post, $session)
+    {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        if ($session['user']->getRole() !== 'admin')
+            $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+
+        $session['cached_recent_users'] = User::findAll();
+        return $this->defaultAction($params, $post, $session);
     }
 
     public function resetPasswordAction($params, $post, $session)
