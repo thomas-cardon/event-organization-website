@@ -13,7 +13,7 @@
                         E-Event.IO
                 </h1>
                 <p class="text-gray-1 slide-in-bottom-subtitle">
-                    Créez vos évènements en quelques clics, gérez vos invités, organisez sans inquiétude votre soirée.
+                    Créez vos évènements en quelques clics, gérez vos invités, organisez avec quiétude votre soirée.
                 </p>
                 <?php if (!$params['authentified']) : ?>
                     <div class="buttons horizontal" style="margin-top: 1rem">

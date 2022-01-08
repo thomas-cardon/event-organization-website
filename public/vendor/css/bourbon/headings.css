@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap');
+
 :root {
 	--size-300: clamp(0.7rem, 0.66rem + 0.2vw, 0.8rem);
 	--size-400: clamp(0.88rem, 0.83rem + 0.24vw, 1rem);
@@ -7,6 +9,10 @@
 	--size-800: clamp(2.14rem, 1.74rem + 1.99vw, 3.16rem);
 	--size-900: clamp(2.67rem, 2.07rem + 3vw, 4.21rem);
 	--size-1000: clamp(3.34rem, 2.45rem + 4.43vw, 5.61rem);
+}
+
+html {
+    font-family: 'Inter';
 }
 
 @font-face {
@@ -52,4 +58,10 @@ h2, .xxl {
 
 h1, .\3xl {
     font-size: var(--size-900);
+}
+
+.lead h1 + p{
+    font-size: var(--size-500) !important;
+    font-weight: 200;
+    line-height: 1.5rem;
 }
