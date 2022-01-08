@@ -9,43 +9,47 @@
         </a>
     </header>
     <h2 class="title"></h2>
-    <table id="recentUsers" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-            <tr>
-                <th>Rôle</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Date d'inscription</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($params['data'] as $user) : ?>
-            <tr>
-                <td>
-                    <div class="role <?php echo $user->getRole(); ?>"></div>
-                </td>
-                <td>
-                    <?php echo $user->getLastName(); ?>
-                </td>
-                <td><?php echo $user->getFirstName(); ?></td>
-                <td class="xs"><?php echo $user->getEmail(); ?></td>
-                <td><?php echo date('d-m-Y', strtotime($user->getCreatedAt())); ?></td>
-                <td>
-                    <a class="xs" href="<?php echo BASE_PATH; ?>/dashboard/regenerate-password/<?php echo $user->getId(); ?>"/>
-                        Regénérer mot de passe
-                    </a>
+    <?php if (is_array($params['data'])): ?>
+        <table id="recentUsers" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Rôle</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Date d'inscription</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($params['data'] as $user) : ?>
+                <tr>
+                    <td>
+                        <div class="role <?php echo $user->getRole(); ?>"></div>
+                    </td>
+                    <td>
+                        <?php echo $user->getLastName(); ?>
+                    </td>
+                    <td><?php echo $user->getFirstName(); ?></td>
+                    <td class="xs"><?php echo $user->getEmail(); ?></td>
+                    <td><?php echo date('d-m-Y', strtotime($user->getCreatedAt())); ?></td>
+                    <td>
+                        <a class="xs" href="<?php echo BASE_PATH; ?>/dashboard/reset-password/<?php echo $user->getId(); ?>"/>
+                            Regénérer mot de passe
+                        </a>
 
-                    <span> | </span>
+                        <span> | </span>
 
-                    <a class="xs" href="<?php echo BASE_PATH; ?>/dashboard/edit-user/<?php echo $user->getId(); ?>"/>
-                        Modifier
-                    </a>
-                </td>
-            </tr>
-          <?php endforeach ?>
-        </tbody>
-    </table>
+                        <a class="xs" href="<?php echo BASE_PATH; ?>/dashboard/edit-user/<?php echo $user->getId(); ?>"/>
+                            Modifier
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Une erreur est survenue lors de l'affichage des utilisateurs.</p>
+    <?php endif ?>
     <a class="see-more" href="<?php echo Constants::getPublicPath(); ?>/dashboard/users">Voir tous les utilisateurs</a>
 </div>
