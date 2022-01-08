@@ -53,7 +53,7 @@ final class Campaign extends Model
 
     public function save()
     {
-        $sql = 'INSERT INTO campaigns(NAME, DESCRIPTION) VALUES (:name,:description)';
+        $sql = 'REPLACE INTO campaigns(name, description) VALUES (:name,:description)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':description', $this->description);
@@ -62,7 +62,7 @@ final class Campaign extends Model
 
     public function update()
     {
-        $sql = "UPDATE campaigns SET name=:name,description=:description WHERE id=:id";
+        $sql = "UPDATE campaigns SET name = :name, description =: description WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':description', $this->description);

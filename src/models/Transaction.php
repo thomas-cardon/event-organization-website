@@ -86,7 +86,7 @@ final class Transaction extends Model
 
     public function save()
     {
-        $sql = "INSERT INTO transactions (user_id, event_id, amount,comment) VALUES (:user_id, :event_id, :amount,:comment)";
+        $sql = "REPLACE INTO transactions (user_id, event_id, amount,comment) VALUES (:user_id, :event_id, :amount,:comment)";
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':event_id', $this->event_id);
