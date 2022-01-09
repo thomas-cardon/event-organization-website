@@ -7,6 +7,8 @@ final class EventController
     public function seeAction($params, $post, $session)
     {        
         $id = $params[0];
+        $event = Event::getById($id);
+        /*
         $event = array(
                     'id' => 1,
                     'campaignId' => 1,
@@ -56,6 +58,7 @@ final class EventController
                     )
 
                 );// TODO: get event from DB by id
+        */
 
         View::show('event', array(
             'authentified' => $this->isAuthentified(),
