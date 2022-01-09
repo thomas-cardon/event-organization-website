@@ -1,5 +1,6 @@
 <?php 
     View::setTitle('Evènement #');
+    $author = $params['event']->getAuthor();
 ?>
 
 <section class="hero">
@@ -10,7 +11,7 @@
                     <?php echo $params['event']->getName(); ?>
                 </h2>
                 <p class="m text-gray-1">
-                    <i>par <?php echo $params['event']->getAuthor()->getName(); ?></i>
+                    <i>par <?php echo $author->getName(); ?></i>
                 </p>
             </header>
 
@@ -20,42 +21,41 @@
 
             <hr />
             <h3 class="text-center font-hero">Contenu débloquable</h3>
-            <?php /*
-            <div class="unlockable-content-container">
-                <?php if ($params['event']['unlockableContent'] ?? null) {
-                    foreach ($params['event']['unlockableContent'] as $content) { ?>
-                        <div class="glass gold unlockable-content locked" <?php if (isset($content['image'])) { ?>style="background-image: url(<?php echo $content['image']; ?>);color: <?php echo $content['textColor'] ?? 'white'; ?>"<?php } ?>>
-                            <h4 class="font-hero">
-                                <?php echo $content['title']; ?>
-                            </h4>
-                            <p class="desc">
-                                <?php echo $content['description']; ?>
-                            </p>
-                            
-                            <?php if ($content['pointsRequired'] > $params['event']['points']): ?>
-                                <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                                <span><?php echo $params['event']['points']; ?>/<?php echo $content['pointsRequired']; ?></span>
-                            <?php else: ?>
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"></path></svg>
-                                <span>Contenu débloqué !</span>
-                            <?php endif; ?>
-                        </div>
-                    <?php }
-                } else { */?>
-                    <h3 class="text-gray-1">
-                        <i>
-                            Aucun objet à débloquer
-                        </i>
-                    </h3>
-                <?php// } ?>
-            </div>
-
+                <?php $unlockable = $params['event']->findUnlockableContent();
+                 if (!empty($unlockable)) {
+                ?>
+                <div class="unlockable-content-container">
+                    <?php
+                        foreach ($unlockable as $u) { ?>
+                            <div class="glass gold unlockable-content locked" style="background-image: url(<?php echo $content->getImage(); ?>);color: <?php echo $content->getTextColor() ?? 'white'; ?>">
+                                <h4 class="font-hero">
+                                    <?php echo $u->getTitle(); ?>
+                                </h4>
+                                <p class="desc">
+                                    <?php echo $u->getDescription(); ?>
+                                </p>
+                                
+                                <?php if ($u->getRequiredPoints() > $params['event']->getPoints()): ?>
+                                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                                    <span><?php echo $params['event']->getPoints() ?>/<?php echo $u->getRequiredPoints(); ?></span>
+                                <?php else: ?>
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"></path></svg>
+                                    <span>Contenu débloqué !</span>
+                                <?php endif; ?>
+                            </div>
+                    <?php } ?>
+                </div>
+                <?php } else { ?>
+                    <h6 class="text-center font-hero">
+                        <i>Aucun contenu débloquable pour l'instant</i>
+                    </h6>
+                <?php } ?>
             <hr />
 
             <footer class="text-gray-3">
                 <h5 class="date meta">
-                    Du <?php echo date('j/m à H:i', strtotime($params['event']->getFrom())); ?>
-                    au <?php echo date('j/m à H:i', strtotime($params['event']->getTo())); ?>
+                    Du <?php echo $params['event']->getFrom()->format('Y-m-d H:i:s'); ?>
+                    au <?php echo $params['event']->getTo()->format('Y-m-d H:i:s'); ?>
                 </p>
                 <h5 class="points meta">
                     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -70,13 +70,13 @@
             <div class="user glass slide-in-bottom">
                 <header class="flex items-center">
                     <div class="avatar-container">
-                        <img class="avatar" onerror="this.src='<?php echo Constants::getPublicPath() . '/vendor/svg/placeholder-bg.svg'; ?>'" src="<?php echo $params['event']['owner']['avatar']; ?>" alt="Avatar de <?php echo $params['event']['owner']['firstName'] . $params['event']['owner']['lastName']; ?>">
+                        <img class="avatar" onerror="this.src='<?php echo Constants::getPublicPath() . '/vendor/svg/placeholder-bg.svg'; ?>'" src="<?php echo $author->getAvatar(); ?>" alt="Avatar de <?php echo $author->getName(); ?>">
                     </div>
                     <h2 class="font-hero slide-in-bottom-h1">
-                        <?php echo $params['event']->getAuthor()->getName(); ?>
+                        <?php echo $author->getName(); ?>
                     </h2>
                     <p class="m text-gray-1 slide-in-bottom-subtitle">
-                        <?php echo $params['event']->getAuthor()->getEmail(); ?>
+                        <?php echo $author->getEmail(); ?>
                     </p>
                 </header>
             </div>

@@ -30,13 +30,16 @@ final class Event extends Model
         $this->updated_at = $updated_at;
     }
 
-    public static function getById($id): Event
+    public static function getById($id): ?Event
     {
-        $sql = 'SELECT  * FROM events WHERE id = :id';
+        $sql = 'SELECT * FROM events WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) return null;
+        
         $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['status'], $row['from'], $row['to'], $row['created_at'], $row['updated_at']);
         return $event;
     }
@@ -220,7 +223,7 @@ final class Event extends Model
 
     public function getAuthor(): User
     {
-        return User::findById($this->author);
+        return User::getById($this->author);
     }
 
     public function getStatus(): string
@@ -228,24 +231,24 @@ final class Event extends Model
         return $this->status;
     }
 
-    public function getFrom(): Date
+    public function getFrom(): DateTime
     {
-        return $this->from;
+        return new DateTime($this->from);
     }
 
-    public function getTo(): Date
+    public function getTo(): DateTime
     {
-        return $this->to;
+        return new DateTime($this->to);
     }
 
     public function getCreatedAt(): string
     {
-        return $this->created_at;
+        return new DateTime($this->created_at);
     }
 
     public function getUpdatedAt(): string
     {
-        return $this->updated_at;
+        return new DateTime($this->updated_at);
     }
 
     public function setName(string $name): void
@@ -290,12 +293,26 @@ final class Event extends Model
 
     public function getPointsAmount(): int
     {
-        $sql = 'SELECT SUM(points) as sum FROM transactions WHERE event_id = :id';
+        $sql = 'SELECT SUM(amount) as sum FROM transactions WHERE event_id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':id', $this->id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return (int) $row['sum'];
+    }
+
+    public function findUnlockableContent(): array
+    {
+        $sql = 'SELECT * FROM events_unlockablecontent WHERE event_id = :id';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $unlockableContent = [];
+        foreach ($rows as $row) {
+            $unlockableContent[] = new UnlockableContent($row['id'], $row['event_id'], $row['content_id'], $row['created_at'], $row['updated_at']);
+        }
+        return $unlockableContent;
     }
 }

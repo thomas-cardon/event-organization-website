@@ -11,20 +11,21 @@ final class User extends Model
     private $created_at;
     private $updated_at;
     private $points;
+    private $avatar;
 
-
-    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = null, $created_at = null, $updated_at = null)
+    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = null, $created_at = null, $updated_at = null, $avatar = null)
     {
         parent::__construct();
         $this->id = $id;
-        $this->hash = $hash;
         $this->email = $email;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        $this->hash = $hash;
+        $this->role = $role;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
-        $this->role = $role;
         $this->points = $points;
+        $this->avatar = $avatar;
     }
 
     public static function findAll($limit = -1): array
@@ -62,7 +63,7 @@ final class User extends Model
         return (int) $row['sum'];
     }
 
-    public static function getById($id)
+    public static function getById($id): ?User
     {
         $sql = 'SELECT * FROM users WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -271,5 +272,13 @@ final class User extends Model
      */
     public function setPoints($points) {
         $this->points = $points;
+    }
+
+    public function getAvatar() {
+        return $this->avatar ?? 'https://www.gravatar.com/avatar/' . md5($this->email) . '?s=200';
+    }
+    
+    public function setAvatar($avatar) {
+        $this->avatar = $avatar;
     }
 }

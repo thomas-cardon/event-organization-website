@@ -38,7 +38,7 @@ final class Campaign extends Model
         }
         return $campaigns;
     }
-    public static function get($id)
+    public static function getById($id): ?Campaign
     {
         $sql = 'SELECT * FROM campaigns WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -46,7 +46,7 @@ final class Campaign extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return  new Campaign($row['name'], $row['description'], $row['id'], $row['created_at'], $row['updated_at']);
+            return new Campaign($row['name'], $row['description'], $row['id'], $row['created_at'], $row['updated_at']);
         }
         return null;
     }

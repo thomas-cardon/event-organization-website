@@ -116,7 +116,7 @@ final class Transaction extends Model
         $stmt->execute();
     }
 
-    public static function getById($id)
+    public static function getById($id): ?Transaction
     {
         $sql = "SELECT * FROM transactions WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -124,8 +124,7 @@ final class Transaction extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            $transaction = new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
-            return $transaction;
+            return new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
         }
         return null;
     }

@@ -8,6 +8,10 @@ final class EventController
     {        
         $id = $params[0];
         $event = Event::getById($id);
+
+        if (!$event) {
+            $this->redirect('/', array('alert' => array('message' => 'L’événement n’existe pas.', type => 'red')));
+        }
         /*
         $event = array(
                     'id' => 1,

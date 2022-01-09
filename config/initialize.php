@@ -30,6 +30,7 @@ $sql = [
         `email` varchar(255) NOT NULL,
         `role` varchar(255) NOT NULL DEFAULT \'member\',
         `points` int(11) NOT NULL DEFAULT 0,
+        `avatar` varchar(255),
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
         PRIMARY KEY (`id`)
@@ -63,7 +64,7 @@ $sql = [
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
         `points_required` int(11) NOT NULL,
-        `event` int(11) NOT NULL,
+        `event_id` int(11) NOT NULL,
         `author` int(11) NOT NULL,
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
