@@ -26,6 +26,16 @@ final class SigninController
         $this->checkCredentials($post['email'], $post['password']);
     }
 
+    public function disconnectAction($params, $post, $session) {
+        // On vérifie si l'utilisateur est déjà authentifié
+        if ($this->isAuthentified()) {
+            session_destroy();
+            $this->redirect('/', array('alert' => array('message' => 'Vous avez été déconnecté.', 'type' => 'red')));
+        }
+        else
+            $this->userError('Vous n\'êtes pas connecté');
+    }
+
     /**
      *  Proposition d'implémentation de la connexion de l'utilisateur
      *  @param $email string

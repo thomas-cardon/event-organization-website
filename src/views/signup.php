@@ -15,7 +15,7 @@
             Rejoignez la communauté et découvrez les évènements de votre région.
         </h6>
         
-        <form action="<?php echo BASE_PATH . '/signup'; ?>" method="POST">
+        <form action="<?php echo BASE_PATH . '/signup/SignUp'; ?>" method="POST">
             <div class="input-group horizontal">
                 <input class="w-full glass text-gray-less" type="text" name="nom" id="nom" aria-label="Votre nom" placeholder="Votre nom" required />
                 <input class="w-full glass text-gray-less" type="text" name="prenom" id="prenom" aria-label="Votre prénom" placeholder="Votre prenom" required />
