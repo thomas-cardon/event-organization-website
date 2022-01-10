@@ -4,7 +4,7 @@ final class SignupController
 {
     use ControllerHelpers;
 
-    public function defaultAction()
+    public function defaultAction($params, $post, $session)
     {
         if ($this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous êtes déjà connecté.', 'type' => 'blue')));
@@ -81,6 +81,7 @@ final class SignupController
                 'email: '.$_POST['email'].'\n'.
                 'mot de passe: '.$password;
 
+            //Marche pas sur Xampp
             //mail($_POST['email'],"vos identifiant pour se conecter à E-event.io",$message);
 
             return $hashedpassword;
@@ -96,14 +97,15 @@ final class SignupController
     public static function resetPassword($userId) {
         $user = User::getById($userId);
         if ($user) {
-            $password = (new SignupController)->generateRandomPassword(uniqid());
+            $password = (new SignupController)->generateRandomPassword();
             $user->setHash(password_hash($password, PASSWORD_DEFAULT)) ;
             $user->save();
             $message =  'Voici vos identifiants pour se connecter à E-event.io\n'.
                 'email: '.$user->getEmail().'\n'.
                 'mot de passe: '.$password;
 
-            mail($user->getEmail(),"vos identifiant pour se conecter à E-event.io",$message);
+            //Marche pas sur Xampp
+            //mail($user->getEmail(),"vos identifiant pour se conecter à E-event.io",$message);
 
             return $password;
         }
