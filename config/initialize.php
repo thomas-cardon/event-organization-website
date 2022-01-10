@@ -69,7 +69,7 @@ $sql = [
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
         PRIMARY KEY (`id`),
-        FOREIGN KEY (`event`) REFERENCES `events` (`id`),
+        FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
         FOREIGN KEY (`author`) REFERENCES `users` (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
