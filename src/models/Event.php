@@ -30,7 +30,7 @@ final class Event extends Model
         $this->updated_at = $updated_at;
     }
 
-    public static function getById($id): Event
+    public static function getById($id): ?Event
     {
         $sql = 'SELECT * FROM events WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
