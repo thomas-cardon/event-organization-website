@@ -7,7 +7,7 @@
             Utilisateurs récents
         <?php endif; ?>
         </h4>
-        <a class="btn" href="<?php echo BASE_PATH; ?>/dashboard/create-user">
+        <a class="btn" href="<?= BASE_PATH; ?>/dashboard/create-user">
             <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
             </svg>
@@ -31,22 +31,22 @@
             <?php foreach ($params['data'] as $user) : ?>
                 <tr>
                     <td>
-                        <div class="role <?php echo $user->getRole(); ?>"></div>
+                        <div class="role <?= $user->getRole(); ?>"></div>
                     </td>
                     <td>
-                        <?php echo $user->getLastName(); ?>
+                        <?= $user->getLastName(); ?>
                     </td>
-                    <td><?php echo $user->getFirstName(); ?></td>
-                    <td class="xs"><?php echo $user->getEmail(); ?></td>
-                    <td><?php echo date('d-m-Y', strtotime($user->getCreatedAt())); ?></td>
+                    <td><?= $user->getFirstName(); ?></td>
+                    <td class="xs"><?= $user->getEmail(); ?></td>
+                    <td><?= date('d-m-Y', strtotime($user->getCreatedAt())); ?></td>
                     <td>
-                        <a class="xs" href="<?php echo BASE_PATH; ?>/dashboard/reset-password/<?php echo $user->getId(); ?>"/>
+                        <a class="xs" href="<?= BASE_PATH; ?>/dashboard/reset-password/<?= $user->getId(); ?>"/>
                             Regénérer mot de passe
                         </a>
 
                         <span> | </span>
 
-                        <a class="xs" href="<?php echo BASE_PATH; ?>/dashboard/edit-user/<?php echo $user->getId(); ?>"/>
+                        <a class="xs" href="<?= BASE_PATH; ?>/dashboard/edit-user/<?= $user->getId(); ?>"/>
                             Modifier
                         </a>
                     </td>
@@ -58,6 +58,6 @@
         <p>Une erreur est survenue lors de l'affichage des utilisateurs.</p>
     <?php endif ?>
     <?php if (!$params['hide_all_users_button']): ?>
-        <a class="see-more" href="<?php echo BASE_PATH; ?>/dashboard/users">Voir tous les utilisateurs</a>
+        <a class="see-more" href="<?= BASE_PATH; ?>/dashboard/users">Voir tous les utilisateurs</a>
     <?php endif ?>
 </div>
