@@ -52,7 +52,7 @@ final class SigninController
                     'user' => $user,
                     'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')
                 );
-                
+
                 $_SESSION = $session;
                 $this->redirect('/');
             }
