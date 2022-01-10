@@ -42,16 +42,7 @@ final class DashboardController
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'user' => $session['user'] ?? array( 
-                'id' => 0,
-                'firstName' => 'Jane', 
-                'lastName' => 'Doe',
-                'email' => 'jane.doe@test.te',
-                'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'admin', /* admin, organizer, jury, donor, public */
-                'created_at' => '',
-                'updated_at' => ''
-            ),
+            'user' => $session['user'],
             /**
              * Ici, on est obligés d'utiliser View::get pour l'avoir en variable
              */
@@ -77,16 +68,7 @@ final class DashboardController
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'user' => $session['user'] ?? array( 
-                'id' => 0,
-                'firstName' => 'Jane', 
-                'lastName' => 'Doe',
-                'email' => 'jane.doe@test.te',
-                'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'admin', /* admin, organizer, jury, donor */
-                'created_at' => '',
-                'updated_at' => ''
-            ),
+            'user' => $session['user'],
             'content' => View::get('dashboard/editCampaign', array('edit' => true))
         ));
 
@@ -109,16 +91,7 @@ final class DashboardController
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'user' => $session['user'] ?? array( 
-                'id' => 0,
-                'firstName' => 'Jane', 
-                'lastName' => 'Doe',
-                'email' => 'jane.doe@test.te',
-                'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'admin', /* admin, organizer, jury, donor */
-                'created_at' => '',
-                'updated_at' => ''
-            ),
+            'user' => $session['user'],
             'content' => View::get('dashboard/editCampaign', array('edit' => false))
         ));
 
@@ -192,16 +165,7 @@ final class DashboardController
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'user' => $session['user'] ?? array( 
-                'id' => 0,
-                'firstName' => 'Jane', 
-                'lastName' => 'Doe',
-                'email' => 'jane.doe@test.te',
-                'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'admin', /* admin, organizer, jury, donor */
-                'created_at' => '',
-                'updated_at' => ''
-            ),
+            'user' => $session['user'],
             'content' => View::get('dashboard/editEvent', array( 'edit' => true, 'event' => $event ))
         ));
 
@@ -224,16 +188,7 @@ final class DashboardController
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'user' => $session['user'] ?? array( 
-                'id' => 0,
-                'firstName' => 'Jane', 
-                'lastName' => 'Doe',
-                'email' => 'jane.doe@test.te',
-                'avatar' => 'https://i.pravatar.cc/300',
-                'role' => 'admin', /* admin, organizer, jury, donor */
-                'created_at' => '',
-                'updated_at' => ''
-            ),
+            'user' => $session['user'],
             'content' => View::get('dashboard/editEvent', array( 'edit' => false ) )
         ));
 
@@ -271,5 +226,30 @@ final class DashboardController
         } catch (Exception $e) {
             $this->redirect('/dashboard',  array('alert' => array('message' => $e->getMessage(), 'type' => 'red')));
         }
+    }
+
+    public function addPointsAction($params, $post, $session)
+    {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+        
+        $id = $params[0];
+
+        if (!$id)
+            return $this->redirect('/dashboard', array('alert' => array('message' => 'L\'identifiant de l\'utilisateur est manquant.', 'type' => 'red')));
+        
+        $user = User::getById($id);
+
+        if (!$user)
+            return $this->redirect('/dashboard', array('alert' => array('message' => 'Cet utilisateur n\'existe pas.', 'type' => 'red')));
+
+        View::show('dashboard', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'],
+            'content' => View::get('dashboard/addPoints', array( 'edit' => false, 'target' => $user ))
+        ));
+
+        $_SESSION['alert'] = null;
     }
 }
