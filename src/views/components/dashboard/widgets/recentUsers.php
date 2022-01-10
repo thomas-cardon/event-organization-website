@@ -16,30 +16,21 @@
     </header>
     <h2 class="title"></h2>
     <?php if (is_array($params['data'])): ?>
-        <table id="recentUsers" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Rôle</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Email</th>
-                    <th>Date d'inscription</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+        <table id="recentUsers" class="table table-striped table-bordered" style="width:100% table-layout: fixed;">
             <tbody>
             <?php foreach ($params['data'] as $user) : ?>
                 <tr>
-                    <td>
+                    <td width="5%">
                         <div class="role <?= $user->getRole(); ?>"></div>
                     </td>
-                    <td>
-                        <?= $user->getLastName(); ?>
+                    <td class="xs" width="12%">
+                        <?= $user->getName(); ?>
                     </td>
-                    <td><?= $user->getFirstName(); ?></td>
-                    <td class="xs"><?= $user->getEmail(); ?></td>
-                    <td><?= date('d-m-Y', strtotime($user->getCreatedAt())); ?></td>
-                    <td>
+                    <td class="xs" width="12%"><?= $user->getEmail(); ?></td>
+                    <td width="9.5%">
+                        <?= $user->getPoints(); ?>$</td>
+                    <td class="xs"  width="12%"><?= date('d/m/Y', strtotime($user->getCreatedAt())); ?></td>
+                    <td width="42%">
                         <a class="xs" href="<?= BASE_PATH; ?>/dashboard/reset-password/<?= $user->getId(); ?>"/>
                             Regénérer mot de passe
                         </a>
@@ -48,6 +39,12 @@
 
                         <a class="xs" href="<?= BASE_PATH; ?>/dashboard/edit-user/<?= $user->getId(); ?>"/>
                             Modifier
+                        </a>
+                        
+                        <span> | </span>
+
+                        <a class="xs" href="<?= BASE_PATH; ?>/dashboard/add-points/<?= $user->getId(); ?>"/>
+                            Ajouter points
                         </a>
                     </td>
                 </tr>
