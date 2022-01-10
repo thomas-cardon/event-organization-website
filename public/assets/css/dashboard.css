@@ -269,6 +269,7 @@ a.see-more {
   width: 10px;
   height: 10px;
   margin: auto;
+  margin-left: 1rem;
   border-radius: 50%;
   background-color: goldenrod;
 }
@@ -341,4 +342,20 @@ input[type="radio"]::before {
   box-shadow: inset 1em 1em var(--form-control-color);
   /* Windows High Contrast Mode */
   background-color: CanvasText;
+}
+
+.avatar-container {
+  height: 12rem;
+  width: 12rem;
+
+  margin-left: auto!important;
+  margin-right: auto!important;
+}
+
+.avatar {
+  max-width: 100%;
+  padding: 1rem !important;
+
+  border-radius: 50%;
+  border: 1px solid rgba(209,213,219,.3)!important;
 }

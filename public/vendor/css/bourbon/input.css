@@ -187,11 +187,11 @@ input.glass:-webkit-autofill {
 
 .input-group {
     display: flex;
-    flex-wrap:wrap;
 }
 
 .input-group.horizontal {
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .input-group > * {
