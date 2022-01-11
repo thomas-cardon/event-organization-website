@@ -40,6 +40,8 @@ $sql = [
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
+        `from` DATETIME NOT NULL,
+        `to` DATETIME NOT NULL,
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
         PRIMARY KEY (`id`)
@@ -87,8 +89,8 @@ $sql = [
 ];
 
 $sql_data = [
-    "INSERT INTO `campaigns` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-        (1, 'la campagne', 'la description', '2021-12-29 11:52:28', '2021-12-29 12:52:28');",
+    "INSERT INTO `campaigns` (`id`, `name`, `description`, `from`, `to`) VALUES
+        (1, 'Mois du sport', 'Cette campagne vise à promouvoir le sport pendant le mois de Janvier', '2021-12-29 11:52:28', '2022-02-01 12:52:28');",
     
     "INSERT INTO `users` (`id`, `first_name`, `last_name`, `hash`, `email`, `role`, `created_at`, `updated_at`) VALUES
         (1, 'Jane', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test.test@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
