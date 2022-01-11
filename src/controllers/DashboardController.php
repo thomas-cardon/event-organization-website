@@ -233,6 +233,9 @@ final class DashboardController
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
         
+        if ($session['user']->getRole() !== 'admin')
+            $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+        
         $id = $params[0];
 
         if (!$id)
@@ -243,6 +246,13 @@ final class DashboardController
         if (!$user)
             return $this->redirect('/dashboard', array('alert' => array('message' => 'Cet utilisateur n\'existe pas.', 'type' => 'red')));
 
+        if (isset($post['amount'])) {
+            $user->setPoints($user->getPoints() + $post['amount']);
+            $user->save();
+
+            return $this->redirect('/dashboard', array('alert' => array('message' => $user->getName() . ' : ' . ($post['amount'] > 0 ? '+' : '') . $post['amount'], 'type' => 'green')));
+        }
+        
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,

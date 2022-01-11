@@ -1,6 +1,6 @@
 <section class="dashboard-content">
     <h4 class="font-thin">Ajouter des points</h4>
-    <form action="/dashboard/add-points/<?= $params['target']->getId() ?>" method="POST">
+    <form action="<?= BASE_PATH; ?>/dashboard/add-points/<?= $params['target']->getId() ?>" method="POST">
         <div class="flex items-center">
             <div class="avatar-container">
                 <img class="avatar" onerror="this.src='<?php echo Constants::getPublicPath() . '/vendor/svg/placeholder-bg.svg'; ?>'" src="<?php echo $params['target']->getAvatar(); ?>" alt="Avatar de <?php echo $params['target']->getName(); ?>">
@@ -12,7 +12,7 @@
                 <?php echo $params['target']->getEmail(); ?>
             </p>
 
-            <input style="margin-top: 1.5rem;" type="number" aria-label="Montant" placeholder="Montant">
+            <input style="margin-top: 1.5rem;" type="number" id="amount" name="amount" aria-label="Montant" placeholder="Montant" required>
         </div>
         
         <p style="margin-top: 1.5rem; text-align: justify; font-size: large">
