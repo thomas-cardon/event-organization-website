@@ -25,14 +25,14 @@ final class SignupController
         if ($this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous êtes déjà connecté.', 'type' => 'blue')));
         //si les champs sont vides affiche une erreur
-        else if (empty($_POST['email']) || empty($_POST['nom']) || empty($_POST['prenom']))
+        else if (empty($_POST['email']) || empty($_POST['lastName']) || empty($_POST['firstName']))
             $this->userError('Veuillez remplir tous les champs.');
 
         
         /* @todo: vérifier que l'adresse mail est valide */
 
         // On vérifie si l'utilisateur existe déja
-        $user = User::getByEmail($email);
+        $user = User::getByEmail($_POST('email'));
         
         if ($user) $this->userError('Votre compte existe déjà, ou cette adresse-mail est déjà utilisée');
         else $this->createUser();
@@ -40,7 +40,7 @@ final class SignupController
 
     private function createUser()
     {
-        $user = new User($_POST['email'], $_POST['prenom'], $_POST['nom'], self::resetPassword(null, $_POST['email'], true));
+        $user = new User($_POST['email'], $_POST['firstName'], $_POST['lastName'], self::resetPassword(null, $_POST['email'], true));
         $user->save();
         if ($user) {
             $session = array(

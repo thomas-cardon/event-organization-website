@@ -46,7 +46,7 @@ final class UnlockableContent extends Model
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) return null;
-        $return new UnlockableContent($row['id'], $row['name'], $row['description'], $row['points_required'], $row['event_id'], $row['created_at'], $row['updated_at']);
+        return new UnlockableContent($row['id'], $row['name'], $row['description'], $row['points_required'], $row['event_id'], $row['created_at'], $row['updated_at']);
     }
 
     public static function findByEventId($event_id): array
@@ -134,7 +134,7 @@ final class UnlockableContent extends Model
 
     public function getCreatedAt(): DateTime
     {
-        return new DateTime$this->created_at);
+        return new DateTime($this->created_at);
     }
 
     public function getUpdatedAt(): DateTime
