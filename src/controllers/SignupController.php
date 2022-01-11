@@ -32,7 +32,7 @@ final class SignupController
         /* @todo: vérifier que l'adresse mail est valide */
 
         // On vérifie si l'utilisateur existe déja
-        $user = User::getByEmail($_POST('email'));
+        $user = User::getByEmail($_POST['email']);
         
         if ($user) $this->userError('Votre compte existe déjà, ou cette adresse-mail est déjà utilisée');
         else $this->createUser();
@@ -81,7 +81,7 @@ final class SignupController
             $password = (new SignupController)->generateRandomPassword();
 
             $message =  'Voici vos identifiants pour se connecter à E-event.io\n' .
-                'Email: '.$user->getEmail().'\n' .
+                'Email: '. $user->getEmail() .'\n' .
                 'Mot de passe: '. $password . '\n' .
                 'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
                 
