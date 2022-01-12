@@ -19,7 +19,6 @@ final class Campaign extends Model
      */
     public function __construct($name, $description, $from, $to, $id = null, $created_at = null, $updated_at = null)
     {
-        parent::__construct();
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
@@ -42,6 +41,20 @@ final class Campaign extends Model
         }
         return $campaigns;
     }
+
+    public static function getCurrentCampaign(): ?Campaign
+    {
+        $sql = "SELECT * FROM `campaigns` WHERE DATE(`from`) <= NOW() AND DATE(`to`) >= NOW();";
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($row) {
+            return new Campaign($row['name'], $row['description'], $row['from'], $row['to'], $row['id'], $row['created_at'], $row['updated_at']);
+        }
+        return null;
+    }
+    
     public static function getById($id): ?Campaign
     {
         $sql = 'SELECT * FROM campaigns WHERE id = :id';
@@ -75,28 +88,14 @@ final class Campaign extends Model
         $stmt->execute();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
-        return $this->created_at;
+        return new DateTime($this->created_at);
     }
 
-    /**
-     * @param mixed $created_at
-     */
-    public function setCreatedAt($created_at)
+    public function getUpdatedAt(): DateTime
     {
-        $this->created_at = $created_at;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
+        return new DateTime($this->updated_at);
     }
 
     /**
@@ -161,15 +160,23 @@ final class Campaign extends Model
         $this->description = $description;
     }
 
-    public function getFrom() {
-        return $this->from;
+    public function getFrom(): int {
+        return strtotime($this->from);
     }
 
     public function setFrom($from) {
         $this->from = $from;
     }
 
-    public function getTo() {
+    public function getFromUnformatted(): string {
+        return $this->from;
+    }
+
+    public function getTo(): int {
+        return strtotime($this->to);
+    }
+
+    public function getToUnformatted(): string {
         return $this->to;
     }
 

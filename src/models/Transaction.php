@@ -10,7 +10,6 @@ final class Transaction extends Model
 
     public function __construct($id, $user_id, $event_id, $amount, $comment, $created_at)
     {
-        parent::__construct();
         $this->id = $id;
         $this->user_id = $user_id;
         $this->event_id = $event_id;
@@ -49,9 +48,9 @@ final class Transaction extends Model
         return $this->comment;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
-        return $this->created_at;
+        return new DateTime($this->created_at);
     }
 
     public function setId($id)

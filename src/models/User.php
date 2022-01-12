@@ -15,7 +15,6 @@ final class User extends Model
 
     public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = null, $created_at = null, $updated_at = null, $avatar = null)
     {
-        parent::__construct();
         $this->id = $id;
         $this->email = $email;
         $this->firstName = $firstName;
@@ -219,21 +218,14 @@ final class User extends Model
         return $this->firstName . ' ' . $this->lastName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
-        return $this->created_at;
+        return new DateTime($this->created_at);
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): DateTime
     {
-        return $this->updated_at;
+        return new DateTime($this->updated_at);
     }
 
     /**

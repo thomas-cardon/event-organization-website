@@ -17,8 +17,6 @@ final class Event extends Model
 
     public function __construct($id, $name, $description, $author, $from, $to, $created_at, $updated_at, $status = 'pending')
     {
-        parent::__construct();
-
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
@@ -70,6 +68,24 @@ final class Event extends Model
             $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['to'], $row['created_at'], $row['updated_at'], $row['updated_at'], $row['from']);
             $events[] = $event;
         }
+        return $events;
+    }
+
+    public static function findByCampaign($campaign): array
+    {        
+        $sql = "SELECT * FROM events WHERE DATE(`from`) <= :from AND DATE(`to`) >= :to";
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':from', $from);
+        $stmt->bindParam(':to', $to);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $events = [];
+        foreach ($rows as $row) {
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status']);
+            $events[] = $event;
+        }
+
         return $events;
     }
 
@@ -241,12 +257,12 @@ final class Event extends Model
         return new DateTime($this->to);
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): DateTime
     {
         return new DateTime($this->created_at);
     }
 
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): DateTime
     {
         return new DateTime($this->updated_at);
     }

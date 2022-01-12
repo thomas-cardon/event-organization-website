@@ -12,8 +12,6 @@ final class UnlockableContent extends Model
 
     public function __construct($id, $name, $description, $points_required, $event_id, $created_at, $updated_at)
     {
-        parent::__construct();
-
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
