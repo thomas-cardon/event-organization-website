@@ -65,6 +65,12 @@ final class SigninController
         $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
     }
 
+
+    /**
+     * Envoie les données de connexions de l'utilisateur par mail
+     * @return string Mot de passe généré aléatoirement non hashé
+     * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
+     */
     public static function resetPasswordAction($userId, $mail): string
     {
         $user = User::getById($userId);

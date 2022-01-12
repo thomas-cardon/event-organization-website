@@ -38,6 +38,10 @@ final class SignupController
         else $this->createUser();
     }
 
+    /**
+     * Génère un mot de passe aléatoire pour un utilisateur spécifié, le hashe et l'enregistre dans la base de données
+     * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
+     */
     private function createUser()
     {
         $password = $this->generateRandomPassword();
@@ -75,9 +79,9 @@ final class SignupController
     }
 
     /**
-     * Génère un mot de passe aléatoire pour un utilisateur spécifié, le hashe et l'enregistre dans la base de données
+     * Envoie les données de connexions de l'utilisateur par mail
      * @return string Mot de passe généré aléatoirement non hashé
-     * @author Thomas Cardon, Enzo Vargas, Justin De Sio
+     * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
      */
     public static function sendMail($mail, $new, $password): string
     {
