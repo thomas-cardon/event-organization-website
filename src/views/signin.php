@@ -25,7 +25,7 @@
 
                 <div class="horizontal justify-start" style="gap: 1rem">
                     <input type="submit" class="btn action slide-in-bottom" value="Se connecter" />
-                    <a href="javascript:void(0);" onclick="prompt('Quelle est votre adresse e-mail ?');">Mot de passe oublié?</a>
+                    <a href="signin/resetPassword" onclick="prompt('Quelle est votre adresse e-mail ?');">Mot de passe oublié?</a>
                 </div>
             </form>
         </section>

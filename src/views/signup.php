@@ -25,7 +25,6 @@
 
                 <div class="input-group horizontal">
                     <input class="w-full glass text-gray-less" type="email" name="email" id="email" aria-label="Votre adresse e-mail" placeholder="Votre adresse e-mail" required />
-                    <input class="w-full glass text-gray-less" type="password" name="password" id="password" aria-label="Votre mot de passe" placeholder="Votre mot de passe" required />
                 </div>
 
                 <div class="horizontal justify-start" style="gap: 1rem">
