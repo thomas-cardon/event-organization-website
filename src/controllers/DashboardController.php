@@ -16,6 +16,9 @@ final class DashboardController
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? null,
+
+            'current_campaign' => Campaign::getCurrentCampaign(),
+            'current_campaign_events' => Event::findByCampaign(Campaign::getCurrentCampaign()),
             'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::findAll(5) : null,
             'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
             'sum_points' => $session['user']->getRole() === 'admin' ? User::sumPoints() : null,

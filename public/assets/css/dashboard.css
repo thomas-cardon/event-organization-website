@@ -94,7 +94,7 @@ main.dashboard > footer {
         width: 90vw;
     }
 
-    .card-transparent {
+    .transparent {
         width: 100%;
     }
 }
@@ -136,6 +136,14 @@ main.dashboard > footer {
     border-radius: 0.8rem;
     background-color: var(--dark-1);
     box-shadow: 5px 5px 5px #0000001a;
+
+    padding: 20px;
+}
+
+.transparent {
+    background-color: transparent !important;
+    box-shadow: none;
+    padding: 0;
 }
 
 .numbers {
@@ -181,11 +189,6 @@ main.dashboard > footer {
 .card > header h2 {
     font-size: clamp(1rem, 10px + 1.5vw, 2rem);
     margin-left: 10px;
-}
-
-.card-transparent {
-    background-color: transparent !important;
-    box-shadow: none;
 }
 
 table thead th {

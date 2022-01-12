@@ -10,9 +10,12 @@
         <?php
         if (isset($params['content']))
             echo $params['content'];
-        else if ($params['user']->getRole() === 'admin')
+        else if ($params['user']->getRole() === 'admin') {
             View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null, 'hide_all_users_button' => $params['hide_all_users_button'] ?? false ));
-        else if ($params['user']->getRole() === 'organizer') View::show('components/dashboard/widgets/myRecentEvents', array( 'data' => $params['my_recent_events'] ?? null ));
+            View::show('components/dashboard/widgets/currentCampaign', array( 'data' => $params['current_campaign'] ?? null, 'events' => $params['current_campaign_events'] ));
+        }
+        else if ($params['user']->getRole() === 'organizer')
+            View::show('components/dashboard/widgets/myRecentEvents', array( 'data' => $params['my_recent_events'] ?? null ));
         ?>
     </div>
 

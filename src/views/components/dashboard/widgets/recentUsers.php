@@ -1,4 +1,4 @@
-<div class="flex card card-transparent">
+<div class="flex card transparent">
     <header>
         <h4 class="font-thin">
         <?php if ($params['hide_all_users_button']): ?>
@@ -14,7 +14,6 @@
             Créer
         </a>
     </header>
-    <h2 class="title"></h2>
     <?php if (is_array($params['data'])): ?>
         <table id="recentUsers" class="table table-striped table-bordered" style="width:100% table-layout: fixed;">
             <tbody>
@@ -29,7 +28,7 @@
                     <td class="xs" width="12%"><?= $user->getEmail(); ?></td>
                     <td width="9.5%">
                         <?= $user->getPoints(); ?>$</td>
-                    <td class="xs"  width="12%"><?= date('d/m/Y', strtotime($user->getCreatedAt())); ?></td>
+                    <td class="xs" width="12%"><?= $user->getCreatedAt()->format('d/m/Y'); ?></td>
                     <td width="42%">
                         <a class="xs" href="<?= BASE_PATH; ?>/dashboard/reset-password/<?= $user->getId(); ?>"/>
                             Regénérer mot de passe
