@@ -90,6 +90,11 @@
                         </a>
                     </li>
                 </ul>
+                <center>
+                    <a href="<?= BASE_PATH; ?>/event/all">
+                        Voir tous les événements
+                    </a>
+                </center>
             </div>
         </section>
     </section>
