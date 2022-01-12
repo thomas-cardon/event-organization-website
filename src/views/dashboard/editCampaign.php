@@ -10,7 +10,9 @@
             <input type="datetime-local" class="text-white" min="<?= date('Y-m-d');?>T00:00" aria-label="Date et heure de fin" placeholder="Termine le:">
             <p style="margin: 1rem 0; text-align: justify; font-size: large">
                 <i>
-                    q
+                    Pendant la période de la campagne, les organisateurs pourront ajouter des évènements.
+                    Après la fin de la campagne, les évènements devront être validés par le jury.
+                    Toute les idées, réalisées ou non, resteront visibles pour tout le monde.
                 </i>
             </p>
 
