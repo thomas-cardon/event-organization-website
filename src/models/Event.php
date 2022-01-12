@@ -42,9 +42,9 @@ final class Event extends Model
         return $event;
     }
 
-    public static function findAll($limit = -1): array
+    public static function findAll($limit = -1, $offset = 0): array
     {
-        $sql = 'SELECT * FROM events ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '');
+        $sql = 'SELECT * FROM events ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '') . ($offset > 0 ? ' OFFSET ' . $offset : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
