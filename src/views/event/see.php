@@ -92,7 +92,7 @@
                 <?php if (empty($params['donations'])): ?>
                     <p>
                         Aucun don n'a été effectué pour l'instant. &nbsp;
-                        <a href="<?php echo BASE_PATH . '/event/donate/' . $params['event']['id']; ?>">
+                        <a href="<?php echo BASE_PATH . '/event/donate/' . $params['event']->getId(); ?>">
                             Donner des points
                         </a>
                     </p>
