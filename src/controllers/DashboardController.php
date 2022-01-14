@@ -183,7 +183,7 @@ final class DashboardController
      * @param $session array
      * @author Thomas Cardon
      */
-    public function EventAction($params, $post, $session)
+    public function eventAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
@@ -198,7 +198,7 @@ final class DashboardController
         $_SESSION['alert'] = null;
     }
 
-    public function CreateEventAction($params, $post, $session)
+    public function createEventAction($params, $post, $session)
     {
         $event = new Event(7, $_POST['Nom'], $_POST['Description'],1, $_POST['DateDep'], $_POST['DateFin'], '2021-12-29 11:40:36', '2021-12-29 11:40:36');
         var_dump($event);
