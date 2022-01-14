@@ -19,7 +19,5 @@ class Model {
         return self::$db;
     }
 
-    public function __destruct() {
-        self::$db = null;
-    }
+
 }
