@@ -15,7 +15,7 @@ final class Event extends Model
     private $created_at;
     private $updated_at;
 
-    public function __construct($name, $description, $author, $id, $from, $to, $created_at, $updated_at, $status = 'pending')
+    public function __construct($name, $description, $author, $from, $to, $id = null, $created_at = null, $updated_at = null, $status = 'pending')
     {
         $this->id = $id;
         $this->name = $name;
@@ -177,9 +177,9 @@ final class Event extends Model
 
     public function save(): void
     {
-        $sql = 'REPLACE INTO events (name, description, author, status, from, to, created_at, updated_at) VALUES (:name, :description, :author, :status, :from, :to, :created_at, :updated_at)';
-        $stmt = self::getDatabaseInstance();
-        $stmt->prepare($sql);
+        $sql = 'REPLACE INTO events (name, description, author, status, `from`, `to`, created_at, updated_at) VALUES (:name, :description, :author, :status, :from, :to, :created_at, :updated_at)';
+        $query = self::getDatabaseInstance();
+        $stmt = $query->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':author', $this->author);
