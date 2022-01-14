@@ -2,7 +2,9 @@
     View::addScript('chart.js', 'https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js', 'sha384-4OMvxyBTgFvMJK0tWjIk57FbleRvzmamjg6m+ERG0/p0rV83S6PHHUcLu84Gt+SF', 'anonymous', true, 'text/javascript', 'head', true);
 ?>
 <canvas id="userChart"></canvas>
-<script>
+<script type="text/javascript">
+    const nb = <?= json_encode($params['data']); ?>;
+
     window.addEventListener("DOMContentLoaded", e => {
         Chart.defaults.color = 'white';
         let ctx = document.getElementById("userChart");
@@ -15,9 +17,9 @@
         new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Administrateur', 'Organisateur', 'Jury', 'Participant'],
+                    labels: nb.map(x => x.role),
                     datasets: [{
-                        data: [12, 19, 3, 5],
+                        data: nb.map(x => x.nb),
                         backgroundColor: [c0, c1, c2, c3],
                         borderWidth: 0
                     }]

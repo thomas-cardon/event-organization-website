@@ -10,14 +10,6 @@ class Model {
      * @author Thomas Cardon
      * @return PDO
      */
-    public function __construct() {
-        self::getDatabaseInstance();
-    }
-
-    public function conn() {
-        return self::$db;
-    }
-
     public static function getDatabaseInstance() {
         if (self::$db === null) {
             self::$db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);

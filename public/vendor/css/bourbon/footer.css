@@ -1,8 +1,7 @@
 main > footer {
     margin: 0 auto;
+    padding: 2rem 0;
     width: 100%;
-    padding-top: 4rem;
-    padding-bottom: 1.5rem;
     background-color: #001220;
 
     display: flex;
@@ -10,4 +9,6 @@ main > footer {
     justify-content: center;
 
     grid-area: footer;
+
+    font-weight: lighter;
 }

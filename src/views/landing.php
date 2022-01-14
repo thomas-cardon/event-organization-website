@@ -13,21 +13,19 @@
                         E-Event.IO
                 </h1>
                 <p class="text-gray-1 slide-in-bottom-subtitle">
-                    Créez vos évènements en quelques clics, gérez vos invités, organisez sans inquiétude votre soirée.
+                    Créez vos évènements en quelques clics, gérez vos invités, organisez avec quiétude votre soirée.
                 </p>
-                <div class="buttons horizontal" style="margin-top: 1rem">
-                    <?php if (!$params['authentified']) : ?>
-                        <a class="btn action slide-in-bottom" href="<?php echo BASE_PATH ?>/signup" style="margin-top: 1rem" style="margin-top: 1rem">Inscrivez-vous</a>
-                        <a class="btn slide-in-bottom" href="<?php echo BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
-                    <?php else : ?>
-                        <button class="flex items-center px-4 py-2 text-sm font-medium slide-in-bottom sm text-green-6 green">
-                            <svg class="text-green-5" width="12" height="20" fill="currentColor">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 5a1 1 0 011 1v3h3a1 1 0 110 2H7v3a1 1 0 11-2 0v-3H2a1 1 0 110-2h3V6a1 1 0 011-1z"></path>
-                            </svg>
-                            Nouveau
-                        </button>
-                    <?php endif; ?>
-                </div>
+                <?php if (!$params['authentified']) : ?>
+                    <div class="buttons horizontal" style="margin-top: 1rem">
+                            <a class="btn action slide-in-bottom" href="<?= BASE_PATH ?>/signup" style="margin-top: 1rem" style="margin-top: 1rem">Inscrivez-vous</a>
+                            <a class="btn slide-in-bottom" href="<?= BASE_PATH ?>/signin" style="margin-top: 1rem">Connectez-vous</a>
+                    </div>
+                <?php elseif ($params['user']->getRole() === 'organizer' || $params['user']->getRole() === 'admin'): ?>
+                    <a href="<?= BASE_PATH; ?>/dashboard/create-event" style="margin-top: 1rem; width: 12rem;" class="btn horizontal text-sm font-medium slide-in-bottom text-green-6 green">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="text-green-5" fill="currentColor" width="50" height="50" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>
+                        Nouveau
+                    </a>
+                <?php endif; ?>
             </div>
             <div id="recentEvents" class="fade-in glass text-gray-less">
                 <header class="flex items-center justify-between">
@@ -37,19 +35,11 @@
                             Campagne du 01/01: <i>Tournoi volleyball</i>
                         </p>
                     </div>
-                    <?php if ($params['authentified']) : ?>
-                        <button class="flex items-center px-4 py-2 text-sm font-medium sm text-green-6 green">
-                            <svg class="text-green-5" width="12" height="20" fill="currentColor">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 5a1 1 0 011 1v3h3a1 1 0 110 2H7v3a1 1 0 11-2 0v-3H2a1 1 0 110-2h3V6a1 1 0 011-1z"></path>
-                            </svg>
-                            Nouveau
-                        </button>
-                    <?php endif; ?>
                 </header>
 
                 <ul>
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
+                        <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h4 class="font-hero">
                                     Tournoi volleyball
@@ -62,7 +52,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
+                        <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h4 class="font-hero">
                                     Tournoi volleyball
@@ -75,7 +65,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
+                        <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h4 class="font-hero">
                                     Tournoi volleyball
@@ -88,7 +78,7 @@
                     </li>
 
                     <li>
-                        <a href="<?php echo BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
+                        <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h4 class="font-hero">
                                     Tournoi volleyball
@@ -100,6 +90,11 @@
                         </a>
                     </li>
                 </ul>
+                <center>
+                    <a href="<?= BASE_PATH; ?>/event/all">
+                        Voir tous les événements
+                    </a>
+                </center>
             </div>
         </section>
     </section>

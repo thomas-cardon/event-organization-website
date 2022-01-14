@@ -10,8 +10,6 @@ final class Transaction extends Model
 
     public function __construct($id, $user_id, $event_id, $amount, $comment, $created_at)
     {
-        parent::__construct();
-
         $this->id = $id;
         $this->user_id = $user_id;
         $this->event_id = $event_id;
@@ -50,9 +48,9 @@ final class Transaction extends Model
         return $this->comment;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
-        return $this->created_at;
+        return new DateTime($this->created_at);
     }
 
     public function setId($id)
@@ -87,7 +85,7 @@ final class Transaction extends Model
 
     public function save()
     {
-        $sql = "INSERT INTO transactions (user_id, event_id, amount,comment) VALUES (:user_id, :event_id, :amount,:comment)";
+        $sql = "REPLACE INTO transactions (user_id, event_id, amount,comment) VALUES (:user_id, :event_id, :amount,:comment)";
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':event_id', $this->event_id);
@@ -117,7 +115,7 @@ final class Transaction extends Model
         $stmt->execute();
     }
 
-    public static function getById($id)
+    public static function getById($id): ?Transaction
     {
         $sql = "SELECT * FROM transactions WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -125,8 +123,7 @@ final class Transaction extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            $transaction = new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
-            return $transaction;
+            return new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
         }
         return null;
     }

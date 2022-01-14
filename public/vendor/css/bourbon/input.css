@@ -134,6 +134,7 @@ button.green, .btn.green {
 .btn > svg, button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
     margin-right: 0.5rem;
     width: 1rem;
+    height: 1rem;
 }
 
 .button-group {
@@ -186,11 +187,11 @@ input.glass:-webkit-autofill {
 
 .input-group {
     display: flex;
-    flex-wrap:wrap;
 }
 
 .input-group.horizontal {
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .input-group > * {

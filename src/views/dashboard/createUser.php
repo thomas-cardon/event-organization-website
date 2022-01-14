@@ -1,5 +1,5 @@
 <section class="dashboard-content">
-    <h1>Créer un utilisateur</h2>
+    <h4 class="font-thin">Créer un utilisateur</h4>
     <form action="" method="POST">
         <div class="input-group horizontal">
             <input autofocus class="w-full" type="text" aria-label="Nom" placeholder="Nom">
