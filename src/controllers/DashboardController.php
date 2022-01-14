@@ -183,11 +183,11 @@ final class DashboardController
      * @param $session array
      * @author Thomas Cardon
      */
-    public function createEventAction($params, $post, $session)
+    public function eventAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
-        
+
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
@@ -197,6 +197,15 @@ final class DashboardController
 
         $_SESSION['alert'] = null;
     }
+
+    public function createEventAction($params, $post, $session)
+    {
+        $event = new Event(7, $_POST['Nom'], $_POST['Description'],1, $_POST['DateDep'], $_POST['DateFin'], '2021-12-29 11:40:36', '2021-12-29 11:40:36');
+        var_dump($event);
+        $event->save();
+        $this->redirect('/');
+    }
+
 
     public function usersAction($params, $post, $session)
     {
@@ -251,7 +260,7 @@ final class DashboardController
 
         if (isset($post['amount'])) {
             $user->setPoints($user->getPoints() + $post['amount']);
-            $user->update();
+            $user->save();
 
             return $this->redirect('/dashboard', array('alert' => array('message' => $user->getName() . ' : ' . ($post['amount'] > 0 ? '+' : '') . $post['amount'], 'type' => 'green')));
         }

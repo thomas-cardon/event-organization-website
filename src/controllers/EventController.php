@@ -10,7 +10,7 @@ final class EventController
         $event = Event::getById($id);
 
         if (!$event) {
-            $this->redirect('/', array('alert' => array('message' => 'L’événement n’existe pas.', type => 'red')));
+            $this->redirect('/', array('alert' => array('message' => 'L’événement n’existe pas.', 'type' => 'red')));
         }
 
         View::show('event', array(
@@ -25,6 +25,8 @@ final class EventController
 
         $_SESSION['alert'] = null;
     }
+
+
 
     public function winnersAction($params, $post, $session) {
         View::show('event', array(

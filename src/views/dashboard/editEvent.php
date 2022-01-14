@@ -1,13 +1,13 @@
 <?php View::setTitle(($params['edit'] ? 'Editer' : 'Créer') . ' un évènement'); ?>
 <section class="dashboard-content">
     <h4 class="font-thin"><?= $params['edit'] ? 'Éditer' : 'Créer'; ?> un évènement</h4>
-    <form action="<?= BASE_PATH . '/dashboard/edit-event'; ?>" method="POST">
+    <form action="<?= BASE_PATH . '/Dashboard/CreateEvent'; ?>" method="POST">
         <div class="input-group horizontal">
-            <input autofocus type="text" <?= $params['event']['canEdit'] ?? true ? '' : 'disabled' ?> aria-label="Nom" placeholder="Nom" value="<?= $params['event']['title'] ?? ''; ?>">
-            <textarea type="text" <?= $params['event']['canEdit'] ?? true ? '' : 'disabled' ?> aria-label="Description" placeholder="Description" rows="5" value="<?php  echo $params['event']['description'] ?? '';?>"></textarea>
+            <input autofocus type="text" name="Nom" id="Nom" aria-label="Nom" placeholder="Nom" required>
+            <textarea type="text" name="Description" id="Description" aria-label="Description" placeholder="Description" rows="5"></textarea>
 
-            <input type="datetime-local" <?= $params['event']['canEdit'] ?? true ? '' : 'disabled' ?> min="<?= date('Y-m-d');?>T00:00" aria-label="Date et heure de départ" placeholder="Commence le:" value="<?= date('Y-m-d\TH:i', strtotime($params['event']['from'] ?? null)); ?>">
-            <input type="datetime-local" <?= $params['event']['canEdit'] ?? true ? '' : 'disabled' ?> min="<?= date('Y-m-d');?>T00:00" aria-label="Date et heure de fin" placeholder="Termine le:" value="<?= date('Y-m-d\TH:i', strtotime($params['event']['to'] ?? null)); ?>">
+            <input type="datetime-local" name="DateDep" id="DateDep" min="<?= date('Y-m-d');?>T00:00" aria-label="DateDep" placeholder="Commence le:" value="<?= date('Y-m-d\TH:i', strtotime($params['event']['from'] ?? null)); ?>">
+            <input type="datetime-local" name="DateFin" id="DateFin" min="<?= date('Y-m-d');?>T00:00" aria-label="DateFin" placeholder="DateFin" value="<?= date('Y-m-d\TH:i', strtotime($params['event']['to'] ?? null)); ?>">
             <p style="margin: 1rem 0; text-align: justify; font-size: large">
                 <i>
                     <?php if ($params['edit']): ?>
