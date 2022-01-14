@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "749b083fed58ec8681cc4e2bdffe0f12",
+    "content-hash": "b870072f1cfc498f504ce9439065afdc",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -143,6 +143,61 @@
                 }
             ],
             "time": "2021-12-24T12:24:20+00:00"
+        },
+        {
+            "name": "misantron/dbunit",
+            "version": "5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/misantron/dbunit.git",
+                "reference": "2b68c5d1de61b8748cbcef610b939f02a7b9f453"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/misantron/dbunit/zipball/2b68c5d1de61b8748cbcef610b939f02a7b9f453",
+                "reference": "2b68c5d1de61b8748cbcef610b939f02a7b9f453",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": "^7.2 || ^8.0",
+                "phpunit/phpunit": "^8.5 || ^9.2",
+                "symfony/yaml": "^4.4 || ^5.0 || ^6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.18 || ^3.3",
+                "php-coveralls/php-coveralls": "^2.5",
+                "phpstan/phpstan": "^1.2",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPUnit\\DbUnit\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksandr Ivanov",
+                    "email": "misantron@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "DbUnit fork supporting PHPUnit 8/9",
+            "keywords": [
+                "database",
+                "dbUnit",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/misantron/dbunit/issues",
+                "source": "https://github.com/misantron/dbunit/tree/5.2.1"
+            },
+            "time": "2021-12-04T11:15:07+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2111,6 +2166,80 @@
             "time": "2021-10-20T20:35:02+00:00"
         },
         {
+            "name": "symfony/yaml",
+            "version": "v6.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "ed602f38b8636a2ea21af760d2578f3d2f92fc60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/ed602f38b8636a2ea21af760d2578f3d2f92fc60",
+                "reference": "ed602f38b8636a2ea21af760d2578f3d2f92fc60",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.2",
+                "symfony/polyfill-ctype": "^1.8"
+            },
+            "conflict": {
+                "symfony/console": "<5.4"
+            },
+            "require-dev": {
+                "symfony/console": "^5.4|^6.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "bin": [
+                "Resources/bin/yaml-lint"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Loads and dumps YAML files",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/yaml/tree/v6.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-12-16T22:13:01+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.2.1",
             "source": {
@@ -2225,9 +2354,7 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {
-        "ext-pdo": "*"
-    },
+    "platform": [],
     "platform-dev": [],
     "plugin-api-version": "2.2.0"
 }
