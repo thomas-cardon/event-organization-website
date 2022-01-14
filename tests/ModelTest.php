@@ -16,6 +16,6 @@ class ModelTest extends TestCase
 
     public function testGetDatabaseInstance()
     {
-
+        $this->assertNotNull(Model::getDatabaseInstance());
     }
 }
