@@ -38,10 +38,19 @@ final class SignupController
         else $this->createUser();
     }
 
+    /**
+     * Génère un mot de passe aléatoire pour un utilisateur spécifié, le hashe et l'enregistre dans la base de données
+     * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
+     */
     private function createUser()
     {
-        $user = new User($_POST['email'], $_POST['firstName'], $_POST['lastName'], self::resetPassword(null, $_POST['email'], true));
+        $password = $this->generateRandomPassword();
+
+        $user = new User($_POST['email'], $_POST['firstName'], $_POST['lastName'], $password);
+//        , self::sendMail(null, $_POST['email'], true)
+        $user->setHash(password_hash($password, PASSWORD_DEFAULT));
         $user->save();
+        self::sendMail( $_POST['email'], true, $password);
         if ($user) {
             $session = array(
                 'user' => $user,
@@ -70,45 +79,34 @@ final class SignupController
     }
 
     /**
-     * Génère un mot de passe aléatoire pour un utilisateur spécifié, le hashe et l'enregistre dans la base de données
+     * Envoie les données de connexions de l'utilisateur par mail
      * @return string Mot de passe généré aléatoirement non hashé
-     * @author Thomas Cardon, Enzo Vargas, Justin De Sio
+     * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
      */
-    public static function resetPassword($userId, $mail, $new = true): string {
-        $user = User::getById($userId);
+    public static function sendMail($mail, $new, $password): string
+    {
+        $user = User::getByEmail($mail);
+        var_dump($user);
+        if ($new){
 
-        if ($new) {
-            $password = (new SignupController)->generateRandomPassword();
+           $to = $user->getEmail();
+           $subject = 'Bienvenue sur E-EVENT.IO !';
+           $message = 'Voici vos identifiants pour se connecter à E-event.io\n' .
+               'Email: ' . $user->getEmail() . '\n' .
+               'Mot de passe: ' . $password . '\n' .
+               'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
+           mail($to, $subject, $message);
 
-            $message =  'Voici vos identifiants pour se connecter à E-event.io\n' .
-                'Email: '. $user->getEmail() .'\n' .
-                'Mot de passe: '. $password . '\n' .
-                'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
-                
+
             if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
                 throw new Exception('Erreur lors de l\'envoi du mail');
             
             return $password;
         }
-        else if ($user) {
-            $password = (new SignupController)->generateRandomPassword();
-            $user->setHash(password_hash($password, PASSWORD_DEFAULT));
-            $user->save();
-
-            $message = 'Votre mot de passe a été réinitialisé.\n' .
-                'Voici vos identifiants pour se connecter à E-event.io\n' .
-                'Email: '.$user->getEmail().'\n' .
-                'Mot de passe: '. $password . '\n' .
-                'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
-                    
-            if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
-                throw new Exception('Erreur lors de l\'envoi du mail');
-
-            return $password;
-        }
         else throw new Exception('L\'utilisateur demandé n\'existe pas.');
-    }
 
+
+    }
 }
 
 ?>

@@ -64,6 +64,38 @@ final class SigninController
     private function userError($msg, $type = 'red') {
         $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
     }
+
+
+    /**
+     * Envoie les données de connexions de l'utilisateur par mail
+     * @return string Mot de passe généré aléatoirement non hashé
+     * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
+     */
+    public static function resetPasswordAction($userId, $mail): string
+    {
+        $user = User::getById($userId);
+
+        if (isset ($user)) {
+
+            $password = (new SignupController)->singnupController::generateRandomPassword();
+            $user->setHash(password_hash($password, PASSWORD_DEFAULT));
+            $user->save();
+
+            $to = $user->getEmail();
+            $subject = 'Changement de mot de passe E-EVENT.IO !';
+            $message = 'Votre mot de passe a été réinitialisé.\n' .
+                'Voici vos identifiants pour se connecter à E-event.io\n' .
+                'Email: ' . $user->getEmail() . '\n' .
+                'Mot de passe: ' . $password . '\n' .
+                'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
+            mail($to, $subject, $message);
+
+            if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
+                throw new Exception('Erreur lors de l\'envoi du mail');
+
+            return $password;
+        }
+    }
 }
 
 ?>
