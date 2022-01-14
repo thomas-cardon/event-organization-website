@@ -1,5 +1,19 @@
 {
-    "require": {
-        "itsgoingd/clockwork": "^5.1"
+  "name": "funax/test",
+  "authors": [
+    {
+      "name": "Justin De Sio",
+      "email": "justin.de-sio@etu.univ-amu.fr"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "model\\": "src/models/" ,
+      "\\": "src/core/"
+    }
+  },
+  "require": {
+    "itsgoingd/clockwork": "^5.1",
+    "phpunit/phpunit": "^9.5.11"
+  }
 }
