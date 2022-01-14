@@ -8,8 +8,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "model\\": "src/models/" ,
-      "\\": "src/core/"
+
     }
   },
   "require": {
