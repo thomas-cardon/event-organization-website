@@ -48,13 +48,8 @@ final class SigninController
         $user = User::getByEmail($email);
         if ($user) {
             if (password_verify($password, $user->getHash())) {
-                $session = array(
-                    'user' => $user,
-                    'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')
-                );
-
-                $_SESSION = $session;
-                $this->redirect('/');
+                $_SESSION['user'] = $user;
+                $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
             }
             else $this->userError('Vos identifiants sont incorrects.');
         }

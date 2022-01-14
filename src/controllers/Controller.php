@@ -68,7 +68,6 @@ final class Controller
             $url[1] = $url[1] . 'Action';
         }
 
-
         // on dépile 2 fois de suite depuis le début, c'est à dire qu'on enlève de notre tableau le contrôleur et l'action
         // il ne reste donc que les éventuels parametres (si nous en avons)...
         $this->_url['controller'] = array_shift($url); // on recupere le contrôleur
@@ -105,6 +104,11 @@ final class Controller
         }
 
         session_start();
+
+        if (isset($_SESSION['user']) && $_SESSION['user'] instanceof User) {
+            $_SESSION['user'] = User::getById($_SESSION['user']->getId());
+        }
+        else unset($_SESSION['user']);
 
         $result = call_user_func_array(array(new $this->_url['controller'],
             $this->_url['action']), array($this->_params, $_POST, $_SESSION));
