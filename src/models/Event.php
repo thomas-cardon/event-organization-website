@@ -15,7 +15,7 @@ final class Event extends Model
     private $created_at;
     private $updated_at;
 
-    public function __construct($id, $name, $description, $author, $from, $to, $created_at, $updated_at, $status = 'pending')
+    public function __construct($name, $description, $author, $id, $from, $to, $created_at, $updated_at, $status = 'pending')
     {
         $this->id = $id;
         $this->name = $name;
