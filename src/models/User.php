@@ -96,8 +96,9 @@ final class User extends Model
 
     public function save()
     {
-        $sql = 'REPLACE INTO users (id, hash, email, first_name, last_name, points) 
-                VALUES (:id, :hash, :email, :first_name,:last_name, :points)';
+        $sql = 'REPLACE INTO users (id, hash, email, first_name, last_name, points, role, created_at, updated_at, avatar)
+        VALUES (:id, :hash, :email, :first_name, :last_name, :points, :role, :created_at, :updated_at, :avatar)';
+
         $stmt = self::getDatabaseInstance()->prepare($sql);
 
         $stmt->bindParam(':id', $this->id);
@@ -106,6 +107,10 @@ final class User extends Model
         $stmt->bindParam(':first_name', $this->firstName);
         $stmt->bindParam(':last_name', $this->lastName);
         $stmt->bindParam(':points', $this->points);
+        $stmt->bindParam(':role', $this->role);
+        $stmt->bindParam(':created_at', $this->created_at);
+        $stmt->bindParam(':updated_at', $this->updated_at);
+        $stmt->bindParam(':avatar', $this->avatar);
 
         $stmt->execute();
     }
@@ -113,8 +118,9 @@ final class User extends Model
     public function update()
     {
         $sql = 'UPDATE users 
-                SET last_name = :last_name, first_name= :first_name, email = :email, role=:role, hash=:hash 
+                SET last_name = :last_name, first_name = :first_name, email = :email, role = :role, hash = :hash, points = :points, updated_at = NOW()
                 WHERE id = :id';
+
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':last_name', $this->lastName);
         $stmt->bindParam(':first_name', $this->firstName);

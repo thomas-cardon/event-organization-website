@@ -251,7 +251,7 @@ final class DashboardController
 
         if (isset($post['amount'])) {
             $user->setPoints($user->getPoints() + $post['amount']);
-            $user->save();
+            $user->update();
 
             return $this->redirect('/dashboard', array('alert' => array('message' => $user->getName() . ' : ' . ($post['amount'] > 0 ? '+' : '') . $post['amount'], 'type' => 'green')));
         }
