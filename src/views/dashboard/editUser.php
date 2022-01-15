@@ -1,5 +1,6 @@
+<?php View::setTitle(($params['edit'] ? 'Editer' : 'Créer') . ' un utilisateur'); ?>
 <section class="dashboard-content">
-    <h4 class="font-thin">Créer un utilisateur</h4>
+    <h4 class="font-thin"><?= $params['edit'] ? 'Editer' : 'Créer'; ?> un utilisateur</h4>
     <form action="" method="POST">
         <div class="input-group horizontal">
             <input autofocus class="w-full" type="text" aria-label="Nom" placeholder="Nom">

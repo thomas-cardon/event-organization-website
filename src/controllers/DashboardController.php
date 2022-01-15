@@ -50,7 +50,33 @@ final class DashboardController
             /**
              * Ici, on est obligés d'utiliser View::get pour l'avoir en variable
              */
-            'content' => View::get('dashboard/createUser')
+            'content' => View::get('dashboard/editUser', array('edit' => false))
+        ));
+
+        $_SESSION['alert'] = null;
+    }
+
+    public function editUserAction($params, $post, $session)
+    {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        if (!isset($params[0]))
+            $this->redirect('/dashboard', array('alert' => array('message' => 'Vous devez spécifier un utilisateur.', 'type' => 'yellow')));
+
+        $user = User::getById($params[0]);
+
+        if (!$user)
+            $this->redirect('/dashboard', array('alert' => array('message' => 'L\'utilisateur spécifié n\'existe pas.', 'type' => 'yellow')));
+
+        View::show('dashboard', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'],
+            'content' => View::get('dashboard/editUser', array(
+                'edit' => true,
+                'user' => $user
+            ))
         ));
 
         $_SESSION['alert'] = null;
