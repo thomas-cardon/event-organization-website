@@ -183,10 +183,24 @@ final class DashboardController
      * @param $session array
      * @author Thomas Cardon
      */
-    public function eventAction($params, $post, $session)
+    public function createEventAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+        
+        if ($session['user']->getRole() !== 'admin')
+            return $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+        
+        if (!empty($post)) {
+            try {
+                $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), $_POST['DateDep'], $_POST['DateFin']);
+                $event->save();
+                $session['alert'] = array('message' => 'Evènement créé avec succès.', 'type' => 'green');
+            }
+            catch (Exception $e) {
+                $session['alert'] = array('message' => $e->getMessage(), 'type' => 'red');
+            }
+        }
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
@@ -194,15 +208,6 @@ final class DashboardController
             'user' => $session['user'],
             'content' => View::get('dashboard/editEvent', array( 'edit' => false ) )
         ));
-
-        $_SESSION['alert'] = null;
-    }
-
-    public function createEventAction($params, $post, $session)
-    {
-        $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), $_POST['DateDep'], $_POST['DateFin'], '2021-12-29 11:40:36', '2021-12-29 11:40:36');
-        $event->save();
-        $this->redirect('/dashboard', array('alert' => array('message' => 'Evènement créé avec succès.', 'type' => 'green')));
     }
 
 
