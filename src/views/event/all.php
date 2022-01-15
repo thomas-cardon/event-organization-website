@@ -22,8 +22,8 @@
                 <tr>
                     <td><?= $event->getName(); ?></td>
                     <td class="xs"><?= $event->getDescription(); ?></td>
-                    <td><?= $event->getFrom()->format('d/m'); ?></td>
-                    <td><?= $event->getTo()->format('d/m'); ?></td>
+                    <td><?= $event->getStartDate()->format('d/m'); ?></td>
+                    <td><?= $event->getEndDate()->format('d/m'); ?></td>
                     <td>
                         <a href="<?php echo BASE_PATH . '/event/see/' . $event->getId(); ?>">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
