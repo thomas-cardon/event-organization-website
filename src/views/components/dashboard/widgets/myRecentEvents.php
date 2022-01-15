@@ -23,6 +23,7 @@
             </thead>
             <tbody>
             <?php foreach ($params['data'] as $event) : ?>
+                <?php echo var_dump($event->getCampaign()); ?>
                 <tr>
                     <td>
                         <div class="role <?php echo $event->getStatus() ?>"></div>
@@ -36,7 +37,7 @@
                         </i>
                     </td>
                     <td><?php echo $event->getPointsAmount() ?></td>
-                    <td>
+                    <td class="xs">
                         <a href="<?php echo BASE_PATH . '/event/see/' . $event->getId(); ?>">Voir</a>
                         | <a href="<?php echo BASE_PATH . '/dashboard/edit-event/' . $event->getId(); ?>">Modifier</a>
                     </td>
