@@ -15,7 +15,7 @@ final class Event extends Model
     private $created_at;
     private $updated_at;
 
-    public function __construct($name, $description, $author, $startDate, $endDate, $id = null, $created_at = null, $updated_at = null, $status = 'pending')
+    public function __construct($name, $description, $author, $from, $to, $created_at, $updated_at, $status = 'pending', $id)
     {
         $this->id = $id;
         $this->name = $name;
@@ -37,9 +37,7 @@ final class Event extends Model
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) return null;
-        
-        $event = new Event($row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at'], $row['status']);
-        return $event;
+        return new Event($row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
     }
 
     public static function findAll($limit = -1, $offset = 0): array
@@ -50,7 +48,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
             $events[] = $event;
         }
         return $events;
@@ -65,7 +63,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
             $events[] = $event;
         }
         return $events;
@@ -82,7 +80,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
             $events[] = $event;
         }
 
@@ -153,7 +151,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
             $events[] = $event;
         }
         return $events;
@@ -169,7 +167,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
             $events[] = $event;
         }
         return $events;

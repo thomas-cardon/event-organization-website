@@ -200,10 +200,9 @@ final class DashboardController
 
     public function createEventAction($params, $post, $session)
     {
-        $event = new Event($_POST['Nom'], $_POST['Description'],$session['user']->getId(), $_POST['DateDep'], $_POST['DateFin']);
-        var_dump($event);
+        $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), $_POST['DateDep'], $_POST['DateFin'], '2021-12-29 11:40:36', '2021-12-29 11:40:36');
         $event->save();
-        $this->redirect('/');
+        $this->redirect('/dashboard', array('alert' => array('message' => 'Evènement créé avec succès.', 'type' => 'green')));
     }
 
 
