@@ -38,7 +38,7 @@ final class Event extends Model
 
         if (!$row) return null;
         
-        $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
+        $event = new Event($row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at'], $row['status']);
         return $event;
     }
 
@@ -65,7 +65,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['updated_at'], $row['startDate']);
+            $event = new Event($row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at'], $row['status']);
             $events[] = $event;
         }
         return $events;
@@ -239,6 +239,7 @@ final class Event extends Model
 
     public function getAuthor(): User
     {
+        echo var_dump($this->author);
         return User::getById($this->author);
     }
 
@@ -327,7 +328,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $unlockableContent = [];
         foreach ($rows as $row) {
-            $unlockableContent[] = new UnlockableContent($row['id'], $row['event_id'], $row['content_id'], $row['created_at'], $row['updated_at']);
+            $unlockableContent[] = new UnlockableContent($row['id'], $row['name'], $row['description'], $row['event_id'], $row['points_required'], $row['created_at'], $row['updated_at']);
         }
         return $unlockableContent;
     }

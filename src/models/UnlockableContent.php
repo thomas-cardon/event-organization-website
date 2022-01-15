@@ -10,7 +10,7 @@ final class UnlockableContent extends Model
     private $created_at;
     private $updated_at;
 
-    public function __construct($id, $name, $description, $points_required, $event_id, $created_at, $updated_at)
+    public function __construct($id, $name, $description, $event_id, $points_required, $created_at, $updated_at)
     {
         $this->id = $id;
         $this->name = $name;
