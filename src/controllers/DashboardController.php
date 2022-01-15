@@ -20,6 +20,7 @@ final class DashboardController
             'current_campaign' => Campaign::getCurrentCampaign(),
             'current_campaign_events' => Event::findByCampaign(Campaign::getCurrentCampaign()),
             'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::findAll(5) : null,
+            'recent_events' => $session['cached_recent_events'] ?? $session['user']->getRole() === 'admin' || $session['user']->getRole() === 'organizer' ? Event::findAll(5) : null,
             'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
             'sum_points' => $session['user']->getRole() === 'admin' ? User::sumPoints() : null,
             'hide_all_users_button' => isset($session['cached_recent_users'])
@@ -183,10 +184,24 @@ final class DashboardController
      * @param $session array
      * @author Thomas Cardon
      */
-    public function eventAction($params, $post, $session)
+    public function createEventAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+        
+        if ($session['user']->getRole() !== 'admin')
+            return $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+        
+        if (!empty($post)) {
+            try {
+                $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), $_POST['DateDep'], $_POST['DateFin']);
+                $event->save();
+                $session['alert'] = array('message' => 'Evènement créé avec succès.', 'type' => 'green');
+            }
+            catch (Exception $e) {
+                $session['alert'] = array('message' => $e->getMessage(), 'type' => 'red');
+            }
+        }
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
@@ -194,16 +209,6 @@ final class DashboardController
             'user' => $session['user'],
             'content' => View::get('dashboard/editEvent', array( 'edit' => false ) )
         ));
-
-        $_SESSION['alert'] = null;
-    }
-
-    public function createEventAction($params, $post, $session)
-    {
-        $event = new Event($_POST['Nom'], $_POST['Description'],$session['user']->getId(), $_POST['DateDep'], $_POST['DateFin']);
-        var_dump($event);
-        $event->save();
-        $this->redirect('/');
     }
 
 

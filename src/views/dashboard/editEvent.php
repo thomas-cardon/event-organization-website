@@ -1,7 +1,7 @@
 <?php View::setTitle(($params['edit'] ? 'Editer' : 'Créer') . ' un évènement'); ?>
 <section class="dashboard-content">
     <h4 class="font-thin"><?= $params['edit'] ? 'Éditer' : 'Créer'; ?> un évènement</h4>
-    <form action="<?= BASE_PATH . '/Dashboard/CreateEvent'; ?>" method="POST">
+    <form action="<?= BASE_PATH . '/dashboard/' . ($params['edit'] ? 'edit-' : 'create-') . 'event'; ?>" method="POST">
         <div class="input-group horizontal">
             <input autofocus type="text" name="Nom" id="Nom" aria-label="Nom" placeholder="Nom" required>
             <textarea type="text" name="Description" id="Description" aria-label="Description" placeholder="Description" rows="5"></textarea>
