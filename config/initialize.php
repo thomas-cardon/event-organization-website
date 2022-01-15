@@ -20,6 +20,8 @@ $sql = [
     'DROP TABLE IF EXISTS `campaigns`',
     'DROP TABLE IF EXISTS `events`',
     'DROP TABLE IF EXISTS `users`',
+    'DROP TABLE IF EXISTS `events_unlockablecontent`',
+    'DROP TABLE IF EXISTS `votes`',
     'SET FOREIGN_KEY_CHECKS = 1',
     /* A partir d'ici, ce sont des exemples de requêtes générées auendDatematiquement */
     'CREATE TABLE `users` (
@@ -36,7 +38,7 @@ $sql = [
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
-    'CREATE TABLE IF NOT EXISTS `campaigns` (
+    'CREATE TABLE `campaigns` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
@@ -47,7 +49,7 @@ $sql = [
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
-    'CREATE TABLE IF NOT EXISTS `events` (
+    'CREATE TABLE `events` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
@@ -61,7 +63,7 @@ $sql = [
         FOREIGN KEY (`author`) REFERENCES `users`(`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
         
-    'CREATE TABLE IF NOT EXISTS `events_unlockablecontent` (
+    'CREATE TABLE `events_unlockablecontent` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
@@ -86,6 +88,15 @@ $sql = [
         FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
         FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
+
+    'CREATE TABLE `votes` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `user_id` int(11) NOT NULL,
+        `campaign_id` int(11) NOT NULL,
+        PRIMARY KEY (`id`),
+        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+        FOREIGN KEY (`campaign_id`) REFERENCES `campaigns`(`id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 ];
 
 $sql_data = [
@@ -104,7 +115,11 @@ $sql_data = [
         (2, 'Soirée dans le centre-ville', '2', 'Cette soirée est organisée par le comité étudiant Aix en Provence', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
         (3, 'event2', 1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
 
-    "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
+    "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES 
+        (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
+
+    "INSERT INTO `votes` (`id`, `user_id`, `campaign_id`) VALUES 
+        (1, 1, 1);",
 ];
 
 $db = Model::getDatabaseInstance();
