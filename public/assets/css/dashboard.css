@@ -293,6 +293,18 @@ a.see-more {
   background-color: #D980FA;
 }
 
+.ongoing {
+  background-color: #27ae60;
+}
+
+.pending {
+  background-color: #2980b9;
+}
+
+.finished {
+  background-color: #8e44ad;
+}
+
 .glow {
     background-color: var(--primary);
     box-shadow: 0 10px 20px var(--primary-a), 0 4px 8px var(--primary-a);

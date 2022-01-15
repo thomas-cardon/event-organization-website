@@ -21,11 +21,27 @@ final class Event extends Model
         $this->name = $name;
         $this->description = $description;
         $this->author = $author;
-        $this->status = $status ?? 'pending';
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->created_at = $created_at ?? date('Y-m-d H:i:s');
         $this->updated_at = $updated_at ?? date('Y-m-d H:i:s');
+
+        if ($status) {
+            $this->status = $status;
+        }
+        else {
+            if ($this->startDate <= date('Y-m-d H:i:s') && $this->endDate >= date('Y-m-d H:i:s')) {
+                $this->status = 'ongoing';
+            } elseif ($this->startDate > date('Y-m-d H:i:s')) {
+                $this->status = 'pending';
+            } elseif ($this->endDate < date('Y-m-d H:i:s')) {
+                $this->status = 'finished';
+            }
+        }
+        
+        if ($this->startDate > $this->endDate) {
+            throw new \Exception('Start date must be before end date');
+        }
     }
 
     public static function getById($id): ?Event
@@ -339,6 +355,6 @@ final class Event extends Model
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Campaign($row['id'], $row['name'], $row['description'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at']);
+        return new Campaign($row['name'], $row['description'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at']);
     }
 }
