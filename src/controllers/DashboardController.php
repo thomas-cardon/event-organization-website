@@ -186,7 +186,7 @@ final class DashboardController
     public function eventAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
@@ -210,10 +210,10 @@ final class DashboardController
     public function usersAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
         if ($session['user']->getRole() !== 'admin')
-            $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
 
         $session['cached_recent_users'] = User::findAll();
         return $this->defaultAction($params, $post, $session);
@@ -222,10 +222,10 @@ final class DashboardController
     public function resetPasswordAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
         if ($session['user']->getRole() !== 'admin')
-            $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
         
         $id = $params[0];
 
@@ -243,10 +243,10 @@ final class DashboardController
     public function addPointsAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
-            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
         
         if ($session['user']->getRole() !== 'admin')
-            $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+            return $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
         
         $id = $params[0];
 
@@ -273,5 +273,27 @@ final class DashboardController
         ));
 
         $_SESSION['alert'] = null;
+    }
+
+    public function voteAction($params, $post, $session){
+
+        if (!$this->isAuthentified())
+            return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        if ($session['user']->getRole() !== 'admin' || 'jury')
+            return $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+
+        if (var_dump( Date("m.d.y") == getEndDate()))
+            return $this->redirect('/', array('alert' => array('message' => 'C\'est l\'heure de voter.', 'type' => 'yellow')));
+
+        $id = $params[0];
+        $campaign = Campaign::getById($id);
+
+        if (isset($post['vote'])) {
+            $campaign->setVotes($campaign->getVotes());
+            $campaign->save();
+
+            return $this->redirect('/dashboard', array('alert' => array('message' => $campaign->getName() . ' : ' . ($post['amount'] > 0 ? '+' : '') . $post['amount'], 'type' => 'green')));
+        }
     }
 }

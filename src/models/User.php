@@ -272,10 +272,17 @@ final class User extends Model
         $this->points = $points;
     }
 
+    /**
+     * @return mixed|string
+     */
     public function getAvatar() {
         return $this->avatar ?? 'https://www.gravatar.com/avatar/' . md5($this->email) . '?s=200';
     }
-    
+
+    /**
+     * @param $avatar
+     * @return void
+     */
     public function setAvatar($avatar) {
         $this->avatar = $avatar;
     }

@@ -181,4 +181,12 @@ final class Campaign extends Model
     public function setEndDate($endDate) {
         $this->endDate = $endDate;
     }
+
+    public function getVotes() {
+        return $this->vote ?? 0;
+    }
+
+    public function setVotes($vote) {
+        $this->vote = $vote;
+    }
 }
