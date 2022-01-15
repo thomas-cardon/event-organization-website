@@ -14,3 +14,4 @@ config/config.php
 config/initialize.old.php
 .idea/workspace.xml
 *.xml
+*.iml
