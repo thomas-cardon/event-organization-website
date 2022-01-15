@@ -19,7 +19,8 @@
         <li>
             ⚠️ <b>Attention</b> : il reste 
             <?php
-                $diff = $params['data']->getStartDate()->diff($params['data']->getEndDate())->format("%a");  //find difference
+                $objDateTime = new DateTime('NOW');
+                $diff = $objDateTime->diff($params['data']->getEndDate())->format("%a");  //find difference
                 $days = intval($diff);   //rounding days
                 echo $days;
             ?> jours avant la fin de la campagne.
