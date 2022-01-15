@@ -3,11 +3,11 @@
     <h4 class="font-thin"><?= $params['edit'] ? 'Éditer' : 'Créer'; ?> un évènement</h4>
     <form action="<?= BASE_PATH . '/dashboard/' . ($params['edit'] ? 'edit-' : 'create-') . 'event'; ?>" method="POST">
         <div class="input-group horizontal">
-            <input autofocus type="text" name="Nom" id="Nom" aria-label="Nom" placeholder="Nom" required>
+            <input autofocus type="text" name="Nom" id="Nom" aria-label="Nom" placeholder="Nom" required value="<?= $params['edit'] ? $params['event']->getName() : ''; ?>">
             <textarea type="text" name="Description" id="Description" aria-label="Description" placeholder="Description" rows="5"></textarea>
 
-            <input type="datetime-local" name="DateDep" id="DateDep" min="<?= date('Y-m-d');?>T00:00" aria-label="DateDep" placeholder="Commence le:" value="<?= date('Y-m-d\TH:i', strtotime($params['event']['from'] ?? null)); ?>">
-            <input type="datetime-local" name="DateFin" id="DateFin" min="<?= date('Y-m-d');?>T00:00" aria-label="DateFin" placeholder="DateFin" value="<?= date('Y-m-d\TH:i', strtotime($params['event']['to'] ?? null)); ?>">
+            <input type="datetime-local" name="DateDep" id="DateDep" min="<?= date('Y-m-d\TH:i');?>" aria-label="DateDep" placeholder="Commence le:">
+            <input type="datetime-local" name="DateFin" id="DateFin" min="<?= date('Y-m-d\TH:i');?>" aria-label="DateFin" placeholder="Termine le:">
             <p style="margin: 1rem 0; text-align: justify; font-size: large">
                 <i>
                     <?php if ($params['edit']): ?>

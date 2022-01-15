@@ -12,18 +12,8 @@
         <p>Vous n'avez pas encore proposé d'évènements.</p>
     <?php else: ?>
         <table id="recentUsers" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Statut</th>
-                    <th>Nom</th>
-                    <th>Campagne</th>
-                    <th>Points</th>
-                    <th></th>
-                </tr>
-            </thead>
             <tbody>
             <?php foreach ($params['data'] as $event) : ?>
-                <?php echo var_dump($event->getCampaign()); ?>
                 <tr>
                     <td>
                         <div class="role <?php echo $event->getStatus() ?>"></div>
