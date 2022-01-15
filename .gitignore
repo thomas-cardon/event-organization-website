@@ -12,3 +12,4 @@ config/sql.php
 config/config.php
 
 config/initialize.old.php
+.idea/workspace.xml
