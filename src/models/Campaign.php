@@ -68,6 +68,25 @@ final class Campaign extends Model
         return null;
     }
 
+    public function countVotes(): int
+    {
+        $sql = "SELECT COUNT(*) FROM votes WHERE campaign_id = :id";
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+
+    public function hasUserVoted(User $user): bool
+    {
+        $sql = "SELECT COUNT(*) FROM votes WHERE campaign_id = :id AND user_id = :user_id";
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':user_id', $user->getId());
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+
     public function save()
     {
         $sql = 'REPLACE INTO campaigns(name, description) VALUES (:name,:description)';
