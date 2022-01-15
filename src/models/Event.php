@@ -239,7 +239,6 @@ final class Event extends Model
 
     public function getAuthor(): User
     {
-        echo var_dump($this->author);
         return User::getById($this->author);
     }
 
