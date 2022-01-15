@@ -54,8 +54,8 @@
 
             <footer class="text-gray-3">
                 <h5 class="date meta s">
-                    Du <?php echo $params['event']->getFrom()->format('Y/m/d à H:i'); ?>
-                    au <?php echo $params['event']->getTo()->format('Y/m/d à H:i'); ?>
+                    Du <?php echo $params['event']->getStartDate()->format('Y/m/d à H:i'); ?>
+                    au <?php echo $params['event']->getEndDate()->format('Y/m/d à H:i'); ?>
                 </p>
                 <h5 class="points meta s">
                     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

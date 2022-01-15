@@ -9,21 +9,21 @@ final class Event extends Model
 
     private $status = 'pending';
 
-    private $from;
-    private $to;
+    private $startDate;
+    private $endDate;
 
     private $created_at;
     private $updated_at;
 
-    public function __construct($name, $description, $author, $id, $from, $to, $created_at, $updated_at, $status = 'pending')
+    public function __construct($name, $description, $author, $startDate, $endDate, $id = null, $created_at = null, $updated_at = null, $status = 'pending')
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->author = $author;
         $this->status = $status;
-        $this->from = $from;
-        $this->to = $to;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
     }
@@ -38,7 +38,7 @@ final class Event extends Model
 
         if (!$row) return null;
         
-        $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status']);
+        $event = new Event($row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at'], $row['status']);
         return $event;
     }
 
@@ -50,7 +50,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
             $events[] = $event;
         }
         return $events;
@@ -65,7 +65,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['to'], $row['created_at'], $row['updated_at'], $row['updated_at'], $row['from']);
+            $event = new Event($row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at'], $row['status']);
             $events[] = $event;
         }
         return $events;
@@ -73,16 +73,16 @@ final class Event extends Model
 
     public static function findByCampaign($campaign): array
     {        
-        $sql = "SELECT * FROM events WHERE DATE(`from`) <= :from AND DATE(`to`) >= :to";
+        $sql = "SELECT * FROM events WHERE DATE(`startDate`) <= :startDate AND DATE(`endDate`) >= :endDate";
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':from', $from);
-        $stmt->bindParam(':to', $to);
+        $stmt->bindParam(':startDate', $startDate);
+        $stmt->bindParam(':endDate', $endDate);
         $stmt->execute();
 
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
             $events[] = $event;
         }
 
@@ -153,7 +153,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
             $events[] = $event;
         }
         return $events;
@@ -169,7 +169,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['from'], $row['to'], $row['created_at'], $row['updated_at'], $row['status']);
+            $event = new Event($row['id'], $row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status']);
             $events[] = $event;
         }
         return $events;
@@ -177,15 +177,15 @@ final class Event extends Model
 
     public function save(): void
     {
-        $sql = 'REPLACE INTO events (name, description, author, status, from, to, created_at, updated_at) VALUES (:name, :description, :author, :status, :from, :to, :created_at, :updated_at)';
-        $stmt = self::getDatabaseInstance();
-        $stmt->prepare($sql);
+        $sql = 'REPLACE INTO events (name, description, author, status, `startDate`, `endDate`, created_at, updated_at) VALUES (:name, :description, :author, :status, :startDate, :endDate, :created_at, :updated_at)';
+        $query = self::getDatabaseInstance();
+        $stmt = $query->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':author', $this->author);
         $stmt->bindParam(':status', $this->status);
-        $stmt->bindParam(':from', $this->from);
-        $stmt->bindParam(':to', $this->to);
+        $stmt->bindParam(':startDate', $this->startDate);
+        $stmt->bindParam(':endDate', $this->endDate);
         $stmt->bindParam(':created_at', $this->created_at);
         $stmt->bindParam(':updated_at', $this->updated_at);
         $stmt->execute();
@@ -193,7 +193,7 @@ final class Event extends Model
 
     public function update(): void
     {
-        $sql = 'UPDATE events SET name = :name, description = :description, author = :author, status = :status, from = :from, to = :to, updated_at = :updated_at WHERE id = :id';
+        $sql = 'UPDATE events SET name = :name, description = :description, author = :author, status = :status, startDate = :startDate, to = :endDate, updated_at = :updated_at WHERE id = :id';
         $stmt = self::getDatabaseInstance();
         $stmt->prepare($sql);
         $stmt->bindParam(':id', $this->id);
@@ -201,8 +201,8 @@ final class Event extends Model
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':author', $this->author);
         $stmt->bindParam(':status', $this->status);
-        $stmt->bindParam(':from', $this->from);
-        $stmt->bindParam(':to', $this->to);
+        $stmt->bindParam(':startDate', $this->startDate);
+        $stmt->bindParam(':endDate', $this->endDate);
         $stmt->bindParam(':created_at', $this->created_at);
         $stmt->bindParam(':updated_at', $this->updated_at);
         $stmt->execute();
@@ -247,14 +247,14 @@ final class Event extends Model
         return $this->status;
     }
 
-    public function getFrom(): DateTime
+    public function getStartDate(): DateTime
     {
-        return new DateTime($this->from);
+        return new DateTime($this->startDate);
     }
 
-    public function getTo(): DateTime
+    public function getEndDate(): DateTime
     {
-        return new DateTime($this->to);
+        return new DateTime($this->endDate);
     }
 
     public function getCreatedAt(): DateTime
@@ -297,14 +297,14 @@ final class Event extends Model
         $this->updated_at = $updated_at;
     }
 
-    public function setFrom(Date $from): void
+    public function setStartDate(DateTime $startDate): void
     {
-        $this->from = $from;
+        $this->startDate = $startDate;
     }
 
-    public function setTo(Date $to): void
+    public function setEndDate(DateTime $endDate): void
     {
-        $this->to = $to;
+        $this->endDate = $endDate;
     }
 
     public function getPointsAmount(): int
@@ -327,7 +327,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $unlockableContent = [];
         foreach ($rows as $row) {
-            $unlockableContent[] = new UnlockableContent($row['id'], $row['event_id'], $row['content_id'], $row['created_at'], $row['updated_at']);
+            $unlockableContent[] = new UnlockableContent($row['id'], $row['name'], $row['description'], $row['event_id'], $row['points_required'], $row['created_at'], $row['updated_at']);
         }
         return $unlockableContent;
     }
