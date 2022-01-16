@@ -1,8 +1,8 @@
 <?php
 
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'name_here');
-define('DB_USER', 'username_here');
-define('DB_PASS', 'password_here');
-define('DB_CHARSET', 'utf8');
-define('DB_COLLATE', '');
+const DB_HOST = 'localhost';
+const DB_NAME = 'e-event.io';
+const DB_USER = 'root';
+const DB_PASS = '';
+const DB_CHARSET = 'utf8';
+const DB_COLLATE = '';

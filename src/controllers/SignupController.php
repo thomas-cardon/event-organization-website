@@ -108,5 +108,3 @@ final class SignupController
 
     }
 }
-
-?>
