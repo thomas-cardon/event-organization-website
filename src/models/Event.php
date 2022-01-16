@@ -7,6 +7,8 @@ final class Event extends Model
 
     private $author;
 
+    private $campaignId;
+
     private $status = 'pending';
 
     private $startDate;
@@ -15,7 +17,7 @@ final class Event extends Model
     private $created_at;
     private $updated_at;
 
-    public function __construct(string $name, string $description, int $author, string $startDate, string $endDate, ?string $created_at = null, ?string $updated_at = null, ?string $status = null, ?int $id = null)
+    public function __construct(string $name, string $description, int $author, int $campaignId, string $startDate, string $endDate, ?string $created_at = null, ?string $updated_at = null, ?string $status = null, ?int $id = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -64,7 +66,7 @@ final class Event extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
-            $event = new Event($row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
+            $event = new Event($row['name'], $row['description'], $row['author'], $row['campaign_id'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
             $events[] = $event;
         }
         return $events;
@@ -254,6 +256,10 @@ final class Event extends Model
     public function getAuthor(): User
     {
         return User::getById($this->author);
+    }
+    public function getCampaignId() : Campaign
+    {
+        return Campaign::getById($this->campaignId);
     }
 
     public function getStatus(): string
