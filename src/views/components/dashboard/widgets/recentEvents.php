@@ -24,7 +24,9 @@
                     <td class="xs">
                         <?php echo $event->getAuthor()->getName() ?>
                     </td>
-
+                    <td class="xs">
+                        <?php echo $event->getStartDate()->format('d/m') ?> au <?php echo $event->getEndDate()->format('d/m') ?>
+                    </td>
                     <td class="xs">
                         <i>
                             <?php echo $event->getCampaign()->getName() ?>
