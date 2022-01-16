@@ -13,7 +13,7 @@ final class User extends Model
     private $points;
     private $avatar;
 
-    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = null, $created_at = null, $updated_at = null, $avatar = null)
+    public function __construct($email, $firstName, $lastName, $hash, $points = null, $id = null, $role = null, $created_at = null, $updated_at = null, $avatar = null)
     {
         $this->id = $id;
         $this->email = $email;
