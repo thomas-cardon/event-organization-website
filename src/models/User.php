@@ -27,7 +27,7 @@ final class User extends Model
         $this->avatar = $avatar;
     }
 
-    public static function findAll($limit = -1): array
+    public static function find($limit = -1): array
     {
         $sql = 'SELECT  * FROM users ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);

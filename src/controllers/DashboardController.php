@@ -19,8 +19,8 @@ final class DashboardController
 
             'current_campaign' => Campaign::getCurrentCampaign(),
             'current_campaign_events' => Event::findByCampaign(Campaign::getCurrentCampaign()),
-            'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::findAll(5) : null,
-            'recent_events' => $session['cached_recent_events'] ?? $session['user']->getRole() === 'admin' || $session['user']->getRole() === 'organizer' ? Event::findAll(5) : null,
+            'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::find(5) : null,
+            'recent_events' => $session['cached_recent_events'] ?? $session['user']->getRole() === 'admin' || $session['user']->getRole() === 'organizer' ? Event::find(5) : null,
             'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
             'sum_points' => $session['user']->getRole() === 'admin' ? User::sumPoints() : null,
             'hide_all_users_button' => isset($session['cached_recent_users'])
@@ -203,7 +203,7 @@ final class DashboardController
         if ($session['user']->getRole() !== 'admin')
             $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
 
-        $session['cached_recent_users'] = User::findAll();
+        $session['cached_recent_users'] = User::find();
         return $this->defaultAction($params, $post, $session);
     }
 

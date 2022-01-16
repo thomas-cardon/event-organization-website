@@ -128,7 +128,7 @@ final class Transaction extends Model
         return null;
     }
 
-    public static function findAll()
+    public static function find()
     {
         $sql = "SELECT * FROM transactions";
         $stmt = self::getDatabaseInstance()->prepare($sql);

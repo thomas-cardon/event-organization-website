@@ -56,7 +56,7 @@ final class Event extends Model
         return new Event($row['name'], $row['description'], $row['author'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
     }
 
-    public static function findAll($limit = -1, $offset = 0): array
+    public static function find($limit = -1, $offset = 0): array
     {
         $sql = 'SELECT * FROM events ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '') . ($offset > 0 ? ' OFFSET ' . $offset : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);

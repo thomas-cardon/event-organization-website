@@ -28,7 +28,7 @@ final class Campaign extends Model
         $this->updated_at = $updated_at;
     }
 
-    public static function findAll()
+    public static function find()
     {
         $sql = "SELECT * FROM campaigns";
         $stmt = self::getDatabaseInstance()->prepare($sql);

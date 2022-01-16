@@ -43,7 +43,7 @@ final class EventController
 
     public function allAction($params, $post, $session)
     {
-        $events = Event::findAll($_GET['limit'] ?? 25, $_GET['offset'] ?? 0);
+        $events = Event::find($_GET['limit'] ?? 25, $_GET['offset'] ?? 0);
 
         View::show('event', array(
             'authentified' => $this->isAuthentified(),
