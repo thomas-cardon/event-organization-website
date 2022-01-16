@@ -42,7 +42,6 @@ $sql = [
         `description` text NOT NULL,
         `startDate` DATE NOT NULL,
         `endDate` DATE NOT NULL,
-        
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
         PRIMARY KEY (`id`)
@@ -60,6 +59,7 @@ $sql = [
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
         PRIMARY KEY (`id`),
+        FOREIGN KEY (`campaign_id`) REFERENCES `campaigns` (`id`)  ON DELETE CASCADE,
         FOREIGN KEY (`author`) REFERENCES `users`(`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
@@ -101,10 +101,10 @@ $sql_data = [
         (3, 'John', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test1.test2@test.fr', 'member', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
         (4, 'Heureux', 'Donateur', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'heureux.donateur@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
 
-    "INSERT INTO `events` (`id`, `name`, `author`, `description`, `startDate`, `endDate`, `created_at`, `updated_at`) VALUES
-        (1, 'Soirée au bord de la plage', '1', 'Cette soirée est organisée par le BDE', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
-        (2, 'Soirée dans le centre-ville', '2', 'Cette soirée est organisée par le comité étudiant Aix en Provence', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
-        (3, 'event2', 1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
+    "INSERT INTO `events` (`id`, `name`, `author`,`campaign_id`, `description`, `startDate`, `endDate`, `created_at`, `updated_at`) VALUES
+        (1, 'Soirée au bord de la plage', 1,2, 'Cette soirée est organisée par le BDE', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
+        (2, 'Soirée dans le centre-ville', 2,2, 'Cette soirée est organisée par le comité étudiant Aix en Provence', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
+        (3, 'event2', 1,1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
 
     "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
 ];
