@@ -28,12 +28,12 @@ final class SignupController
         else if (empty($_POST['email']) || empty($_POST['lastName']) || empty($_POST['firstName']))
             $this->userError('Veuillez remplir tous les champs.');
 
-        
+
         /* @todo: vérifier que l'adresse mail est valide */
 
         // On vérifie si l'utilisateur existe déja
         $user = User::getByEmail($_POST['email']);
-        
+
         if ($user) $this->userError('Votre compte existe déjà, ou cette adresse-mail est déjà utilisée');
         else $this->createUser();
     }
@@ -50,7 +50,7 @@ final class SignupController
 //        , self::sendMail(null, $_POST['email'], true)
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
         $user->save();
-        self::sendMail( $_POST['email'], true, $password);
+        self::sendMail($_POST['email'], $password);
         if ($user) {
             $session = array(
                 'user' => $user,
@@ -58,11 +58,12 @@ final class SignupController
             );
 
             $_SESSION = $session;
-            $this->redirect('/');    
+            $this->redirect('/');
         }
     }
 
-    private function userError($msg, $type = 'red') {
+    private function userError($msg, $type = 'red')
+    {
         $this->redirect('/signup/', array('alert' => array('message' => $msg, 'type' => $type)));
     }
 
@@ -72,10 +73,11 @@ final class SignupController
      * @return string
      * @author Thomas Cardon
      */
-    private function generateRandomPassword($chars = 12): string {
+    private function generateRandomPassword($chars = 12): string
+    {
         $comb = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $shfl = str_shuffle($comb);
-        return substr($shfl,0, $chars);
+        return substr($shfl, 0, $chars);
     }
 
     /**
@@ -83,27 +85,24 @@ final class SignupController
      * @return string Mot de passe généré aléatoirement non hashé
      * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
      */
-    public static function sendMail($mail, $new, $password): string
+    public static function sendMail($mail, $password): string
     {
         $user = User::getByEmail($mail);
-        var_dump($user);
-        if ($new){
-
-           $to = $user->getEmail();
-           $subject = 'Bienvenue sur E-EVENT.IO !';
-           $message = 'Voici vos identifiants pour se connecter à E-event.io\n' .
-               'Email: ' . $user->getEmail() . '\n' .
-               'Mot de passe: ' . $password . '\n' .
-               'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
-           mail($to, $subject, $message);
 
 
-            if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
-                throw new Exception('Erreur lors de l\'envoi du mail');
-            
-            return $password;
-        }
-        else throw new Exception('L\'utilisateur demandé n\'existe pas.');
+        $to = $user->getEmail();
+        $subject = 'Bienvenue sur E-EVENT.IO !';
+        $message = 'Voici vos identifiants pour se connecter à E-event.io\n' .
+            'Email: ' . $user->getEmail() . '\n' .
+            'Mot de passe: ' . $password . '\n' .
+            'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
+        mail($to, $subject, $message);
+
+
+        if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
+            throw new Exception('Erreur lors de l\'envoi du mail');
+
+        return $password;
 
 
     }

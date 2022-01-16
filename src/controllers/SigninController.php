@@ -70,7 +70,7 @@ final class SigninController
      * @return string Mot de passe généré aléatoirement non hashé
      * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
      */
-    public static function resetPasswordAction($userId, $mail): string
+    public static function resetPasswordAction($userId): string
     {
         $user = User::getById($userId);
 
