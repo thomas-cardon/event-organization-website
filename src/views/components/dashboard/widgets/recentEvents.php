@@ -12,33 +12,25 @@
         <p>Vous n'avez pas encore proposé d'évènements.</p>
     <?php else: ?>
         <table id="recentUsers" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Statut</th>
-                    <th>Nom</th>
-                    <th>Campagne</th>
-                    <th>Points</th>
-                    <th>Voir</th>
-                    <th>Modifier</th>
-                </tr>
-            </thead>
             <tbody>
             <?php foreach ($params['data'] as $event) : ?>
                 <tr>
                     <td>
-                        <div class="role <?php echo $event->status ?>"></div>
+                        <div class="role <?php echo $event->getStatus() ?>"></div>
                     </td>
                     <td>
-                        <?php echo $event->name ?>
+                        <?php echo $event->getName() ?>
                     </td>
                     <td>
                         <i>
-                            <?php echo $event->campaignName ?>
+                            <?php echo $event->getCampaign()->getName() ?>
                         </i>
                     </td>
-                    <td><?php echo $event->points ?></td>
-                    <td><a href="<?php echo BASE_PATH . '/event/see/' . $event->id; ?>">Voir</a></td>
-                    <td><a href="<?php echo BASE_PATH . '/dashboard/edit-event/' . $event->id; ?>">Modifier</a></td>
+                    <td><?php echo $event->getPointsAmount() ?></td>
+                    <td class="xs">
+                        <a href="<?php echo BASE_PATH . '/event/see/' . $event->getId(); ?>">Voir</a>
+                        | <a href="<?php echo BASE_PATH . '/dashboard/edit-event/' . $event->getId(); ?>">Modifier</a>
+                    </td>
                 </tr>
             <?php endforeach ?>
             </tbody>
