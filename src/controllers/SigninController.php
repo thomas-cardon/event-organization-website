@@ -49,6 +49,7 @@ final class SigninController
         if ($user) {
             if (password_verify($password, $user->getHash())) {
                 $_SESSION['user'] = $user;
+                $this->incrementCountCpt($user);
                 $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
             }
             else $this->userError('Vos identifiants sont incorrects.');
@@ -60,7 +61,10 @@ final class SigninController
         $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
     }
 
-
+    private function incrementCountCpt(User $user){
+        $user->setConnectionCpt($user->getConnectionCpt()+1);
+        $user->update();
+    }
     /**
      * Envoie les données de connexions de l'utilisateur par mail
      * @return string Mot de passe généré aléatoirement non hashé

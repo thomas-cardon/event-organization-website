@@ -46,7 +46,7 @@ final class SignupController
     {
         $password = $this->generateRandomPassword();
 
-        $user = new User($_POST['email'], $_POST['firstName'], $_POST['lastName'], $password);
+        $user = new User($_POST['email'], $_POST['firstName'], $_POST['lastName'], $password, 0, 0);
 //        , self::sendMail(null, $_POST['email'], true)
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
         $user->save();
