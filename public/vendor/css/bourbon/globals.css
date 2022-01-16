@@ -153,6 +153,10 @@ section, .flex {
     align-items: flex-end;
 }
 
+.items-stretch {
+    align-items: stretch;
+}
+
 .content-center {
     align-content: center;
 }

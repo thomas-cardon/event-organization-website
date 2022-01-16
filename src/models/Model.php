@@ -19,5 +19,7 @@ class Model {
         return self::$db;
     }
 
-
+    public static function lastInsertId() {
+        return self::getDatabaseInstance()->lastInsertId();
+    }
 }

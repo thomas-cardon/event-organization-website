@@ -153,7 +153,7 @@ final class DashboardController
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'],
-            'content' => View::get('dashboard/editEvent', array( 'edit' => true, 'event' => $event ))
+            'content' => View::get('dashboard/editEvent', array( 'edit' => true, 'event' => $event, 'unlockableContent' => UnlockableContent::findByEventId($event->getId()) ))
         ));
 
         $_SESSION['alert'] = null;
@@ -179,6 +179,19 @@ final class DashboardController
             try {
                 $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), $_POST['DateDep'], $_POST['DateFin']);
                 $event->save();
+
+                if (!empty($_POST['unlockableContent'])) {
+                    foreach ($_POST['unlockableContent'] as $unlockableContent) {
+                        $content = new UnlockableContent(
+                            null,
+                            $unlockableContent['title'],
+                            $unlockableContent['description'],
+                            Event::lastInsertId(),
+                            $unlockableContent['points']
+                        );
+                        $content->save();
+                    }
+                }
                 $session['alert'] = array('message' => 'Evènement créé avec succès.', 'type' => 'green');
             }
             catch (Exception $e) {
