@@ -69,14 +69,19 @@ final class SigninController
         else $this->userError('Aucun utilisateur avec cet identifiant existe.');
     }
 
-    public function editPasswordAction($password){
+    public function editPasswordAction(){
         $user = $_SESSION['user'];
 
-//        $user->setHash(password_hash($password, PASSWORD_DEFAULT));
-        $user->setHash($_POST['password1']);
+        if($_POST['password1'] == $_POST['password2'])
+            {
+             $user->setHash(password_hash($_POST['password1'], PASSWORD_DEFAULT));
+             $user->update();
+             $this->redirect('/', array('alert' => array('message' => 'modification réussie..', 'type' => 'green')));
+            }
+        else
+            $this->passwordError('les deux mots de passe doivent être identiques');
 
-        $user->update();
-        $this->redirect('/', array('alert' => array('message' => 'modification réussie..', 'type' => 'green')));
+
     }
 
     private function userError($msg, $type = 'red') {
