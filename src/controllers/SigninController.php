@@ -49,12 +49,34 @@ final class SigninController
         if ($user) {
             if (password_verify($password, $user->getHash())) {
                 $_SESSION['user'] = $user;
-                $this->incrementCountCpt($user);
-                $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
+                if ($user->getConnectionCpt() > 1010 ) {
+                    $this->incrementCountCpt($user);
+                    $this->redirect('/', array('alert' => array('message' => 'Connexion réussie..', 'type' => 'green')));
+                }
+                else {
+                    $this->incrementCountCpt($user);
+                    View::show('editPassword', array(
+                        'authentified' => $this->isAuthentified(),
+                        'alert' => $session['alert'] ?? null,
+                        'user' => $_SESSION['user'] ?? null
+                    ));
+
+                }
+
             }
             else $this->userError('Vos identifiants sont incorrects.');
         }
         else $this->userError('Aucun utilisateur avec cet identifiant existe.');
+    }
+
+    public function editPasswordAction($password){
+        $user = $_SESSION['user'];
+
+//        $user->setHash(password_hash($password, PASSWORD_DEFAULT));
+        $user->setHash($_POST['password1']);
+
+        $user->update();
+        $this->redirect('/', array('alert' => array('message' => 'modification réussie..', 'type' => 'green')));
     }
 
     private function userError($msg, $type = 'red') {
@@ -65,6 +87,9 @@ final class SigninController
         $user->setConnectionCpt($user->getConnectionCpt()+1);
         $user->update();
     }
+
+
+
     /**
      * Envoie les données de connexions de l'utilisateur par mail
      * @return string Mot de passe généré aléatoirement non hashé

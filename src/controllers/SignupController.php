@@ -29,7 +29,7 @@ final class SignupController
             $this->userError('Veuillez remplir tous les champs.');
 
 
-        /* @todo: vérifier que l'adresse mail est valide */
+
 
         // On vérifie si l'utilisateur existe déja
         $user = User::getByEmail($_POST['email']);
