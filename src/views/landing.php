@@ -32,63 +32,30 @@
                     <div>
                         <h3 class="font-hero">Dernières idées d'événements en date</h3>
                         <p class="text-gray-3">
-                            Campagne du 01/01: <i>Tournoi volleyball</i>
+                            Campagne du <?= $params['current_campaign']->getStartDate()->format('d/m') ?>
+                            au <?= $params['current_campaign']->getEndDate()->format('d/m') ?>:
+                            <i>
+                                <?= $params['current_campaign']->getName() ?>
+                            </i>
                         </p>
                     </div>
                 </header>
 
                 <ul>
+                    <?php foreach ($params['events'] as $event): ?>
                     <li>
                         <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
                             <div class="body">
                                 <h4 class="font-hero">
-                                    Tournoi volleyball
+                                    <?= $event->getName() ?>
                                 </h4>
                                 <p class="text-gray-2">
-                                    Jane Doe
+                                    <?= $event->getAuthor()->getName() ?>
                                 </p>
                             </div>
                         </a>
                     </li>
-
-                    <li>
-                        <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
-                            <div class="body">
-                                <h4 class="font-hero">
-                                    Tournoi volleyball
-                                </h4>
-                                <p class="text-gray-2">
-                                    Jane Doe
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
-                            <div class="body">
-                                <h4 class="font-hero">
-                                    Tournoi volleyball
-                                </h4>
-                                <p class="text-gray-2">
-                                    Jane Doe
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
-                            <div class="body">
-                                <h4 class="font-hero">
-                                    Tournoi volleyball
-                                </h4>
-                                <p class="text-gray-2">
-                                    Jane Doe
-                                </p>
-                            </div>
-                        </a>
-                    </li>
+                    <?php endforeach; ?>
                 </ul>
                 <center>
                     <a href="<?= BASE_PATH; ?>/event/all">
