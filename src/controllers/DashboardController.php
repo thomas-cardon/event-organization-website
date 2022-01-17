@@ -38,6 +38,22 @@ final class DashboardController
      * @param $session array
      * @author Thomas Cardon
      */
+    public function voteAction($params, $post, $session)
+    {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        View::show('dashboard', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'event' => $session['event'],
+            'content' => View::get('dashboard/vote', array('edit' => true))
+        ));
+
+        $_SESSION['alert'] = null;
+    }
+
+
     public function createUserAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
