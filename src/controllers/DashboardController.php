@@ -102,6 +102,8 @@ final class DashboardController
             'content' => View::get('dashboard/editCampaign', array('edit' => true))
         ));
 
+        require_once '../../config/triggers_events_update.php';
+
         $_SESSION['alert'] = null;
     }
 

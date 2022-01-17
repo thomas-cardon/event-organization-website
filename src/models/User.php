@@ -42,7 +42,7 @@ final class User extends Model
         return $users;
 
     }
-
+    
     public static function nbCountPerRole(): array
     {
         $sql = 'SELECT COUNT(*) as nb, role FROM users GROUP BY role';
@@ -50,6 +50,16 @@ final class User extends Model
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
+    }
+
+    public static function nbCountForRole($role): int
+    {
+        $sql = 'SELECT COUNT(*) as nb FROM users WHERE role = :role';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindValue(':role', $role);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['nb'];
     }
 
     public static function sumPoints(): int
