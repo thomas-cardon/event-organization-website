@@ -54,6 +54,19 @@ final class Campaign extends Model
         }
         return null;
     }
+
+    public static function getPendingForVoteCampaign(): ?Campaign
+    {
+        $sql = "SELECT * FROM `campaigns` WHERE DATE(`endDate`) = DATE(NOW());";
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($row) {
+            return new Campaign($row['name'], $row['description'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at']);
+        }
+        return null;
+    }
     
     public static function getById($id): ?Campaign
     {

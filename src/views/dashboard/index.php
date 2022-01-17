@@ -13,10 +13,12 @@
         else if ($params['user']->getRole() === 'admin') {
             View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null, 'hide_all_users_button' => $params['hide_all_users_button'] ?? false ));
             View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
-            View::show('components/dashboard/widgets/currentCampaign', array( 'data' => $params['current_campaign'] ?? null, 'events' => $params['current_campaign_events'] ));
         }
         else if ($params['user']->getRole() === 'organizer')
             View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
+        else View::show('components/dashboard/widgets/welcome', array( 'user' => $params['user'], 'campaign_pending_for_vote' => Campaign::getPendingForVoteCampaign() ));
+        
+        View::show('components/dashboard/widgets/currentCampaign', array( 'data' => $params['current_campaign'] ?? null, 'events' => $params['current_campaign_events'] ));
         ?>
     </div>
 

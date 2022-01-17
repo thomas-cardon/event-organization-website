@@ -18,7 +18,7 @@ final class DashboardController
             'user' => $session['user'] ?? null,
 
             'current_campaign' => Campaign::getCurrentCampaign(),
-            'current_campaign_events' => Event::findByCampaign(Campaign::getCurrentCampaign()),
+            'current_campaign_events' => Campaign::getCurrentCampaign() ? Event::findByCampaign(Campaign::getCurrentCampaign()) : null,
             'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::find(5) : null,
             'recent_events' => $session['cached_recent_events'] ?? $session['user']->getRole() === 'admin' || $session['user']->getRole() === 'organizer' ? Event::find(5) : null,
             'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
