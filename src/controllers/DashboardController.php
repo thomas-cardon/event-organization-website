@@ -46,7 +46,7 @@ final class DashboardController
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'user' => $session['user'],
+            'event' => $session['event'],
             'content' => View::get('dashboard/vote', array('edit' => true))
         ));
 
