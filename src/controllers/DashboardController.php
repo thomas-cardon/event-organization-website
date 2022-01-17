@@ -2,6 +2,7 @@
 
 /**
  * Back-office dashboard controller
+ * @authors Constant Alberola, Quentin Bohec, Adrien Lacroix
  */
 final class DashboardController
 {
@@ -288,11 +289,8 @@ final class DashboardController
         if ($session['user']->getRole() !== 'admin' || 'jury')
             return $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
 
-        $objDateTime = new DateTime('NOW');
-        $diff = $objDateTime->diff($params['data']->getEndDate())->format("%a");
-        $days = intval($diff);   //rounding days
-        if ($days > 0 )
-            return $this->redirect('/', array('alert' => array('message' => 'C\'est l\'heure de voter.', 'type' => 'green')));
+        if (var_dump( Date("m.d.y") == getEndDate()))
+            return $this->redirect('/', array('alert' => array('message' => 'C\'est l\'heure de voter.', 'type' => 'yellow')));
 
         $id = $params[0];
         $campaign = Campaign::getById($id);
@@ -303,7 +301,5 @@ final class DashboardController
 
             return $this->redirect('/dashboard', array('alert' => array('message' => $campaign->getName() . ' : ' . ($post['amount'] > 0 ? '+' : '') . $post['amount'], 'type' => 'green')));
         }
-
-        $_SESSION['alert'] = null;
     }
 }
