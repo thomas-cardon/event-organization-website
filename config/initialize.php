@@ -101,7 +101,7 @@ $sql = [
 ];
 
 $sql_data = [
-    "INSERT INTO `campaigns` (`id`, `name`, `description`, `startDate`, `endDate`, `nbVotes`) VALUES
+    "INSERT INTO `campaigns` (`id`, `name`, `description`, `startDate`, `endDate`) VALUES
         (1, 'Intégration première année', 'Cette campagne vise à faire les présentations entre les première et deuxième années', '2021-9-01', '2021-9-10'),
         (2, 'Mois du sport', 'Cette campagne vise à promouvoir le sport pendant le mois de Janvier', '2021-12-29', '2022-2-01');",
     
@@ -111,7 +111,7 @@ $sql_data = [
         (3, 'John', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test1.test2@test.fr', 'member', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
         (4, 'Heureux', 'Donateur', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'heureux.donateur@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
     
-    "INSERT INTO `events` (`id`, `name`, `author`, `description`, `startDate`, `endDate`, `created_at`, `updated_at`) VALUES
+    "INSERT INTO `events` (`id`, `name`, `author`, `description`, `startDate`, `endDate`, `created_at`, `updated_at`, `nbVotes`) VALUES
         (1, 'Soirée au bord de la plage', '1', 'Cette soirée est organisée par le BDE', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00',0),
         (2, 'Soirée dans le centre-ville', '2', 'Cette soirée est organisée par le comité étudiant Aix en Provence', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00',0),
         (3, 'event2', 1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19',0);",
