@@ -84,7 +84,7 @@ $sql = [
         `event_id` int(11) NOT NULL,
         `amount` int(11) NOT NULL,
         `created_at` DATETIME DEFAULT NOW(),
-        `comment` TEXT NOT NULL,
+        `comment` TEXT,
         PRIMARY KEY (`id`),
         FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
         FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE
