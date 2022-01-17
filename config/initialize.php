@@ -44,6 +44,7 @@ $sql = [
         `description` text NOT NULL,
         `startDate` DATE NOT NULL,
         `endDate` DATE NOT NULL,
+        `nbVotes` NUMERIC NOT NULL,
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
         PRIMARY KEY (`id`)
@@ -93,7 +94,6 @@ $sql = [
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `user_id` int(11) NOT NULL,
         `campaign_id` int(11) NOT NULL,
-        `status` varchar(255) NOT NULL DEFAULT \'pending\',
         PRIMARY KEY (`id`),
         FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
         FOREIGN KEY (`campaign_id`) REFERENCES `campaigns`(`id`) ON DELETE CASCADE
@@ -101,9 +101,9 @@ $sql = [
 ];
 
 $sql_data = [
-    "INSERT INTO `campaigns` (`id`, `name`, `description`, `startDate`, `endDate`) VALUES
-        (1, 'Intégration première année', 'Cette campagne vise à faire les présentations entre les première et deuxième années', '2021-9-01', '2021-9-10'),
-        (2, 'Mois du sport', 'Cette campagne vise à promouvoir le sport pendant le mois de Janvier', '2021-12-29', '2022-2-01');",
+    "INSERT INTO `campaigns` (`id`, `name`, `description`, `startDate`, `endDate`, `nbVotes`) VALUES
+        (1, 'Intégration première année', 'Cette campagne vise à faire les présentations entre les première et deuxième années', '2021-9-01', '2021-9-10',0),
+        (2, 'Mois du sport', 'Cette campagne vise à promouvoir le sport pendant le mois de Janvier', '2021-12-29', '2022-2-01',0);",
     
     "INSERT INTO `users` (`id`, `first_name`, `last_name`, `hash`, `email`, `role`, `created_at`, `updated_at`) VALUES
         (1, 'Jane', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test.test@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
@@ -119,7 +119,7 @@ $sql_data = [
     "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES 
         (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
 
-    "INSERT INTO `votes` (`id`, `user_id`, `campaign_id`, `status`) VALUES 
+    "INSERT INTO `votes` (`id`, `user_id`, `campaign_id`) VALUES 
         (1, 1, 1);",
 ];
 

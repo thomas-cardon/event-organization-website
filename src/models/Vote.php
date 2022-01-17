@@ -28,7 +28,7 @@ final class Vote extends Model
 
     public function update()
     {
-        $sql = "UPDATE campaigns SET vote = :vote, WHERE id = :id";
+        $sql = "UPDATE votes SET vote = :vote, WHERE id = :id";
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':id', $this->i
         $stmt->bindParam(':user_id', $this->user_id);
