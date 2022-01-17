@@ -4,4 +4,4 @@
         <h4 class="font-thin">Thomas est beau</h4>
     </header>
 
-</section><?php
+</section>

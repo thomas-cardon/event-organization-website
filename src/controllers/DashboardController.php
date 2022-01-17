@@ -308,4 +308,16 @@ final class DashboardController
 
         $_SESSION['alert'] = null;
     }
+
+    public function accountAction($params, $post, $session) {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        View::show('dashboard', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'],
+            'content' => View::get('dashboard/me', array('user' => $session['user']))
+        ));
+    }
 }
