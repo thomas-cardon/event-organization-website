@@ -20,8 +20,7 @@ $sql = [
     'DROP TABLE IF EXISTS `campaigns`',
     'DROP TABLE IF EXISTS `events`',
     'DROP TABLE IF EXISTS `users`',
-    'DROP TABLE IF EXISTS `events_unlockablecontent`',
-    'DROP TABLE IF EXISTS `votes`',
+
     'SET FOREIGN_KEY_CHECKS = 1',
     /* A partir d'ici, ce sont des exemples de requêtes générées auendDatematiquement */
     'CREATE TABLE `users` (
@@ -38,7 +37,7 @@ $sql = [
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
-    'CREATE TABLE `campaigns` (
+    'CREATE TABLE IF NOT EXISTS `campaigns` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
@@ -49,22 +48,23 @@ $sql = [
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
-    'CREATE TABLE `events` (
+    'CREATE TABLE IF NOT EXISTS `events` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
         `author` int(11) NOT NULL,
+        `campaign_id` int(11) NOT NULL,
         `status` varchar(255) NOT NULL DEFAULT \'pending\',
         `startDate` DATETIME NOT NULL,
         `endDate` DATETIME NOT NULL,
-        `nbVotes` NUMERIC NOT NULL,
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
         PRIMARY KEY (`id`),
+        FOREIGN KEY (`campaign_id`) REFERENCES `campaigns` (`id`)  ON DELETE CASCADE,
         FOREIGN KEY (`author`) REFERENCES `users`(`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
-        
-    'CREATE TABLE `events_unlockablecontent` (
+
+    'CREATE TABLE IF NOT EXISTS `events_unlockablecontent` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
@@ -89,44 +89,60 @@ $sql = [
         FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
         FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
-
-    'CREATE TABLE `votes` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
-        `user_id` int(11) NOT NULL,
-        `campaign_id` int(11) NOT NULL,
-        PRIMARY KEY (`id`),
-        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
-        FOREIGN KEY (`campaign_id`) REFERENCES `campaigns`(`id`) ON DELETE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 ];
 
 $sql_data = [
-    "INSERT INTO `campaigns` (`id`, `name`, `description`, `startDate`, `endDate`) VALUES
-        (1, 'Intégration première année', 'Cette campagne vise à faire les présentations entre les première et deuxième années', '2021-9-01', '2021-9-10'),
-        (2, 'Mois du sport', 'Cette campagne vise à promouvoir le sport pendant le mois de Janvier', '2021-12-29', '2022-2-01');",
-    
+
+
     "INSERT INTO `users` (`id`, `first_name`, `last_name`, `hash`, `email`, `role`, `created_at`, `updated_at`) VALUES
         (1, 'Jane', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test.test@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
         (2, 'Thor', 'Odinson', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'thomas.cardon@etu.univ-amu.fr', 'organizer', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
-        (3, 'John', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test1.test2@test.fr', 'member', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (3, 'John', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test1.test2@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
         (4, 'Heureux', 'Donateur', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'heureux.donateur@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
-    
-    "INSERT INTO `events` (`id`, `name`, `author`, `description`, `startDate`, `endDate`, `created_at`, `updated_at`, `nbVotes`) VALUES
-        (1, 'Soirée au bord de la plage', '1', 'Cette soirée est organisée par le BDE', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00',0),
-        (2, 'Soirée dans le centre-ville', '2', 'Cette soirée est organisée par le comité étudiant Aix en Provence', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00',0),
-        (3, 'event2', 1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19',0);",
 
-    "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES 
-        (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
+    "INSERT INTO `campaigns` (`id`, `name`, `description`, `startDate`, `endDate`) VALUES
+        (1, 'Intégration première année', 'Cette campagne vise à faire les présentations entre les première et deuxième années', '2021-9-01', '2021-9-10'),
+        (2, 'Mois du sport', 'Cette campagne vise à promouvoir le sport pendant le mois de Janvier', '2021-12-29', '2022-2-01');",
 
-    "INSERT INTO `votes` (`id`, `user_id`, `campaign_id`) VALUES 
-        (1, 1, 1);",
+    "INSERT INTO `events` (`id`, `name`, `author`,`campaign_id`, `description`, `startDate`, `endDate`, `created_at`, `updated_at`) VALUES
+        (1, 'Soirée au bord de la plage', 1,2, 'Cette soirée est organisée par le BDE', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
+        (2, 'Soirée dans le centre-ville', 2,2, 'Cette soirée est organisée par le comité étudiant Aix en Provence', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
+        (3, 'event2', 1,1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
+
+    "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
 ];
 
+$sql_triggers = [
+    "
+        DROP EVENT IF EXISTS reset_donors_points_event;
+        DELIMITER | 
+        CREATE EVENT reset_donors_points_event
+        ON SCHEDULE EVERY 1 DAY
+            DO
+            BEGIN
+                UPDATE users
+                SET points = " . DONOR_POINTS_GIVEN_FOR_EACH_CAMPAIGN . "
+                WHERE users.role = 'donor' AND EXISTS(SELECT * FROM campaigns WHERE DATE(startDate) = DATE(NOW()));
+            END |
+        DELIMITER ;
+    ",
+    "
+        DROP TRIGGER IF EXISTS set_points_for_donor_inserted;
+        DELIMITER |
+        CREATE OR REPLACE TRIGGER set_points_for_donor_inserted
+        AFTER INSERT
+        ON users FOR EACH ROW
+        BEGIN
+            UPDATE users SET users.points = " . DONOR_POINTS_GIVEN_FOR_EACH_CAMPAIGN . " where users.role = 'donor';
+        END |
+        DELIMITER ;
+    "];
 $db = Model::getDatabaseInstance();
 
 echo '<pre>';
 echo '<h1>Initialisation de la base de données</h1>';
+
+echo '</ul>';
 
 echo '<h2>Création des tables</h2>';
 echo '<ul>';
@@ -134,6 +150,14 @@ foreach ($sql as $query) {
     echo '<li>' . $query . '</li>';
     $db->query($query);
 }
+
+echo '<h2>Création des triggers</h2>';
+echo '<ul>';
+foreach ($sql_triggers as $query) {
+    echo '<li>' . $query . '</li>';
+    $db->query($query);
+}
+
 echo '</ul>';
 echo '<h2>Création des données</h2>';
 echo '<ul>';
@@ -141,6 +165,7 @@ foreach ($sql_data as $query) {
     echo '<li>' . $query . '</li>';
     $db->query($query);
 }
+
 
 echo '</ul>';
 
