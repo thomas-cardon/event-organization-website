@@ -70,7 +70,7 @@ final class Event extends Model
     }
 
     public static function findByCampaign($campaign): array
-    {        
+    {
         $sql = "SELECT * FROM events WHERE DATE(`startDate`) <= :startDate AND DATE(`endDate`) >= :endDate";
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':startDate', $startDate);

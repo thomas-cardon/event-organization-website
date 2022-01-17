@@ -72,7 +72,7 @@ final class Campaign extends Model
     {
         $sql = 'SELECT * FROM campaigns WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':id', $id);
+//        $stmt->bindParam(':id', $id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
