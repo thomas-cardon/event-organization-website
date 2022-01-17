@@ -68,13 +68,15 @@
     <div class="card chart chart-aside-1">
         <?php View::show('components/dashboard/widgets/pointsSpent', array( 'data' => $params['points_spent'] ?? null )); ?>
     </div>
-    <div class="card chart chart-aside-2"></div>
-    <div class="card chart chart-1">
-        <?php View::show('components/dashboard/widgets/userChart', array( 'data' => $params['nb_users_per_role'] ?? null)); ?>
-    </div>
-    <div class="card chart chart-2">
-        <?php View::show('components/dashboard/widgets/pointsRepartition', $params['points_repartition'] ?? array()); ?>
-    </div>
+    <?php if ($params['user']->getRole() === 'admin'): ?>
+        <div class="card chart chart-aside-2">
+            <?php View::show('components/dashboard/widgets/userChart', array( 'data' => $params['nb_users_per_role'] ?? null)); ?>
+        </div>
+    <?php else: ?>
+        <div class="card chart chart-aside-2">
+            <?php View::show('components/dashboard/widgets/pointsRepartition', $params['points_repartition'] ?? array()); ?>
+        </div>
+    <?php endif; ?>
 
     <nav class="buttons vertical">
         <a href="<?= BASE_PATH ?>/dashboard" title="Accueil du tableau de bord">

@@ -3,7 +3,7 @@
 ?>
 <canvas id="userChart"></canvas>
 <script type="text/javascript">
-    const nb = <?= json_encode($params['data']); ?>;
+    const nb = <?= json_encode($params['data'] ?? []); ?>;
 
     window.addEventListener("DOMContentLoaded", e => {
         Chart.defaults.color = 'white';
