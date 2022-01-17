@@ -1,4 +1,5 @@
 .dashboard {
+    --dark-0: #363636;
     --dark-1: #2a2a2b;
     --dark-2: #16171B;
     --dark-3: #28292D;
@@ -373,4 +374,54 @@ input[type="radio"]::before {
 
   border-radius: 50%;
   border: 1px solid rgba(209,213,219,.3)!important;
+}
+
+#addUnlockableContent ul {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+#addUnlockableContent li {
+    min-height: 5rem;
+    width: 100%;
+    margin-bottom: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    border-radius: 0.5rem;
+    text-align: center;
+    transition: all 0.5s;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    background-color: rgba(8, 11, 11, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+#addUnlockableContent li:hover {
+    transform: scale(1.05);
+}
+
+#addUnlockableContent li a {
+    text-decoration: none;
+    display: block;
+}
+
+#addUnlockableContent li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+#addUnlockableContent li.new {
+    border: 2px dashed rgb(229, 231, 235);
 }
