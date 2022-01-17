@@ -118,6 +118,22 @@ final class DashboardController
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
+        if ($session['user']->getRole() !== 'admin')
+            return $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+
+        if (Campaign::getCurrentCampaign() !== null)
+            return $this->redirect('/', array('alert' => array('message' => 'Une campagne est déja en cours', 'type' => 'yellow')));
+        if (!empty($post) && Campaign::getCurrentCampaign() == null) {
+            try {
+                $campaign = new Campaign($_POST['Nom'], $_POST['Description'], $_POST['datedep'], $_POST['datefin']);
+                $campaign->save();
+                return $this->redirect('/', array('alert' => array('message' => 'La campagne a été crée avec success', 'type' => 'green')));
+            }
+            catch (Exception $e) {
+                $session['alert'] = array('message' => $e->getMessage(), 'type' => 'red');
+            }
+        }
+
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
@@ -177,7 +193,8 @@ final class DashboardController
         
         if (!empty($post)) {
             try {
-                $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), $_POST['DateDep'], $_POST['DateFin']);
+
+                $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), Campaign::getCurrentCampaign()->getId(), $_POST['DateDep'], $_POST['DateFin']);
                 $event->save();
 
                 if (!empty($_POST['unlockableContent'])) {

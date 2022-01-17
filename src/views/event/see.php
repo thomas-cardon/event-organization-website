@@ -111,7 +111,7 @@
                                     <td>
                                         <?= $t->getUser()->getName(); ?>
                                     </td>
-                                    <td>
+                                    <td class="xs">
                                         <?= $t->getCreatedAt()->format('d/m à H:i'); ?>
                                     </td>
                                     <td>
@@ -120,6 +120,18 @@
                                             </path>
                                         </svg>
                                         <?= $t->getAmount(); ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <p class="text-gray-less italic">
+                                            <?= $t->getComment() ?? 'Aucun commentaire'; ?>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <hr class="text-gray-less" />
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
