@@ -93,6 +93,7 @@ $sql = [
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `user_id` int(11) NOT NULL,
         `campaign_id` int(11) NOT NULL,
+        `status` varchar(255) NOT NULL DEFAULT \'pending\',
         PRIMARY KEY (`id`),
         FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
         FOREIGN KEY (`campaign_id`) REFERENCES `campaigns`(`id`) ON DELETE CASCADE
@@ -118,7 +119,7 @@ $sql_data = [
     "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES 
         (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
 
-    "INSERT INTO `votes` (`id`, `user_id`, `campaign_id`) VALUES 
+    "INSERT INTO `votes` (`id`, `user_id`, `campaign_id`, `status`) VALUES 
         (1, 1, 1);",
 ];
 

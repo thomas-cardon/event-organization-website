@@ -283,14 +283,18 @@ final class DashboardController
 
     public function voteAction($params, $post, $session){
 
+
         if (!$this->isAuthentified())
             return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
-        if ($session['user']->getRole() !== 'admin' || 'jury')
+        if ($session['user']->getRole() !== 'admin' && $session['user']->getRole() !== 'jury')
             return $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
 
-        if (var_dump( Date("m.d.y") == getEndDate()))
-            return $this->redirect('/', array('alert' => array('message' => 'C\'est l\'heure de voter.', 'type' => 'yellow')));
+//        $objDateTime = new DateTime('NOW');
+//        $diff = $objDateTime->diff($params['data']->getEndDate())->format("%a");  //find difference
+//        $days = intval($diff);   //rounding days
+//        if ($days > 0)
+//            return $this->redirect('/', array('alert' => array('message' => 'C\'est plus l\'heure de voter.', 'type' => 'yellow')));
 
         $id = $params[0];
         $campaign = Campaign::getById($id);
