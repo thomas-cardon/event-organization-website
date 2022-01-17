@@ -112,23 +112,36 @@ $sql_data = [
     "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
 ];
 
-//trigger start_campaign : fix un nombre de point à chaque donateur en début de campagne
-//trigger point_of_registration : fix un nombre de point à chaque nouveau donateur inscrit
-$sql_trigger = ["create or replace trigger start_campaign
-                after insert on campaigns
-                for each row
-                begin
-                update users set points =".DONOR_POINTS_GIVEN_FOR_EACH_CAMPAIGN." where role='donor';
-                end;",
+$sql_triggers = [
+    "
+        DROP EVENT IF EXISTS reset_donors_points_event;
 
-    // todo : ce trigger marche mais pas fait planter SEULEMENT les insert de ce fichier
-//               "CREATE OR REPLACE TRIGGER `point_of_registration`
-//                AFTER INSERT ON `users`
-//                FOR EACH ROW
-//                begin
-//                update users set points =".DONOR_POINTS_GIVEN_FOR_EACH_CAMPAIGN." where role='donor' and id = (SELECT id FROM users ORDER BY ID DESC LIMIT 1);
-//                 end;"
-] ;
+        DELIMITER | 
+        CREATE EVENT reset_donors_points_event
+        ON SCHEDULE EVERY 1 DAY
+            DO
+            BEGIN
+                UPDATE users
+                SET points = " . DONOR_POINTS_GIVEN_FOR_EACH_CAMPAIGN . "
+                WHERE users.role = 'donor' AND EXISTS(SELECT * FROM campaigns WHERE DATE(startDate) = DATE(NOW()));
+            END |
+
+        DELIMITER ;
+    ",
+    "
+        DROP TRIGGER IF EXISTS set_points_for_donor_inserted;
+
+        DELIMITER |
+
+        CREATE OR REPLACE TRIGGER set_points_for_donor_inserted
+        AFTER INSERT
+        ON users FOR EACH ROW
+        BEGIN
+            UPDATE users SET users.points = " . DONOR_POINTS_GIVEN_FOR_EACH_CAMPAIGN . " where users.role = 'donor';
+        END |
+
+        DELIMITER ;
+    "];
 $db = Model::getDatabaseInstance();
 
 echo '<pre>';
@@ -145,7 +158,7 @@ foreach ($sql as $query) {
 
 echo '<h2>Création des triggers</h2>';
 echo '<ul>';
-foreach ($sql_trigger as $query) {
+foreach ($sql_triggers as $query) {
     echo '<li>' . $query . '</li>';
     $db->query($query);
 }
