@@ -305,6 +305,14 @@ final class Event extends Model
         $this->endDate = $endDate;
     }
 
+    public function getVotes() {
+        return $this->vote ?? 0;
+    }
+
+    public function setVotes($vote) {
+        $this->vote = $vote;
+    }
+
     public function getPointsAmount(): int
     {
         $sql = 'SELECT SUM(amount) as sum FROM transactions WHERE event_id = :id';

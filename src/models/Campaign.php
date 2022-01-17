@@ -81,6 +81,18 @@ final class Campaign extends Model
         return null;
     }
 
+    public static function getLastCampaign(): ?Campaign
+    {
+        $sql = 'SELECT * FROM `Campaigns` ORDER BY `id` DESC LIMIT 1';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return new Campaign($row['name'], $row['description'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at']);
+        }
+        return null;
+    }
     public function countVotes(): int
     {
         $sql = "SELECT COUNT(*) FROM votes WHERE campaign_id = :id";
@@ -212,13 +224,5 @@ final class Campaign extends Model
 
     public function setEndDate($endDate) {
         $this->endDate = $endDate;
-    }
-
-    public function getVotes() {
-        return $this->vote ?? 0;
-    }
-
-    public function setVotes($vote) {
-        $this->vote = $vote;
     }
 }

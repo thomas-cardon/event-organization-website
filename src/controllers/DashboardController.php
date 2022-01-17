@@ -270,7 +270,7 @@ final class DashboardController
 
             return $this->redirect('/dashboard', array('alert' => array('message' => $user->getName() . ' : ' . ($post['amount'] > 0 ? '+' : '') . $post['amount'], 'type' => 'green')));
         }
-        
+
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
@@ -282,28 +282,36 @@ final class DashboardController
     }
 
     public function voteAction($params, $post, $session){
-
-
         if (!$this->isAuthentified())
             return $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
         if ($session['user']->getRole() !== 'admin' && $session['user']->getRole() !== 'jury')
             return $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
 
+
+        View::show('dashboard', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'],
+            'content' => View::get('dashboard/votePage', array( 'edit' => false))
+        ));
+
+//        if()
+//        si campagne pas terminée depuis - de 24h
+        // redirect
+
 //        $objDateTime = new DateTime('NOW');
 //        $diff = $objDateTime->diff($params['data']->getEndDate())->format("%a");  //find difference
 //        $days = intval($diff);   //rounding days
 //        if ($days > 0)
 //            return $this->redirect('/', array('alert' => array('message' => 'C\'est plus l\'heure de voter.', 'type' => 'yellow')));
-
-        $id = $params[0];
-        $campaign = Campaign::getById($id);
-
-        if (isset($post['vote'])) {
-            $campaign->setVotes($campaign->getVotes());
-            $campaign->save();
-
-            return $this->redirect('/dashboard', array('alert' => array('message' => $campaign->getName() . ' : ' . ($post['amount'] > 0 ? '+' : '') . $post['amount'], 'type' => 'green')));
-        }
+//        $events = Event::getById($);
+//
+//        if (isset($post['vote'])) {
+//            $events->setVotes($events->getVotes());
+//            $events->save();
+//
+//            return $this->redirect('/dashboard', array('alert' => array('message' => 'Votre vote a bien été enregistré', 'type' => 'green')));
+//        }
     }
 }
