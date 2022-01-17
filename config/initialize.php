@@ -64,7 +64,7 @@ $sql = [
         FOREIGN KEY (`author`) REFERENCES `users`(`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
-    'CREATE TABLE IF NOT EXISTS `events_unlockablecontent` (
+    'CREATE TABLE IF NOT EXISTS `unlockable_content` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `description` text NOT NULL,
