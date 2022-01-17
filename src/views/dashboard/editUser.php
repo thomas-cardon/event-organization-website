@@ -39,7 +39,6 @@
 
         <div class="actions">
             <input type="submit" value="Créer">
-            <a>Mot de passe oublié?</a>
         </div>
     </form>
 </section>

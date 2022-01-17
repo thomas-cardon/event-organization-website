@@ -11,7 +11,6 @@
         <div class="input-group horizontal">
             <input autofocus type="text" name="Nom" id="Nom" aria-label="Nom" placeholder="Nom" required value="<?= $params['edit'] ? $params['event']->getName() : ''; ?>">
             <textarea type="text" name="Description" id="Description" aria-label="Description" placeholder="Description" rows="5"></textarea>
-
             <input type="datetime-local" name="DateDep" id="DateDep" min="<?= date('Y-m-d\TH:i');?>" aria-label="DateDep" placeholder="Commence le:">
             <input type="datetime-local" name="DateFin" id="DateFin" min="<?= date('Y-m-d\TH:i');?>" aria-label="DateFin" placeholder="Termine le:">
 
