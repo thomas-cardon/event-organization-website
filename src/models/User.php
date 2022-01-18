@@ -11,10 +11,9 @@ final class User extends Model
     private $created_at;
     private $updated_at;
     private $points;
-    private $avatar;
-    private $connectionCpt;
+    private $connectionCount;
 
-    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = 'donor', $created_at = null, $updated_at = null, $avatar = null)
+    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = 'donor', $created_at = null, $updated_at = null, $connectionCount = 0)
     {
         $this->id = $id;
         $this->email = $email;
@@ -25,8 +24,7 @@ final class User extends Model
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
         $this->points = $points;
-        $this->connectionCpt = $connectionCpt;
-        $this->avatar = $avatar;
+        $this->connectionCount = $connectionCount;
     }
 
     public static function find($limit = -1): array
@@ -38,7 +36,7 @@ final class User extends Model
         $users = [];
         foreach ($rows as $row) {
             $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'], $row['connection_count'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at'], $row['connection_count']);
             $users[] = $user;
         }
         return $users;
@@ -74,7 +72,7 @@ final class User extends Model
 
         if ($row) {
             return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'], $row['connection_count'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at'], $row['connection_count']);
         }
 
         return null;
@@ -90,7 +88,7 @@ final class User extends Model
 
         if ($row) {
             return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'], $row['connection_count'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at'], $row['connection_count']);
         }
 
         return null;
@@ -101,15 +99,15 @@ final class User extends Model
      * @return void
      */
 
-    public function getConnectionCpt()
+    public function getConnectionCount()
     {
-        return $this->connectionCpt;
+        return $this->connectionCount;
     }
 
 
-    public function setConnectionCpt($connectionCpt): void
+    public function setConnectionCount($connectionCount): void
     {
-        $this->connectionCpt = $connectionCpt;
+        $this->connectionCount = $connectionCount;
     }
 
     public function save()
@@ -140,7 +138,7 @@ final class User extends Model
     public function update()
     {
         $sql = 'UPDATE users 
-                SET last_name = :last_name, first_name = :first_name, email = :email, role = :role, hash = :hash,connection_count =:connectionCpt, points = :points, updated_at = NOW()
+                SET last_name = :last_name, first_name = :first_name, email = :email, role = :role, hash = :hash,connection_count =:connectionCount, points = :points, updated_at = NOW()
                 WHERE id = :id';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':last_name', $this->lastName);
@@ -150,7 +148,7 @@ final class User extends Model
         $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':role', $this->role);
         $stmt->bindParam(':points', $this->points);
-        $stmt->bindParam(':connectionCpt',$this->connectionCpt);
+        $stmt->bindParam(':connectionCount',$this->connectionCount);
         $stmt->execute();
     }
 
@@ -303,11 +301,6 @@ final class User extends Model
 
     public function getAvatar()
     {
-        return $this->avatar ?? 'https://www.gravatar.com/avatar/' . md5($this->email) . '?s=200';
-    }
-
-    public function setAvatar($avatar)
-    {
-        $this->avatar = $avatar;
+        return 'https://www.gravatar.com/avatar/' . md5($this->email) . '?s=200';
     }
 }

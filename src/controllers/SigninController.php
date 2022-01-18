@@ -48,13 +48,15 @@ final class SigninController
         $user = User::getByEmail($email);
         if ($user) {
             if (password_verify($password, $user->getHash())) {
-                $_SESSION['user'] = $user;
-                if ($user->getConnectionCpt() > 1010 ) {
-                    $this->incrementCountCpt($user);
-                    $this->redirect('/', array('alert' => array('message' => 'Connexion réussie..', 'type' => 'green')));
+                
+                if ($user->getConnectionCount() > 0 ) {
+                    $_SESSION['user'] = $user->getId();
+                    
+                    $this->increment($user);
+                    $this->redirect('/', array('alert' => array('message' => 'Connexion réussie', 'type' => 'green')));
                 }
                 else {
-                    $this->incrementCountCpt($user);
+                    $this->increment($user);
                     View::show('editPassword', array(
                         'authentified' => $this->isAuthentified(),
                         'alert' => $session['alert'] ?? null,
@@ -75,8 +77,8 @@ final class SigninController
         if($_POST['password1'] == $_POST['password2'])
             {
              $user->setHash(password_hash($_POST['password1'], PASSWORD_DEFAULT));
-             $user->update();
-             $this->redirect('/', array('alert' => array('message' => 'modification réussie..', 'type' => 'green')));
+             $user->save();
+             $this->redirect('/', array('alert' => array('message' => 'Modification réussie', 'type' => 'green')));
             }
         else
             $this->passwordError('les deux mots de passe doivent être identiques');
@@ -88,9 +90,9 @@ final class SigninController
         $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
     }
 
-    private function incrementCountCpt(User $user){
-        $user->setConnectionCpt($user->getConnectionCpt()+1);
-        $user->update();
+    private function increment(User $user){
+        $user->setConnectionCount($user->getConnectionCount() + 1);
+        $user->save();
     }
 
 
