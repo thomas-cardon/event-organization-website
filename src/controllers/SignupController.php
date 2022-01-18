@@ -53,7 +53,7 @@ final class SignupController
         if ($user) {
             $session = array(
                 'user' => $user,
-                'alert' => array('message' => 'Inscription réussie.', 'type' => 'green')
+                'alert' => array('message' => 'Inscription réussie.'."\n".'Vous venez de recevoir un email avec vos identifiants de connexion (regardez dans vos spams)', 'type' => 'green')
             );
 
             $_SESSION = $session;
@@ -72,7 +72,7 @@ final class SignupController
      * @author Thomas Cardon
      */
     private function generateRandomPassword($chars = 12): string {
-        $comb = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $comb = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $shfl = str_shuffle($comb);
         return substr($shfl,0, $chars);
     }
