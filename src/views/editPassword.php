@@ -16,7 +16,7 @@
                     Définissez votre nouveau mot de passe
                 </h4>
             </div>
-            <form action="<?= BASE_PATH . '/editPassword/editPasswordAction'; ?>" method="POST">
+            <form action="<?= BASE_PATH . '/editPasswordAction'; ?>" method="POST">
                 <div class="input">
                     <input class="w-full glass text-gray-less" type="password" name="password1" id="password" aria-label="Votre mot de passe" placeholder="Votre mot de passe" required />
                     <input class="w-full glass text-gray-less" type="password" name="password2" id="passwordverif" aria-label="Confirmez votre mot de passe" placeholder="Confirmez votre mot de passe" required/>

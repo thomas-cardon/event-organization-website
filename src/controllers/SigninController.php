@@ -48,10 +48,10 @@ final class SigninController
         $user = User::getByEmail($email);
         if ($user) {
             if (password_verify($password, $user->getHash())) {
-                
-                if ($user->getConnectionCount() > 0 ) {
+
+                if ($user->getConnectionCount() != 0 ) {
                     $_SESSION['user'] = $user->getId();
-                    
+
                     $this->increment($user);
                     $this->redirect('/', array('alert' => array('message' => 'Connexion réussie', 'type' => 'green')));
                 }
@@ -71,17 +71,19 @@ final class SigninController
         else $this->userError('Aucun utilisateur avec cet identifiant existe.');
     }
 
-    public function editPasswordAction(){
-        $user = $_SESSION['user'];
-
-        if($_POST['password1'] == $_POST['password2'])
+    public function editPasswordAction($params, $post, $session){
+        if ($this->isAuthentified()){
+            $user = $session['user'];
+            if($post['password1'] == $post['password2'])
             {
-             $user->setHash(password_hash($_POST['password1'], PASSWORD_DEFAULT));
-             $user->save();
-             $this->redirect('/', array('alert' => array('message' => 'Modification réussie', 'type' => 'green')));
+                $user->setHash(password_hash($_POST['password1'], PASSWORD_DEFAULT));
+                $user->update();
+                $this->redirect('/', array('alert' => array('message' => 'Modification réussie', 'type' => 'green')));
             }
-        else
-            $this->passwordError('les deux mots de passe doivent être identiques');
+            else
+                $this->redirect('/signin/auth', array('alert' => array('message' => 'Modification réussie', 'type' => 'green')));
+        }
+
 
 
     }
@@ -92,7 +94,7 @@ final class SigninController
 
     private function increment(User $user){
         $user->setConnectionCount($user->getConnectionCount() + 1);
-        $user->save();
+        $user->update();
     }
 
 
