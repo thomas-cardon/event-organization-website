@@ -56,6 +56,10 @@ final class EventController
                 $this->redirect('/event/see/' . $id, array('alert' => array('message' => 'Le montant ne peut pas être supérieur à votre portefeuille.', 'type' => 'red')));
             }
 
+            echo var_dump($post);
+            echo var_dump($event);
+            echo var_dump($user);
+
             $transaction = new Transaction($user->getId(), $event->getId(), $amount, $comment);
             $transaction->save();
 

@@ -86,13 +86,11 @@ $sql = [
 
     //table de transaction des dons
     'CREATE TABLE `transactions` (
-        `id` int(11) NOT NULL AUTO_INCREMENT,
         `user_id` int(11) NOT NULL,
         `event_id` int(11) NOT NULL,
         `amount` int(11) NOT NULL,
         `created_at` DATETIME DEFAULT NOW(),
         `comment` TEXT,
-        PRIMARY KEY (`id`),
         FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
         FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
@@ -126,7 +124,7 @@ $sql_data = [
         (2, 'Soirée dans le centre-ville', 2,2, 'Cette soirée est organisée par le comité étudiant Aix en Provence', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
         (3, 'event2', 1,1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
 
-    "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
+    "INSERT INTO `transactions` (`user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES (1, 2, 10, '2021-12-29 11:40:36', 'comment');",
 ];
 
 $sql_triggers = [
