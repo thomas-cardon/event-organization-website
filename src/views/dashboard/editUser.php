@@ -2,9 +2,9 @@
     <h4 class="font-thin"><?= $params['edit'] ? 'Editer' : 'Créer'; ?> un utilisateur</h4>
     <form action="" method="POST">
         <div class="input-group horizontal">
-            <input autofocus class="w-full" type="text" aria-label="Nom" placeholder="Nom">
-            <input class="w-full" type="text" aria-label="Prénom" placeholder="Prénom">
-            <input class="w-full" type="text" aria-label="Adresse e-mail" placeholder="Adresse e-mail">
+            <input id="lastname" name="lastname" autofocus class="w-full text-white" type="text" aria-label="Nom" placeholder="Nom">
+            <input id="firstname" name="firstname" class="w-full text-white" type="text" aria-label="Prénom" placeholder="Prénom">
+            <input id="email" name="email" class="w-full text-white" type="email" aria-label="Adresse e-mail" placeholder="Adresse e-mail">
          </div>
         <div class="flex justify-center horizontal">
 

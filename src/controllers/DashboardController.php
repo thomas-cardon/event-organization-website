@@ -80,7 +80,20 @@ final class DashboardController
     {
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+        
+        if ($session['user']->getRole() !== 'admin')
+            $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'red')));
+        
+        if (isset($post['firstname'])) {
+            $pwd = (new SignupController)->generateRandomPassword();
+            $user = new User($post['email'], $post['firstname'], $post['lastname'], password_hash($pwd, PASSWORD_DEFAULT), 0);
+            $user->setRole($post['role']);
+            $user->save();
 
+            SignUpController::sendMail($user->getEmail(), $pwd);
+
+            $session['alert'] = array('message' => 'L\'utilisateur a bien été créé.', 'type' => 'green');
+        }
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,

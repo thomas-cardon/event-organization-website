@@ -76,7 +76,7 @@ final class SigninController
         if (!$user)
             $this->redirect('/', array('alert' => array('message' => 'Aucun utilisateur avec cet e-mail n\'a été trouvé.', 'type' => 'red')));
 
-        $password = (new SignupController)->singnupController::generateRandomPassword();
+        $password = (new SignupController)->generateRandomPassword();
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
         $user->save();
 
