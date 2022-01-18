@@ -29,8 +29,6 @@ final class EventController
     public function donateAction($params, $post, $session) {
         $id = $params[0];
         $event = Event::getById($id);
-        var_dump($session['user']);
-
         if (!$event) {
             $this->redirect('/', array('alert' => array('message' => 'L’événement n’existe pas.', 'type' => 'red')));
         }
