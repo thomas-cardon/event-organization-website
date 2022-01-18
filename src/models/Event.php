@@ -355,13 +355,11 @@ final class Event extends Model
 
     public function getCampaign(): Campaign
     {
-        $sql = 'SELECT * FROM campaigns WHERE id = (SELECT id FROM campaigns WHERE startDate <= :startDate AND endDate >= :endDate)';
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':startDate', $this->startDate);
-        $stmt->bindParam(':endDate', $this->endDate);
-        $stmt->execute();
+        return Campaign::getById($this->campaignId);
+    }
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Campaign($row['name'], $row['description'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at']);
+    public function hasUserVoted($user): bool
+    {
+        return Vote::hasVoted($this->getId(), $user);
     }
 }

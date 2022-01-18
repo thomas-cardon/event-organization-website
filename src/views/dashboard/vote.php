@@ -1,3 +1,7 @@
+<?php
+    View::addScript('editEvent', '/assets/js/vote.js', '', '', true, 'text/javascript', 'head');
+?>
+
 <?php if (!isset($params['campaign'])): ?>
 <section class="dashboard-content">
     <h1 class="font-thin">Vous ne pouvez pas encore voter</h1>
@@ -20,7 +24,7 @@
 
     <div class="vote-deck">
         <?php foreach ($params['campaign_events'] as $event): ?>
-            <div class="vote-card">
+            <div class="vote-card <?= $event->hasUserVoted($params['user']->getId()) ? 'selected' : ''; ?>" data-id="<?= $event->getId(); ?>">
                 <div class="vote-card-header">
                     <h5 class="font-thin">
                         <?= $event->getName(); ?>
@@ -38,7 +42,7 @@
                         <span class="s">
                             <?= $event->getPointsAmount(); ?>
                         </span>
-                        <a class="s" href="<?= BASE_PATH . '/dashboard/event/see/' . $event->getId(); ?>">
+                        <a class="s" href="<?= BASE_PATH . '/event/see/' . $event->getId(); ?>">
                             Voir
                         </a>
                     </p>

@@ -18,7 +18,7 @@ final class DashboardController
             'user' => $session['user'] ?? null,
 
             'current_campaign' => Campaign::getCurrentCampaign(),
-            'current_campaign_events' => Campaign::getCurrentCampaign() ? Event::findByCampaign(Campaign::getCurrentCampaign()) : null,
+            'current_campaign_events' => Campaign::getCurrentCampaign() ? Event::findByCampaignId(Campaign::getCurrentCampaign()->getId()) : null,
             'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::find(5) : null,
             'recent_events' => $session['cached_recent_events'] ?? $session['user']->getRole() === 'admin' || $session['user']->getRole() === 'organizer' ? Event::find(5) : null,
             'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
@@ -43,11 +43,30 @@ final class DashboardController
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
+        if (isset($params[0])) {
+            $eventId = $params[0];
+
+            if (!Event::find($eventId))
+                $this->redirect('/', array('alert' => array('message' => 'L\'événement n\'existe pas.', 'type' => 'red')));
+            
+            if (!Campaign::getPendingForVoteCampaign())
+                $this->redirect('/', array('alert' => array('message' => 'Il n\'y a pas de campagne en cours.', 'type' => 'red')));
+            
+            if ($session['user']->getRole() !== 'admin' && $session['user']->getRole() !== 'jury')
+                $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'red')));
+                        
+            $vote = new Vote($eventId, $session['user']->getId());
+            $vote->save();
+
+            $session['alert'] = array('message' => 'Votre vote a bien été pris en compte.', 'type' => 'green');
+        }
+
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? null,
             'content' => View::get('dashboard/vote', array(
+                'user' => $session['user'] ?? null,
                 'campaign' => Campaign::getPendingForVoteCampaign(),
                 'campaign_events' => Campaign::getPendingForVoteCampaign() ? Event::findByCampaignId(Campaign::getPendingForVoteCampaign()->getId()) : null,
             ))

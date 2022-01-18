@@ -99,13 +99,12 @@ $sql = [
 
     // table de vote pour les jurys
     'CREATE TABLE `votes`(
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `event_id`int(11) NOT NULL,
-    `user_id` int(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
-)ENGINE=InnoDB DEFAULT CHARSET=utf8'
+        `event_id`int(11) NOT NULL,
+        `user_id` int(11) NOT NULL,
+        FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE,
+        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+        CONSTRAINT `votes_unique` UNIQUE (`user_id`, `event_id`)
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8'
 ];
 
 

@@ -23,7 +23,7 @@ final class Vote extends Model
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row !== false;
     }
-
+    
     public static function getVotesForEvent($eventId): array
     {
         $sql = 'SELECT * FROM votes WHERE event_id = :event_id';
@@ -44,7 +44,7 @@ final class Vote extends Model
 
     public function save(): bool
     {
-        $sql = 'INSERT INTO votes (event_id, user_id) VALUES (:event_id, :user_id)';
+        $sql = 'REPLACE INTO votes (event_id, user_id) VALUES (:event_id, :user_id)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':event_id', $this->eventId, PDO::PARAM_INT);
         $stmt->bindParam(':user_id', $this->userId, PDO::PARAM_INT);
