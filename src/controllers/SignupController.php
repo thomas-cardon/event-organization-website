@@ -29,7 +29,6 @@ final class SignupController
             $this->userError('Veuillez remplir tous les champs.');
 
         
-        /* @todo: vérifier que l'adresse mail est valide */
 
         // On vérifie si l'utilisateur existe déja
         $user = User::getByEmail($_POST['email']);
@@ -97,13 +96,7 @@ final class SignupController
                'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
            mail($to, $subject, $message);
 
-             $headers = array(
-                'From' => 'support@e-event.club',
-                'Reply-To' => 'support@e-event.club',
-                'X-Mailer' => 'PHP/' . phpversion()
-            );
-
-            if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message,$headers))
+            if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
                 throw new Exception('Erreur lors de l\'envoi du mail');
             
             return $password;
