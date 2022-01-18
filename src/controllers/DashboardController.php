@@ -159,13 +159,23 @@ final class DashboardController
         if ($session['user']->getRole() !== 'admin')
             return $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
 
-        if (Campaign::getCurrentCampaign() !== null)
-            return $this->redirect('/', array('alert' => array('message' => 'Une campagne est déja en cours', 'type' => 'yellow')));
-        if (!empty($post) && Campaign::getCurrentCampaign() == null) {
+        if (!empty($post)) {
             try {
-                $campaign = new Campaign($_POST['Nom'], $_POST['Description'], $_POST['datedep'], $_POST['datefin']);
-                $campaign->save();
-                return $this->redirect('/', array('alert' => array('message' => 'La campagne a été crée avec success', 'type' => 'green')));
+                $d1 = new DateTime($post['datedep']);
+                $d2 = new DateTime($post['datefin']);
+
+                if ($d1 > $d2)
+                    $session['alert'] = array('message' => 'La date de fin de la campagne doit être supérieure à la date de début.');
+                else if ($d1 < new DateTime())
+                    $session['alert'] = array('message' => 'La date de fin de la campagne doit être supérieure ou égale à la date d\'aujourd\'hui.');
+                if (Campaign::isBetween($d1->format('Y-m-d'), $d2->format('Y-m-d')))
+                    $session['alert'] = array('message' => 'Une campagne est déjà en cours à cette période', 'type' => 'red');
+                else {
+                    $campaign = new Campaign($post['Nom'], $post['Description'], $d1->format('Y-m-d'), $d2->format('Y-m-d'));
+                    $campaign->save();
+
+                    return $this->redirect('/dashboard', array('alert' => array('message' => 'La campagne a bien été créée.', 'type' => 'green')));
+                }
             }
             catch (Exception $e) {
                 $session['alert'] = array('message' => $e->getMessage(), 'type' => 'red');
