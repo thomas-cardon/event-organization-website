@@ -94,6 +94,10 @@ final class User extends Model
         return null;
     }
 
+    /**
+     * Création d'un utilisateur dans la base de donnée
+     * @return void
+     */
     public function save()
     {
         $sql = 'REPLACE INTO users (id, hash, email, first_name, last_name, points, role, created_at, updated_at, avatar)
@@ -115,6 +119,10 @@ final class User extends Model
         $stmt->execute();
     }
 
+    /**
+     * Modification d'un utilisateur dans la base de donnée
+     * @return void
+     */
     public function update()
     {
         $sql = 'UPDATE users 
@@ -132,6 +140,10 @@ final class User extends Model
         $stmt->execute();
     }
 
+    /**
+     * Suppression d'un utilisateur dans la basse de donnée
+     * @return void
+     */
     public function delete()
     {
         $sql = "DELETE FROM users WHERE id = :id";

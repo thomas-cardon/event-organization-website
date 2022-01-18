@@ -24,6 +24,8 @@ $sql = [
 
     'SET FOREIGN_KEY_CHECKS = 1',
     /* A partir d'ici, ce sont des exemples de requêtes générées auendDatematiquement */
+
+    //table des utilisateurs
     'CREATE TABLE `users` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `first_name` varchar(255) NOT NULL,
@@ -38,6 +40,7 @@ $sql = [
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
+    //table des campagnes
     'CREATE TABLE IF NOT EXISTS `campaigns` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
@@ -49,6 +52,7 @@ $sql = [
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
+    //table des évènements
     'CREATE TABLE IF NOT EXISTS `events` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
@@ -65,6 +69,7 @@ $sql = [
         FOREIGN KEY (`author`) REFERENCES `users`(`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
+    //table des contenus déblocables des évènements
     'CREATE TABLE IF NOT EXISTS `unlockable_content` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
@@ -79,6 +84,7 @@ $sql = [
         FOREIGN KEY (`author`) REFERENCES `users` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
+    //table de transaction des dons
     'CREATE TABLE `transactions` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `user_id` int(11) NOT NULL,
@@ -91,6 +97,7 @@ $sql = [
         FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
+    // table de vote pour les jurys
     'CREATE TABLE `votes`(
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `event_id`int(11) NOT NULL,
