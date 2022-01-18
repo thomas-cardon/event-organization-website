@@ -59,6 +59,9 @@ final class EventController
             $transaction = new Transaction($user->getId(), $event->getId(), $amount, $comment);
             $transaction->save();
 
+            $user->setPoints($user->getPoints() - $amount);
+            $user->save();
+
             $this->redirect('/event/see/' . $id, array('alert' => array('message' => 'Votre don a bien été pris en compte.', 'type' => 'green')));
         }
 
