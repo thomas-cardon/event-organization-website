@@ -39,8 +39,5 @@
             <br />
             et se terminera le <?= $params['data']->getEndDate()->format('d F Y') ?>.
         </li>
-        <li>
-            Il y a actuellement <?= count($params['events']) ?> évènements dans cette campagne.
-        </li>
     </ul>
 </div>
