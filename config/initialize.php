@@ -32,7 +32,7 @@ $sql = [
         `last_name` varchar(255) NOT NULL,
         `hash` varchar(255),
         `email` varchar(255) NOT NULL,
-        `role` varchar(255) NOT NULL DEFAULT \'donor\',
+        `role` varchar(255) NOT NULL DEFAULT \'member\',
         `points` int(11) NOT NULL DEFAULT 0,
         `connection_count` int(11) NOT NULL DEFAULT 0,
         `avatar` varchar(255),
