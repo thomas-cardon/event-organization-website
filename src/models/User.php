@@ -13,7 +13,7 @@ final class User extends Model
     private $points;
     private $connectionCount;
 
-    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = 'donor', $created_at = null, $updated_at = null, $connectionCount = 0)
+    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $connectionCount = 0, $id = null, $role = 'member', $created_at = null, $updated_at = null)
     {
         $this->id = $id;
         $this->email = $email;
@@ -36,7 +36,7 @@ final class User extends Model
         $users = [];
         foreach ($rows as $row) {
             $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'], $row['connection_count'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at'], $row['connection_count']);
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
             $users[] = $user;
         }
         return $users;
@@ -72,7 +72,7 @@ final class User extends Model
 
         if ($row) {
             return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'], $row['connection_count'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at'], $row['connection_count']);
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
 
         return null;
@@ -88,7 +88,7 @@ final class User extends Model
 
         if ($row) {
             return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'], $row['connection_count'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at'], $row['connection_count']);
+                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
         }
 
         return null;
