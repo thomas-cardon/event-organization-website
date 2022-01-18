@@ -48,14 +48,14 @@ final class SigninController
         $user = User::getByEmail($email);
         if ($user) {
             if (password_verify($password, $user->getHash())) {
-                $this->increment($user);
-
                 if ($user->getConnectionCount() > 1) {
                     $_SESSION['user'] = $user;
                     $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
                 }
-                else
+                else {
+                    $_SESSION['user_to_auth'] = $user;
                     $this->redirect('/signin/edit-password', array( 'alert' => array('message' => 'Veuillez changer votre mot de passe.', 'type' => 'green')));
+                }
             }
             else $this->userError('Vos identifiants sont incorrects.');
         }
@@ -67,16 +67,16 @@ final class SigninController
     }
 
     public function editPasswordAction($params, $post, $session){
-        if (!$this->isAuthentified())
-            $this->redirect('/signin', array('alert' => array('message' => 'Vous devez être connecté pour accéder à cette page.', 'type' => 'red')));
-
         if (isset($post['password1']) && isset($post['password2'])) {
-            $user = $session['user'];
+            $user = $session['user_to_auth'];
             if($post['password1'] == $post['password2'])
             {
                 $user->setHash(password_hash($_POST['password1'], PASSWORD_DEFAULT));
+                $user->setConnectionCount($user->getConnectionCount() + 1);
                 $user->update();
-                $this->redirect('/', array('alert' => array('message' => 'Modification réussie', 'type' => 'green')));
+
+                $_SESSION['user'] = $user;
+                $this->redirect('/', array('alert' => array('message' => 'Mot de passe changé avec succès', 'type' => 'green')));
             }
             else $this->redirect('/signin/edit-password', array('alert' => array('message' => 'Les mots de passe ne correspondent pas', 'type' => 'red')));
         }
@@ -86,11 +86,6 @@ final class SigninController
             'user' => $session['user'] ?? null,
             'alert' => $session['alert'] ?? null,
         ));
-    }
-
-    private function increment(User $user){
-        $user->setConnectionCount($user->getConnectionCount() + 1);
-        $user->update();
     }
 
     /**
