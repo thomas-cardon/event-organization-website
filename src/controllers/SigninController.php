@@ -48,13 +48,14 @@ final class SigninController
         $user = User::getByEmail($email);
         if ($user) {
             if (password_verify($password, $user->getHash())) {
-                $_SESSION['user'] = $user;
                 $this->increment($user);
-                if ($user->getConnectionCount() > 1)
+
+                if ($user->getConnectionCount() > 1) {
+                    $_SESSION['user'] = $user;
                     $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
-                else{
-                    //todo l'amener sur la page editPassword.php
                 }
+                else
+                    $this->redirect('/signin/edit-password', array( 'alert' => array('message' => 'Veuillez changer votre mot de passe.', 'type' => 'green')));
             }
             else $this->userError('Vos identifiants sont incorrects.');
         }
@@ -66,7 +67,10 @@ final class SigninController
     }
 
     public function editPasswordAction($params, $post, $session){
-        if ($this->isAuthentified()){
+        if (!$this->isAuthentified())
+            $this->redirect('/signin', array('alert' => array('message' => 'Vous devez être connecté pour accéder à cette page.', 'type' => 'red')));
+
+        if (isset($post['password1']) && isset($post['password2'])) {
             $user = $session['user'];
             if($post['password1'] == $post['password2'])
             {
@@ -74,10 +78,14 @@ final class SigninController
                 $user->update();
                 $this->redirect('/', array('alert' => array('message' => 'Modification réussie', 'type' => 'green')));
             }
-            else
-                $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
-            //todo afficher les deux mdp ne sont pas les mêmes  et redemander de le faire
+            else $this->redirect('/signin/edit-password', array('alert' => array('message' => 'Les mots de passe ne correspondent pas', 'type' => 'red')));
         }
+        
+        View::show('editPassword', array(
+            'authentified' => $this->isAuthentified(),
+            'user' => $session['user'] ?? null,
+            'alert' => $session['alert'] ?? null,
+        ));
     }
 
     private function increment(User $user){

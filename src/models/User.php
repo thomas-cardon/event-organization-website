@@ -130,7 +130,7 @@ final class User extends Model
     public function update()
     {
         $sql = 'UPDATE users 
-                SET last_name = :last_name, first_name = :first_name, email = :email, role = :role, hash = :hash, points = :points, updated_at = NOW()
+                SET last_name = :last_name, first_name = :first_name, email = :email, role = :role, hash = :hash, points = :points, updated_at = NOW(), connection_count = :connection_count
                 WHERE id = :id';
 
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -141,6 +141,7 @@ final class User extends Model
         $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':role', $this->role);
         $stmt->bindParam(':points', $this->points);
+        $stmt->bindParam(':connection_count', $this->connectionCount);
         $stmt->execute();
     }
 
