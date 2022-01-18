@@ -31,6 +31,10 @@ a {
 	color: rgb(231, 209, 177);
 }
 
+.hover-pointer {
+  cursor: pointer;
+}
+
 /**
 * Typography
 * @author Thomas Cardon
