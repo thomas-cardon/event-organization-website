@@ -1,8 +1,6 @@
 <?php 
     $i = count($params['unlockableContent'] ?? []) - 1;
     $onsubmit = "console.log('submitting..');document.getElementById('unlockableContent" . $i . "').remove(); return true;";
-
-    View::setTitle(($params['edit'] ? 'Editer' : 'Créer') . ' un évènement');
     View::addScript('editEvent', '/assets/js/editEvent.js', '', '', true, 'text/javascript', 'head');
 ?>
 <section class="dashboard-content">

@@ -1,4 +1,3 @@
-<?php View::setTitle(($params['edit'] ? 'Editer' : 'Créer') . ' une campagne'); ?>
 <section class="dashboard-content">
     <h4 class="font-thin"><?= $params['edit'] ? 'Éditer' : 'Créer'; ?> une campagne</h4>
     <form action="<?= BASE_PATH . '/dashboard/' . ($params['edit'] ? 'edit-' : 'create-') . 'campaign'; ?>" method="POST">

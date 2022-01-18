@@ -18,7 +18,7 @@ final class DashboardController
             'user' => $session['user'] ?? null,
 
             'current_campaign' => Campaign::getCurrentCampaign(),
-            'current_campaign_events' => Event::findByCampaign(Campaign::getCurrentCampaign()),
+            'current_campaign_events' => Campaign::getCurrentCampaign() ? Event::findByCampaign(Campaign::getCurrentCampaign()) : null,
             'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::find(5) : null,
             'recent_events' => $session['cached_recent_events'] ?? $session['user']->getRole() === 'admin' || $session['user']->getRole() === 'organizer' ? Event::find(5) : null,
             'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
@@ -307,5 +307,17 @@ final class DashboardController
         ));
 
         $_SESSION['alert'] = null;
+    }
+
+    public function accountAction($params, $post, $session) {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        View::show('dashboard', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'],
+            'content' => View::get('dashboard/me', array('user' => $session['user']))
+        ));
     }
 }
