@@ -54,3 +54,4 @@
 
     </div>
 <?php endif; ?>
+<div style="margin-bottom: 1rem;"></div>

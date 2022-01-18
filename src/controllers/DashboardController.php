@@ -46,8 +46,10 @@ final class DashboardController
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
-            'event' => $session['event'],
-            'content' => View::get('dashboard/vote', array('edit' => true))
+            'user' => $session['user'] ?? null,
+            'campaign' => Campaign::getPendingForVoteCampaign(),
+            'campaign_events' => Campaign::getPendingForVoteCampaign() ? Event::findByCampaign(Campaign::getPendingForVoteCampaign()) : null,
+            'content' => View::get('dashboard/vote')
         ));
 
         $_SESSION['alert'] = null;
