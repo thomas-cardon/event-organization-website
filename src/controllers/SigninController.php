@@ -49,7 +49,12 @@ final class SigninController
         if ($user) {
             if (password_verify($password, $user->getHash())) {
                 $_SESSION['user'] = $user;
-                $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
+                $this->increment($user);
+                if ($user->getConnectionCount() > 1)
+                    $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
+                else{
+                    //todo l'amener sur la page editPassword.php
+                }
             }
             else $this->userError('Vos identifiants sont incorrects.');
         }
@@ -60,6 +65,25 @@ final class SigninController
         $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
     }
 
+    public function editPasswordAction($params, $post, $session){
+        if ($this->isAuthentified()){
+            $user = $session['user'];
+            if($post['password1'] == $post['password2'])
+            {
+                $user->setHash(password_hash($_POST['password1'], PASSWORD_DEFAULT));
+                $user->update();
+                $this->redirect('/', array('alert' => array('message' => 'Modification réussie', 'type' => 'green')));
+            }
+            else
+                $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
+            //todo afficher les deux mdp ne sont pas les mêmes  et redemander de le faire
+        }
+    }
+
+    private function increment(User $user){
+        $user->setConnectionCount($user->getConnectionCount() + 1);
+        $user->update();
+    }
 
     /**
      * Envoie les données de connexions de l'utilisateur par mail
