@@ -20,6 +20,7 @@ $sql = [
     'DROP TABLE IF EXISTS `campaigns`',
     'DROP TABLE IF EXISTS `events`',
     'DROP TABLE IF EXISTS `users`',
+    'DROP TABLE IF EXISTS `votes`',
 
     'SET FOREIGN_KEY_CHECKS = 1',
     /* A partir d'ici, ce sont des exemples de requêtes générées auendDatematiquement */
@@ -90,10 +91,11 @@ $sql = [
         FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
-    'CREATE TABLE `vote`(
+    'CREATE TABLE `votes`(
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `event_id`int(11) NOT NULL,
     `user_id` int(11) NOT NULL,
+    PRIMARY KEY (`id`),
     FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8'
