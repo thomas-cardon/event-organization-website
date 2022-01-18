@@ -48,8 +48,14 @@ final class SigninController
         $user = User::getByEmail($email);
         if ($user) {
             if (password_verify($password, $user->getHash())) {
-                $_SESSION['user'] = $user;
-                $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
+                if ($user->getConnectionCount() > 1) {
+                    $_SESSION['user'] = $user;
+                    $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
+                }
+                else {
+                    $_SESSION['user_to_auth'] = $user;
+                    $this->redirect('/signin/edit-password', array( 'alert' => array('message' => 'Veuillez changer votre mot de passe.', 'type' => 'green')));
+                }
             }
             else $this->userError('Vos identifiants sont incorrects.');
         }
@@ -60,6 +66,27 @@ final class SigninController
         $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
     }
 
+    public function editPasswordAction($params, $post, $session){
+        if (isset($post['password1']) && isset($post['password2'])) {
+            $user = $session['user_to_auth'];
+            if($post['password1'] == $post['password2'])
+            {
+                $user->setHash(password_hash($_POST['password1'], PASSWORD_DEFAULT));
+                $user->setConnectionCount($user->getConnectionCount() + 1);
+                $user->update();
+
+                $_SESSION['user'] = $user;
+                $this->redirect('/', array('alert' => array('message' => 'Mot de passe changé avec succès', 'type' => 'green')));
+            }
+            else $this->redirect('/signin/edit-password', array('alert' => array('message' => 'Les mots de passe ne correspondent pas', 'type' => 'red')));
+        }
+        
+        View::show('editPassword', array(
+            'authentified' => $this->isAuthentified(),
+            'user' => $session['user'] ?? null,
+            'alert' => $session['alert'] ?? null,
+        ));
+    }
 
     /**
      * Envoie les données de connexions de l'utilisateur par mail
@@ -76,7 +103,7 @@ final class SigninController
         if (!$user)
             $this->redirect('/', array('alert' => array('message' => 'Aucun utilisateur avec cet e-mail n\'a été trouvé.', 'type' => 'red')));
 
-        $password = (new SignupController)->singnupController::generateRandomPassword();
+        $password = (new SignupController)->generateRandomPassword();
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
         $user->save();
 

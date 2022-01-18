@@ -118,6 +118,20 @@ final class Campaign extends Model
         return null;
     }
 
+    public static function isBetween($startDate, $endDate): bool
+    {
+        $sql = 'SELECT * FROM campaigns WHERE DATE(startDate) <= :startDate AND DATE(endDate) >= :endDate';
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':startDate', $startDate);
+        $stmt->bindParam(':endDate', $endDate);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return true;
+        }
+        return false;
+    }
+
     public function countVotes(): int
     {
         $sql = "SELECT COUNT(*) FROM votes WHERE campaign_id = :id";
@@ -139,13 +153,16 @@ final class Campaign extends Model
 
     public function save()
     {
-        $sql = 'REPLACE INTO campaigns(name, description) VALUES (:name,:description)';
+        $sql = 'INSERT INTO campaigns (name, description, startDate, endDate) VALUES (:name, :description, :startDate, :endDate)';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':startDate', $this->startDate);
+        $stmt->bindParam(':endDate', $this->endDate);
         $stmt->execute();
+        $this->id = self::getDatabaseInstance()->lastInsertId();
     }
-
+    
     public function update()
     {
         $sql = "UPDATE campaigns SET name = :name, description =: description, startDate = :startDate, endDate = :endDate WHERE id = :id";

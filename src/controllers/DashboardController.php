@@ -80,7 +80,23 @@ final class DashboardController
     {
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+        
+        if ($session['user']->getRole() !== 'admin')
+            $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'red')));
+        
+        if (isset($post['firstname'])) {
+            if (empty($post['firstname']) || empty($post['lastname']) || empty($post['email']) || empty($post['password']) || empty($post['role']))
+                $this->redirect('/dashboard/create-user', array('alert' => array('message' => 'Les valeurs sont obligatoires.', 'type' => 'red')));
+            
+            $pwd = (new SignupController)->generateRandomPassword();
+            $user = new User($post['email'], $post['firstname'], $post['lastname'], password_hash($pwd, PASSWORD_DEFAULT), 0);
+            $user->setRole($post['role']);
+            $user->save();
 
+            SignUpController::sendMail($user->getEmail(), $pwd);
+
+            $session['alert'] = array('message' => 'L\'utilisateur a bien été créé.', 'type' => 'green');
+        }
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
@@ -98,6 +114,9 @@ final class DashboardController
     {
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+        
+        if ($session['user']->getRole() !== 'admin')
+            $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'red')));
 
         if (!isset($params[0]))
             $this->redirect('/dashboard', array('alert' => array('message' => 'Vous devez spécifier un utilisateur.', 'type' => 'yellow')));
@@ -106,6 +125,15 @@ final class DashboardController
 
         if (!$user)
             $this->redirect('/dashboard', array('alert' => array('message' => 'L\'utilisateur spécifié n\'existe pas.', 'type' => 'yellow')));
+        
+        if (!isset($post['firstname']) || !isset($post['lastname']) || !isset($post['email']) || !isset($post['role']))
+            $this->redirect('/dashboard/edit-user/' . $user->getId(), array('alert' => array('message' => 'Les valeurs sont obligatoires.', 'type' => 'red')));
+        
+        $user->setFirstName($post['firstname']);
+        $user->setLastName($post['lastname']);
+        $user->setEmail($post['email']);
+        $user->setRole($post['role']);
+        $user->save();
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
@@ -159,13 +187,23 @@ final class DashboardController
         if ($session['user']->getRole() !== 'admin')
             return $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
 
-        if (Campaign::getCurrentCampaign() !== null)
-            return $this->redirect('/', array('alert' => array('message' => 'Une campagne est déja en cours', 'type' => 'yellow')));
-        if (!empty($post) && Campaign::getCurrentCampaign() == null) {
+        if (!empty($post)) {
             try {
-                $campaign = new Campaign($_POST['Nom'], $_POST['Description'], $_POST['datedep'], $_POST['datefin']);
-                $campaign->save();
-                return $this->redirect('/', array('alert' => array('message' => 'La campagne a été crée avec success', 'type' => 'green')));
+                $d1 = new DateTime($post['datedep']);
+                $d2 = new DateTime($post['datefin']);
+
+                if ($d1 > $d2)
+                    $session['alert'] = array('message' => 'La date de fin de la campagne doit être supérieure à la date de début.');
+                else if ($d1 < new DateTime())
+                    $session['alert'] = array('message' => 'La date de fin de la campagne doit être supérieure ou égale à la date d\'aujourd\'hui.');
+                if (Campaign::isBetween($d1->format('Y-m-d'), $d2->format('Y-m-d')))
+                    $session['alert'] = array('message' => 'Une campagne est déjà en cours à cette période', 'type' => 'red');
+                else {
+                    $campaign = new Campaign($post['Nom'], $post['Description'], $d1->format('Y-m-d'), $d2->format('Y-m-d'));
+                    $campaign->save();
+
+                    return $this->redirect('/dashboard', array('alert' => array('message' => 'La campagne a bien été créée.', 'type' => 'green')));
+                }
             }
             catch (Exception $e) {
                 $session['alert'] = array('message' => $e->getMessage(), 'type' => 'red');
