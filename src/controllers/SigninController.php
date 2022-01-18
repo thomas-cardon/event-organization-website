@@ -93,7 +93,7 @@ final class SigninController
      * @return string Mot de passe généré aléatoirement non hashé
      * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
      */
-    public function resetPasswordAction($params, $post, $session): string
+    public function resetPasswordAction($params, $post, $session) : void
     {
         if (!isset($_GET['email']))
             $this->redirect('/', array('alert' => array('message' => 'Veuillez renseigner votre adresse e-mail.', 'type' => 'red')));
@@ -105,7 +105,7 @@ final class SigninController
 
         $password = (new SignupController)->generateRandomPassword();
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
-        $user->save();
+        $user->update();
 
         $to = $user->getEmail();
         $subject = 'Changement de mot de passe E-EVENT.IO !';

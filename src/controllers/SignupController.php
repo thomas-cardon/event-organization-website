@@ -43,13 +43,11 @@ final class SignupController
      */
     private function createUser()
     {
+        $user = new User($_POST['email'], $_POST['firstName'], $_POST['lastName'], '$2y$10$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC');
         $password = $this->generateRandomPassword();
-
-        $user = new User($_POST['email'], $_POST['firstName'], $_POST['lastName'], $password, 0, 0, null, 'member', null, null, null);
-//        , self::sendMail(null, $_POST['email'], true)
         $user->setHash(password_hash($password, PASSWORD_DEFAULT));
         $user->save();
-        self::sendMail( $_POST['email'], true, $password);
+        self::sendMail( $_POST['email'], $password);
         if ($user) {
             $session = array(
                 'user' => $user,
