@@ -73,12 +73,24 @@ final class EventController
     }
 
     public function winnersAction($params, $post, $session) {
+        $campaigns = Campaign::findOverCampaigns($_GET['limit'] ?? null, $_GET['offset'] ?? null);
+
+        $campaigns[2] = $campaigns[1] = $campaigns[0];
+        $events = array();
+
+        foreach ($campaigns as $campaign) {
+            $events[$campaign->getId()] = array_filter(Event::findByCampaignId($campaign->getId()), function($event) use (&$events) {
+                return Vote::hasVotes($event->getId()) || true;
+            });
+        }
+
         View::show('event', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? null,
             'body' => View::get('event/winners', array(
-                'events' => array()
+                'campaigns' => $campaigns,
+                'events' => $events
             ))
         ));
 
