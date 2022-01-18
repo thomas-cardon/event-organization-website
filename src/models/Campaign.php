@@ -28,11 +28,14 @@ final class Campaign extends Model
         $this->updated_at = $updated_at;
     }
 
-    public static function findAll()
+    public static function find($limit = 25, $offset = 0)
     {
-        $sql = "SELECT * FROM campaigns";
+        $sql = 'SELECT * FROM campaign LIMIT :limit OFFSET :offset';
         $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
+
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $campaigns = [];
         foreach ($rows as $row) {
@@ -42,9 +45,56 @@ final class Campaign extends Model
         return $campaigns;
     }
 
+    /**
+     * findOverCampaigns
+     * Retourne les campagnes qui sont terminées et qui ne sont plus dans la phase de vote
+     * @param int $limit : nombre de résultats à retourner
+     * @param int $offset : nombre de résultats à ignorer
+     * @return array
+     */
+    public static function findOverCampaigns($limit = -1, $offset = 0): array
+    {
+        $sql = "SELECT * FROM campaigns WHERE DATE_ADD(DATE(endDate), INTERVAL 1 DAY) <= DATE(NOW()) ORDER BY endDate DESC " . ($limit > 0 ? 'LIMIT ' . $limit : '') . ($offset > 0 ? ' OFFSET ' . $offset : '');
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $campaigns = [];
+        foreach ($rows as $row) {
+            $campaign = new Campaign($row['name'], $row['description'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at']);
+            $campaigns[] = $campaign;
+        }
+        return $campaigns;
+    }
+
+    /*
+     * getCurrentCampaign()
+     * Retourne la campagne en cours
+     * @return Campaign
+     */
     public static function getCurrentCampaign(): ?Campaign
     {
         $sql = "SELECT * FROM `campaigns` WHERE DATE(`startDate`) <= NOW() AND DATE(`endDate`) >= NOW();";
+        $stmt = self::getDatabaseInstance()->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($row) {
+            return new Campaign($row['name'], $row['description'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at']);
+        }
+        return null;
+    }
+
+    /**
+     * getPendingForVoteCampaign
+     * Retourne la campagne en phase de vote, si il y en a une
+     * @return Campaign | null
+     */
+    public static function getPendingForVoteCampaign(): ?Campaign
+    {
+        $sql = "SELECT * FROM `campaigns` WHERE DATE(`endDate`) = DATE(NOW());";
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

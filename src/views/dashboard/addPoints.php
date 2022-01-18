@@ -3,13 +3,13 @@
     <form action="<?= BASE_PATH; ?>/dashboard/add-points/<?= $params['target']->getId() ?>" method="POST">
         <div class="flex items-center">
             <div class="avatar-container">
-                <img class="avatar" onerror="this.src='<?php echo Constants::getPublicPath() . '/vendor/svg/placeholder-bg.svg'; ?>'" src="<?php echo $params['target']->getAvatar(); ?>" alt="Avatar de <?php echo $params['target']->getName(); ?>">
+                <img class="avatar" onerror="this.src='<?= Constants::getPublicPath() . '/vendor/svg/placeholder-bg.svg'; ?>'" src="<?= $params['target']->getAvatar(); ?>" alt="Avatar de <?= $params['target']->getName(); ?>">
             </div>
             <h2 class="font-hero">
-                <?php echo $params['target']->getName(); ?>
+                <?= $params['target']->getName(); ?>
             </h2>
             <p class="m text-gray-1">
-                <?php echo $params['target']->getEmail(); ?>
+                <?= $params['target']->getEmail(); ?>
             </p>
 
             <input style="margin-top: 1.5rem;" type="number" id="amount" name="amount" aria-label="Montant" placeholder="Montant" required>

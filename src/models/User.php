@@ -14,7 +14,7 @@ final class User extends Model
     private $avatar;
     private $connectionCpt;
 
-    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $connectionCpt = 0, $id = null, $role = null, $created_at = null, $updated_at = null, $avatar = null)
+    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = 'donor', $created_at = null, $updated_at = null, $avatar = null)
     {
         $this->id = $id;
         $this->email = $email;
@@ -29,7 +29,7 @@ final class User extends Model
         $this->avatar = $avatar;
     }
 
-    public static function findAll($limit = -1): array
+    public static function find($limit = -1): array
     {
         $sql = 'SELECT  * FROM users ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -96,6 +96,10 @@ final class User extends Model
         return null;
     }
 
+    /**
+     * Création d'un utilisateur dans la base de donnée
+     * @return void
+     */
 
     public function getConnectionCpt()
     {
@@ -129,6 +133,10 @@ final class User extends Model
         $stmt->execute();
     }
 
+    /**
+     * Modification d'un utilisateur dans la base de donnée
+     * @return void
+     */
     public function update()
     {
         $sql = 'UPDATE users 
@@ -146,6 +154,10 @@ final class User extends Model
         $stmt->execute();
     }
 
+    /**
+     * Suppression d'un utilisateur dans la basse de donnée
+     * @return void
+     */
     public function delete()
     {
         $sql = "DELETE FROM users WHERE id = :id";

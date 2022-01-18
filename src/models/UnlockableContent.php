@@ -21,7 +21,7 @@ final class UnlockableContent extends Model
         $this->updated_at = $updated_at;
     }
 
-    public static function findAll($limit = -1): array
+    public static function find($limit = -1): array
     {
         $sql = 'SELECT  * FROM unlockable_content ORDER BY id DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);

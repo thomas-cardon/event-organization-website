@@ -92,8 +92,11 @@ nav.buttons.vertical {
     padding: .8rem;
 }
 
-nav.buttons.vertical > * {
-    padding: 0.8rem;
+nav.buttons.vertical > *, .btn.sm {
+    min-height: unset !important;
+    min-width: unset !important;
+    
+    padding: 0.8rem !important;
     border-radius: 0.4rem;
     margin-bottom: 1rem;
 
@@ -114,6 +117,20 @@ button.action, .btn.action {
     background: var(--color-primary);
 }
 
+.inc {
+    margin-top: 1rem;
+    border-start-start-radius: 0;
+    border-start-end-radius: 0;
+}
+
+.danger {
+    background-color: #c0392b !important;
+}
+
+.danger:hover {
+    background-color: #b83526 !important;
+}
+
 .action:hover, nav.buttons.vertical > *:hover {
     background-color: var(--color-primary-hover);
 }
@@ -131,7 +148,7 @@ button.green, .btn.green {
     border: 1px solid #322636;
 }
 
-.btn > svg, button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
+.btn:not(.sm) > svg, button > svg, [type='button'] > svg, [type='reset'] > svg, [type='submit'] > svg {
     margin-right: 0.5rem;
     width: 1rem;
     height: 1rem;
@@ -185,6 +202,16 @@ input.glass:-webkit-autofill {
     -webkit-text-fill-color: rgb(231, 209, 177);
 }
 
+input[type="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
 .input-group {
     display: flex;
 }
@@ -226,4 +253,42 @@ form > .actions > * {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.input-tip {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    width: 100%;
+}
+
+.input-tip > div:nth-of-type(1) {
+    flex: 1 1 auto;
+    background-color: var(--dark-0);
+    padding: 1.2rem;
+    margin: 0.5rem 0;
+
+    border-start-start-radius: 0.5rem;
+    border-end-start-radius: 0.5rem;
+}
+
+.glass .input-tip > div:nth-of-type(1) {
+    padding: 1.25rem;
+    border-start-start-radius: .25rem;
+    border-end-start-radius: .25rem;
+
+    backdrop-filter: blur(9px) saturate(-50%);
+    -webkit-backdrop-filter: blur(9px) saturate(-50%);
+    -moz-backdrop-filter: blur(9px) saturate(-50%);
+    -o-backdrop-filter: blur(9px) saturate(-50%);
+    -ms-backdrop-filter: blur(9px) saturate(-50%);
+    
+    background-color: rgba(144, 19, 254, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.input-tip > input:nth-of-type(1) {
+    border-start-start-radius: 0 !important;
+    border-end-start-radius: 0 !important;
 }

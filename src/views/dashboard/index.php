@@ -10,13 +10,17 @@
         <?php
         if (isset($params['content']))
             echo $params['content'];
-        else if ($params['user']->getRole() === 'admin') {
-            View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null, 'hide_all_users_button' => $params['hide_all_users_button'] ?? false ));
-            View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
-            View::show('components/dashboard/widgets/currentCampaign', array( 'data' => $params['current_campaign'] ?? null, 'events' => $params['current_campaign_events'] ));
+        else {
+            View::show('components/dashboard/widgets/welcome', array( 'user' => $params['user'], 'campaign_pending_for_vote' => Campaign::getPendingForVoteCampaign() ));    
+        
+            if ($params['user']->getRole() === 'admin') {
+                View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null, 'hide_all_users_button' => $params['hide_all_users_button'] ?? false ));
+                View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
+            }
+            else if ($params['user']->getRole() === 'organizer')
+                View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
+            else View::show('components/dashboard/widgets/currentCampaign', array( 'data' => $params['current_campaign'] ?? null ));
         }
-        else if ($params['user']->getRole() === 'organizer')
-            View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
         ?>
     </div>
 
@@ -66,37 +70,42 @@
     <div class="card chart chart-aside-1">
         <?php View::show('components/dashboard/widgets/pointsSpent', array( 'data' => $params['points_spent'] ?? null )); ?>
     </div>
-    <div class="card chart chart-aside-2"></div>
-    <div class="card chart chart-1">
-        <?php View::show('components/dashboard/widgets/userChart', array( 'data' => $params['nb_users_per_role'] ?? null)); ?>
-    </div>
-    <div class="card chart chart-2">
-        <?php View::show('components/dashboard/widgets/pointsRepartition', $params['points_repartition'] ?? array()); ?>
-    </div>
+    <?php if ($params['user']->getRole() === 'admin'): ?>
+        <div class="card chart chart-aside-2">
+            <?php View::show('components/dashboard/widgets/userChart', array( 'data' => $params['nb_users_per_role'] ?? null)); ?>
+        </div>
+    <?php else: ?>
+        <div class="card chart chart-aside-2">
+            <?php View::show('components/dashboard/widgets/pointsRepartition', $params['points_repartition'] ?? array()); ?>
+        </div>
+    <?php endif; ?>
 
     <nav class="buttons vertical">
-        <a href="<?= BASE_PATH ?>/dashboard">
+        <a href="<?= BASE_PATH ?>/dashboard" title="Accueil du tableau de bord">
             <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
             </svg>
         </a>
-        <a href="<?= BASE_PATH ?>/dashboard/create-user">
+        <a href="<?= BASE_PATH ?>/dashboard/create-user" title="Créer un utilisateur">
             <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
             </svg>
         </a>
-        <a href="<?= BASE_PATH ?>/dashboard/create-campaign">
+        <a href="<?= BASE_PATH ?>/dashboard/create-campaign" title="Créer une campagne">
             <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"></path>
             </svg>
         </a>
         <?php if ($params['user']->getRole() === 'admin' || $params['user']->getRole() === 'organizer'): ?>
-            <a href="<?= BASE_PATH ?>/dashboard/create-event">
+            <a href="<?= BASE_PATH ?>/dashboard/create-event"  title="Créer un évènement">
                 <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
                 </svg>
             </a>
         <?php endif; ?>
+        <a href="<?= BASE_PATH ?>/dashboard/account" title="Mon compte">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+        </a>
     </nav>
   </div>
   <?php View::show('components/footer', $params); ?>

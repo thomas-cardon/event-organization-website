@@ -4,7 +4,7 @@
     --color-primary-hover: #6746ED;
     --color-light: #fafafa;
     --color-light-hover: #ecf0f1;
-};
+}
 
 body {
     color: var(--color-light);
@@ -153,6 +153,10 @@ section, .flex {
     align-items: flex-end;
 }
 
+.items-stretch {
+    align-items: stretch;
+}
+
 .content-center {
     align-content: center;
 }
@@ -194,7 +198,7 @@ section, .flex {
 }
 
 .w-1\/4 {
-    width: 25;
+    width: 25%;
 }
 
 .w-2\/3 {
@@ -206,7 +210,7 @@ section, .flex {
 }
 
 .min-w-1\/4 {
-    min-width: 25;
+    min-width: 25%;
 }
 
 .h-full {

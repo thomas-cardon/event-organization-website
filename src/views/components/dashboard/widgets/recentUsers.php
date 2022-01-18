@@ -30,11 +30,6 @@
                         <?= $user->getPoints(); ?>$</td>
                     <td class="xs" width="12%"><?= $user->getCreatedAt()->format('d/m/Y'); ?></td>
                     <td width="42%">
-                        <a class="xs" href="<?= BASE_PATH; ?>/dashboard/reset-password/<?= $user->getId(); ?>"/>
-                            Regénérer mot de passe
-                        </a>
-
-                        <span> | </span>
 
                         <a class="xs" href="<?= BASE_PATH; ?>/dashboard/edit-user/<?= $user->getId(); ?>"/>
                             Modifier

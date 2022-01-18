@@ -28,6 +28,7 @@ final class SignupController
         else if (empty($_POST['email']) || empty($_POST['lastName']) || empty($_POST['firstName']))
             $this->userError('Veuillez remplir tous les champs.');
 
+        
 
 
 
@@ -54,7 +55,7 @@ final class SignupController
         if ($user) {
             $session = array(
                 'user' => $user,
-                'alert' => array('message' => 'Inscription réussie.', 'type' => 'green')
+                'alert' => array('message' => 'Inscription réussie.'."\n".'Vous venez de recevoir un email avec vos identifiants de connexion (regardez dans vos spams)', 'type' => 'green')
             );
 
             $_SESSION = $session;
@@ -73,9 +74,8 @@ final class SignupController
      * @return string
      * @author Thomas Cardon
      */
-    private function generateRandomPassword($chars = 12): string
-    {
-        $comb = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private function generateRandomPassword($chars = 12): string {
+        $comb = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $shfl = str_shuffle($comb);
         return substr($shfl, 0, $chars);
     }
@@ -89,15 +89,20 @@ final class SignupController
     {
         $user = User::getByEmail($mail);
 
+           $to = $user->getEmail();
+           $subject = 'Bienvenue sur E-EVENT.IO !';
+           $message = 'Voici vos identifiants pour se connecter à E-event.io'."\n" .
+               'Email: ' . $user->getEmail() . "\n" .
+               'Mot de passe: ' . $password . "\n" .
+               'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
+           mail($to, $subject, $message);
 
-        $to = $user->getEmail();
-        $subject = 'Bienvenue sur E-EVENT.IO !';
-        $message = 'Voici vos identifiants pour se connecter à E-event.io\n' .
-            'Email: ' . $user->getEmail() . '\n' .
-            'Mot de passe: ' . $password . '\n' .
-            'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
-        mail($to, $subject, $message);
-
+            if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
+                throw new Exception('Erreur lors de l\'envoi du mail');
+            
+            return $password;
+        }
+        else throw new Exception('L\'utilisateur demandé n\'existe pas.');
 
         if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
             throw new Exception('Erreur lors de l\'envoi du mail');

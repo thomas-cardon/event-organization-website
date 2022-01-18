@@ -112,10 +112,10 @@ final class SigninController
 
             $to = $user->getEmail();
             $subject = 'Changement de mot de passe E-EVENT.IO !';
-            $message = 'Votre mot de passe a été réinitialisé.\n' .
-                'Voici vos identifiants pour se connecter à E-event.io\n' .
-                'Email: ' . $user->getEmail() . '\n' .
-                'Mot de passe: ' . $password . '\n' .
+            $message = 'Votre mot de passe a été réinitialisé'."\n" .
+                'Voici vos identifiants pour se connecter à E-event.io'."\n" .
+                'Email: ' . $user->getEmail() . "\n" .
+                'Mot de passe: ' . $password . "\n" .
                 'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
             mail($to, $subject, $message);
 

@@ -8,7 +8,7 @@ final class Transaction extends Model
     private $comment;
     private $created_at;
 
-    public function __construct($id, $user_id, $event_id, $amount, $comment, $created_at)
+    public function __construct($user_id, $event_id, $amount, $comment = null, $created_at = null, $id = null)
     {
         $this->id = $id;
         $this->user_id = $user_id;
@@ -123,12 +123,12 @@ final class Transaction extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
+            $transaction = new Transaction($row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at'], $row['id']);
         }
         return null;
     }
 
-    public static function findAll()
+    public static function find()
     {
         $sql = "SELECT * FROM transactions";
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -136,7 +136,7 @@ final class Transaction extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $transactions = [];
         foreach ($rows as $row) {
-            $transaction = new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
+            $transaction = new Transaction($row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at'], $row['id']);
             $transactions[] = $transaction;
         }
         return $transactions;
@@ -151,7 +151,7 @@ final class Transaction extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $transactions = [];
         foreach ($rows as $row) {
-            $transaction = new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
+            $transaction = new Transaction($row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at'], $row['id']);
             $transactions[] = $transaction;
         }
         return $transactions;
@@ -166,7 +166,7 @@ final class Transaction extends Model
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $transactions = [];
         foreach ($rows as $row) {
-            $transaction = new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
+            $transaction = new Transaction($row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at'], $row['id']);
             $transactions[] = $transaction;
         }
         return $transactions;
@@ -181,7 +181,7 @@ final class Transaction extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            $transaction = new Transaction($row['id'], $row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at']);
+            $transaction = new Transaction($row['user_id'], $row['event_id'], $row['amount'], $row['comment'], $row['created_at'], $row['id']);
             return $transaction;
         }
         return null;

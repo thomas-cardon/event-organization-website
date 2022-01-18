@@ -1,4 +1,3 @@
-<?php View::setTitle(($params['edit'] ? 'Editer' : 'Créer') . ' un utilisateur'); ?>
 <section class="dashboard-content">
     <h4 class="font-thin"><?= $params['edit'] ? 'Editer' : 'Créer'; ?> un utilisateur</h4>
     <form action="" method="POST">
@@ -39,7 +38,6 @@
 
         <div class="actions">
             <input type="submit" value="Créer">
-            <a>Mot de passe oublié?</a>
         </div>
     </form>
 </section>

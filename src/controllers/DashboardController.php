@@ -18,9 +18,9 @@ final class DashboardController
             'user' => $session['user'] ?? null,
 
             'current_campaign' => Campaign::getCurrentCampaign(),
-            'current_campaign_events' => Event::findByCampaign(Campaign::getCurrentCampaign()),
-            'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::findAll(5) : null,
-            'recent_events' => $session['cached_recent_events'] ?? $session['user']->getRole() === 'admin' || $session['user']->getRole() === 'organizer' ? Event::findAll(5) : null,
+            'current_campaign_events' => Campaign::getCurrentCampaign() ? Event::findByCampaignId(Campaign::getCurrentCampaign()->getId()) : null,
+            'recent_users' => $session['cached_recent_users'] ?? $session['user']->getRole() === 'admin' ? User::find(5) : null,
+            'recent_events' => $session['cached_recent_events'] ?? $session['user']->getRole() === 'admin' || $session['user']->getRole() === 'organizer' ? Event::find(5) : null,
             'nb_users_per_role' => $session['user']->getRole() === 'admin' ? User::nbCountPerRole() : null,
             'sum_points' => $session['user']->getRole() === 'admin' ? User::sumPoints() : null,
             'hide_all_users_button' => isset($session['cached_recent_users'])
@@ -38,6 +38,44 @@ final class DashboardController
      * @param $session array
      * @author Thomas Cardon
      */
+    public function voteAction($params, $post, $session)
+    {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        if (isset($params[0])) {
+            $eventId = $params[0];
+
+            if (!Event::find($eventId))
+                $this->redirect('/', array('alert' => array('message' => 'L\'événement n\'existe pas.', 'type' => 'red')));
+            
+            if (!Campaign::getPendingForVoteCampaign())
+                $this->redirect('/', array('alert' => array('message' => 'Il n\'y a pas de campagne en cours.', 'type' => 'red')));
+            
+            if ($session['user']->getRole() !== 'admin' && $session['user']->getRole() !== 'jury')
+                $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'red')));
+                        
+            $vote = new Vote($eventId, $session['user']->getId());
+            $vote->save();
+
+            $session['alert'] = array('message' => 'Votre vote a bien été pris en compte.', 'type' => 'green');
+        }
+
+        View::show('dashboard', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'] ?? null,
+            'content' => View::get('dashboard/vote', array(
+                'user' => $session['user'] ?? null,
+                'campaign' => Campaign::getPendingForVoteCampaign(),
+                'campaign_events' => Campaign::getPendingForVoteCampaign() ? Event::findByCampaignId(Campaign::getPendingForVoteCampaign()->getId()) : null,
+            ))
+        ));
+
+        $_SESSION['alert'] = null;
+    }
+
+
     public function createUserAction($params, $post, $session)
     {
         if (!$this->isAuthentified())
@@ -118,6 +156,22 @@ final class DashboardController
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
 
+        if ($session['user']->getRole() !== 'admin')
+            return $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
+
+        if (Campaign::getCurrentCampaign() !== null)
+            return $this->redirect('/', array('alert' => array('message' => 'Une campagne est déja en cours', 'type' => 'yellow')));
+        if (!empty($post) && Campaign::getCurrentCampaign() == null) {
+            try {
+                $campaign = new Campaign($_POST['Nom'], $_POST['Description'], $_POST['datedep'], $_POST['datefin']);
+                $campaign->save();
+                return $this->redirect('/', array('alert' => array('message' => 'La campagne a été crée avec success', 'type' => 'green')));
+            }
+            catch (Exception $e) {
+                $session['alert'] = array('message' => $e->getMessage(), 'type' => 'red');
+            }
+        }
+
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
@@ -153,7 +207,7 @@ final class DashboardController
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'],
-            'content' => View::get('dashboard/editEvent', array( 'edit' => true, 'event' => $event ))
+            'content' => View::get('dashboard/editEvent', array( 'edit' => true, 'event' => $event, 'unlockableContent' => UnlockableContent::findByEventId($event->getId()) ))
         ));
 
         $_SESSION['alert'] = null;
@@ -177,8 +231,22 @@ final class DashboardController
         
         if (!empty($post)) {
             try {
-                $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), $_POST['DateDep'], $_POST['DateFin']);
+
+                $event = new Event($_POST['Nom'], $_POST['Description'], $session['user']->getId(), Campaign::getCurrentCampaign()->getId(), $_POST['DateDep'], $_POST['DateFin']);
                 $event->save();
+
+                if (!empty($_POST['unlockableContent'])) {
+                    foreach ($_POST['unlockableContent'] as $unlockableContent) {
+                        $content = new UnlockableContent(
+                            null,
+                            $unlockableContent['title'],
+                            $unlockableContent['description'],
+                            Event::lastInsertId(),
+                            $unlockableContent['points']
+                        );
+                        $content->save();
+                    }
+                }
                 $session['alert'] = array('message' => 'Evènement créé avec succès.', 'type' => 'green');
             }
             catch (Exception $e) {
@@ -203,7 +271,7 @@ final class DashboardController
         if ($session['user']->getRole() !== 'admin')
             $this->redirect('/dashboard', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'yellow')));
 
-        $session['cached_recent_users'] = User::findAll();
+        $session['cached_recent_users'] = User::find();
         return $this->defaultAction($params, $post, $session);
     }
 
@@ -261,5 +329,17 @@ final class DashboardController
         ));
 
         $_SESSION['alert'] = null;
+    }
+
+    public function accountAction($params, $post, $session) {
+        if (!$this->isAuthentified())
+            $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+
+        View::show('dashboard', array(
+            'authentified' => $this->isAuthentified(),
+            'alert' => $session['alert'] ?? null,
+            'user' => $session['user'],
+            'content' => View::get('dashboard/me', array('user' => $session['user']))
+        ));
     }
 }
