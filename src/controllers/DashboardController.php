@@ -85,6 +85,9 @@ final class DashboardController
             $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'red')));
         
         if (isset($post['firstname'])) {
+            if (empty($post['firstname']) || empty($post['lastname']) || empty($post['email']) || empty($post['password']) || empty($post['role']))
+                $this->redirect('/dashboard/create-user', array('alert' => array('message' => 'Les valeurs sont obligatoires.', 'type' => 'red')));
+            
             $pwd = (new SignupController)->generateRandomPassword();
             $user = new User($post['email'], $post['firstname'], $post['lastname'], password_hash($pwd, PASSWORD_DEFAULT), 0);
             $user->setRole($post['role']);
@@ -111,6 +114,9 @@ final class DashboardController
     {
         if (!$this->isAuthentified())
             $this->redirect('/', array('alert' => array('message' => 'Vous devez être connecté pour effectuer cette action.', 'type' => 'yellow')));
+        
+        if ($session['user']->getRole() !== 'admin')
+            $this->redirect('/', array('alert' => array('message' => 'Vous n\'avez pas les droits pour effectuer cette action.', 'type' => 'red')));
 
         if (!isset($params[0]))
             $this->redirect('/dashboard', array('alert' => array('message' => 'Vous devez spécifier un utilisateur.', 'type' => 'yellow')));
@@ -119,6 +125,15 @@ final class DashboardController
 
         if (!$user)
             $this->redirect('/dashboard', array('alert' => array('message' => 'L\'utilisateur spécifié n\'existe pas.', 'type' => 'yellow')));
+        
+        if (!isset($post['firstname']) || !isset($post['lastname']) || !isset($post['email']) || !isset($post['role']))
+            $this->redirect('/dashboard/edit-user/' . $user->getId(), array('alert' => array('message' => 'Les valeurs sont obligatoires.', 'type' => 'red')));
+        
+        $user->setFirstName($post['firstname']);
+        $user->setLastName($post['lastname']);
+        $user->setEmail($post['email']);
+        $user->setRole($post['role']);
+        $user->save();
 
         View::show('dashboard', array(
             'authentified' => $this->isAuthentified(),
