@@ -14,7 +14,7 @@ final class User extends Model
     private $avatar;
     private $connectionCount;
 
-    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $connectionCount = 0, $id = null, $role = 'member', $created_at = null, $updated_at = null, $avatar = null)
+    public function __construct($email, $firstName, $lastName, $hash, $points = 1000, $connectionCount = 0, $id = null, $role = 'member', $created_at = null, $updated_at = null, $avatar = null)
     {
         $this->id = $id;
         $this->email = $email;

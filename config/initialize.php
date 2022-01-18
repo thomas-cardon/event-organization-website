@@ -33,7 +33,7 @@ $sql = [
         `hash` varchar(255),
         `email` varchar(255) NOT NULL,
         `role` varchar(255) NOT NULL DEFAULT \'member\',
-        `points` int(11) NOT NULL DEFAULT 0,
+        `points` int(11) NOT NULL DEFAULT 1000,
         `avatar` varchar(255),
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
