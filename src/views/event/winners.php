@@ -8,8 +8,7 @@
         <div class="glass fade-in" style="margin-top: 2rem">
             <h2 class="font-hero slide-in-bottom-h2"><?= $campaign->getName() ?></h2>
             <p class="slide-in-bottom-p subtitle">
-                <?= $campaign->getDescription() ?>
-                <br />
+                <?= $campaign->getDescription() ?> —&nbsp;
                 <b>
                     Du <?= $campaign->getStartDate()->format('d/m/Y') ?> au <?= $campaign->getEndDate()->format('d/m/Y') ?>
                 </b>

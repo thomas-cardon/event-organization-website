@@ -28,12 +28,19 @@ final class Campaign extends Model
         $this->updated_at = $updated_at;
     }
 
-    public static function find($limit = 25, $offset = 0)
+    public static function find($limit = -1, $offset = 0)
     {
-        $sql = 'SELECT * FROM campaign LIMIT :limit OFFSET :offset';
+        $sql = 'SELECT * FROM campaign DESC ' . ($limit > 0 ? 'LIMIT ' . $limit : '') . ($offset > 0 ? ' OFFSET ' . $offset : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+        if ($limit > 0) {
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        }
+
+        if ($offset > 0) {
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        }
+
         $stmt->execute();
 
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -56,8 +63,15 @@ final class Campaign extends Model
     {
         $sql = "SELECT * FROM campaigns WHERE DATE_ADD(DATE(endDate), INTERVAL 1 DAY) <= DATE(NOW()) ORDER BY endDate DESC " . ($limit > 0 ? 'LIMIT ' . $limit : '') . ($offset > 0 ? ' OFFSET ' . $offset : '');
         $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+        if ($limit > 0) {
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        }
+
+        if ($offset > 0) {
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        }
+
         $stmt->execute();
 
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);

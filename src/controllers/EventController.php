@@ -78,8 +78,6 @@ final class EventController
 
     public function winnersAction($params, $post, $session) {
         $campaigns = Campaign::findOverCampaigns($_GET['limit'] ?? null, $_GET['offset'] ?? null);
-
-        $campaigns[2] = $campaigns[1] = $campaigns[0];
         $events = array();
 
         foreach ($campaigns as $campaign) {
