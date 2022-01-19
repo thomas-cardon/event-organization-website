@@ -40,7 +40,7 @@ final class EventController
 
         $user = $session['user'];
 
-        if ($user->getRole() !== 'admin' || $user->getRole() !== 'donor') {
+        if ($user->getRole() !== 'admin' && $user->getRole() !== 'donor') {
             $this->redirect('/', array('alert' => array('message' => 'Vous n’avez pas les droits pour faire un don.', 'type' => 'red')));
         }
 
