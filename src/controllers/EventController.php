@@ -37,6 +37,10 @@ final class EventController
             $this->redirect('/signin', array('alert' => array('message' => 'Vous devez être connecté pour pouvoir faire un don.', 'type' => 'red')));
         }
 
+        if ($user->getRole() !== 'admin' || $user->getRole() !== 'donor') {
+            $this->redirect('/', array('alert' => array('message' => 'Vous n’avez pas les droits pour faire un don.', 'type' => 'red')));
+        }
+
         if ($post) {
             $amount = $_POST['amount'];
             $comment = !isset($post['comment']) || $post['comment'] == '' ? null : $post['comment'];

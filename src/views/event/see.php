@@ -92,9 +92,11 @@
                 <?php if (empty($params['donations'])): ?>
                     <p>
                         Aucun don n'a été effectué pour l'instant. &nbsp;
-                        <a href="<?= BASE_PATH . '/event/donate/' . $params['event']->getId(); ?>">
-                            Donner des points
-                        </a>
+                        <?php if ($params['user']->getRole() === 'admin' || $params['user']->getRole() === 'donor'): ?>
+                            <a href="<?= BASE_PATH . '/event/donate/' . $params['event']->getId(); ?>">
+                                Donner des points
+                            </a>
+                        <?php endif; ?>
                     </p>
                 <?php else: ?>
                     <table>
@@ -134,13 +136,15 @@
                                         <hr class="text-gray-less" />
                                     </td>
                                 </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
-                    <?php endforeach; ?>
                     <center>
-                        <a class="xs" href="<?= BASE_PATH . '/event/donate/' . $params['event']->getId(); ?>">
-                            Donner des points
-                        </a>
+                        <?php if ($params['user']->getRole() === 'admin' || $params['user']->getRole() === 'donor'): ?>
+                            <a href="<?= BASE_PATH . '/event/donate/' . $params['event']->getId(); ?>">
+                                Donner des points
+                            </a>
+                        <?php endif; ?>
                     </center>
                 <?php endif; ?>
             </div>
