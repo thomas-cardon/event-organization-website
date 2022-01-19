@@ -134,9 +134,14 @@
                                         <hr class="text-gray-less" />
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php endforeach; ?>
+                    <center>
+                        <a class="xs" href="<?= BASE_PATH . '/event/donate/' . $params['event']->getId(); ?>">
+                            Donner des points
+                        </a>
+                    </center>
                 <?php endif; ?>
             </div>
         </aside>

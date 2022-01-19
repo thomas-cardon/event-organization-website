@@ -48,8 +48,14 @@ final class SigninController
         $user = User::getByEmail($email);
         if ($user) {
             if (password_verify($password, $user->getHash())) {
-                $_SESSION['user'] = $user;
-                $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
+                if ($user->getConnectionCount() > 1) {
+                    $_SESSION['user'] = $user;
+                    $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
+                }
+                else {
+                    $_SESSION['user_to_auth'] = $user;
+                    $this->redirect('/signin/edit-password', array( 'alert' => array('message' => 'Veuillez changer votre mot de passe.', 'type' => 'green')));
+                }
             }
             else $this->userError('Vos identifiants sont incorrects.');
         }
@@ -60,36 +66,60 @@ final class SigninController
         $this->redirect('/signin', array('alert' => array('message' => $msg, 'type' => $type)));
     }
 
+    public function editPasswordAction($params, $post, $session){
+        if (isset($post['password1']) && isset($post['password2'])) {
+            $user = $session['user_to_auth'];
+            if($post['password1'] == $post['password2'])
+            {
+                $user->setHash(password_hash($_POST['password1'], PASSWORD_DEFAULT));
+                $user->setConnectionCount($user->getConnectionCount() + 1);
+                $user->update();
+
+                $_SESSION['user'] = $user;
+                $this->redirect('/', array('alert' => array('message' => 'Mot de passe changé avec succès', 'type' => 'green')));
+            }
+            else $this->redirect('/signin/edit-password', array('alert' => array('message' => 'Les mots de passe ne correspondent pas', 'type' => 'red')));
+        }
+        
+        View::show('editPassword', array(
+            'authentified' => $this->isAuthentified(),
+            'user' => $session['user'] ?? null,
+            'alert' => $session['alert'] ?? null,
+        ));
+    }
 
     /**
      * Envoie les données de connexions de l'utilisateur par mail
      * @return string Mot de passe généré aléatoirement non hashé
      * @author Thomas Cardon, Enzo Vargas, Justin De Sio, Adrien Lacroix
      */
-    public static function resetPasswordAction($userId, $mail): string
+    public function resetPasswordAction($params, $post, $session) : void
     {
-        $user = User::getById($userId);
+        if (!isset($_GET['email']))
+            $this->redirect('/', array('alert' => array('message' => 'Veuillez renseigner votre adresse e-mail.', 'type' => 'red')));
 
-        if (isset ($user)) {
+        $user = User::getByEmail($_GET['email']);
 
-            $password = (new SignupController)->singnupController::generateRandomPassword();
-            $user->setHash(password_hash($password, PASSWORD_DEFAULT));
-            $user->save();
+        if (!$user)
+            $this->redirect('/', array('alert' => array('message' => 'Aucun utilisateur avec cet e-mail n\'a été trouvé.', 'type' => 'red')));
 
-            $to = $user->getEmail();
-            $subject = 'Changement de mot de passe E-EVENT.IO !';
-            $message = 'Votre mot de passe a été réinitialisé'."\n" .
-                'Voici vos identifiants pour se connecter à E-event.io'."\n" .
-                'Email: ' . $user->getEmail() . "\n" .
-                'Mot de passe: ' . $password . "\n" .
-                'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
-            mail($to, $subject, $message);
+        $password = (new SignupController)->generateRandomPassword();
+        $user->setHash(password_hash($password, PASSWORD_DEFAULT));
+        $user->update();
 
-            if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
-                throw new Exception('Erreur lors de l\'envoi du mail');
+        $to = $user->getEmail();
+        $subject = 'Changement de mot de passe E-EVENT.IO !';
+        $message = 'Votre mot de passe a été réinitialisé'."\n" .
+            'Voici vos identifiants pour se connecter à E-event.io'."\n" .
+            'Email: ' . $user->getEmail() . "\n" .
+            'Mot de passe: ' . $password . "\n" .
+            'Votre mot de passe est généré aléatoirement, vous devrez le changer lors de votre première connexion.';
+        mail($to, $subject, $message);
 
-            return $password;
-        }
+        if (!mail($user->getEmail(), "E-Event.IO | Vos identifiants", $message))
+            throw new Exception('Erreur lors de l\'envoi du mail');
+
+        $this->redirect('/', array('alert' => array('message' => 'Votre mot de passe a été réinitialisé, vous allez recevoir un mail contenant vos identifiants.', 'type' => 'green')));
     }
 }
 

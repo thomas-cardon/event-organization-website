@@ -10,15 +10,17 @@
         <?php
         if (isset($params['content']))
             echo $params['content'];
-        else if ($params['user']->getRole() === 'admin') {
-            View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null, 'hide_all_users_button' => $params['hide_all_users_button'] ?? false ));
-            View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
-        }
-        else if ($params['user']->getRole() === 'organizer')
-            View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
-        else View::show('components/dashboard/widgets/welcome', array( 'user' => $params['user'], 'campaign_pending_for_vote' => Campaign::getPendingForVoteCampaign() ));
+        else {
+            View::show('components/dashboard/widgets/welcome', array( 'user' => $params['user'], 'campaign_pending_for_vote' => Campaign::getPendingForVoteCampaign() ));    
         
-        View::show('components/dashboard/widgets/currentCampaign', array( 'data' => $params['current_campaign'] ?? null ));
+            if ($params['user']->getRole() === 'admin') {
+                View::show('components/dashboard/widgets/recentUsers', array( 'data' => $params['recent_users'] ?? null, 'hide_all_users_button' => $params['hide_all_users_button'] ?? false ));
+                View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
+            }
+            else if ($params['user']->getRole() === 'organizer')
+                View::show('components/dashboard/widgets/recentEvents', array( 'data' => $params['recent_events'] ?? null ));
+            else View::show('components/dashboard/widgets/currentCampaign', array( 'data' => $params['current_campaign'] ?? null ));
+        }
         ?>
     </div>
 
@@ -84,6 +86,7 @@
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
             </svg>
         </a>
+        <?php if($params['user']->getRole() === 'admin'): ?>
         <a href="<?= BASE_PATH ?>/dashboard/create-user" title="Créer un utilisateur">
             <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
@@ -94,6 +97,7 @@
                 <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"></path>
             </svg>
         </a>
+        <?php endif; ?>
         <?php if ($params['user']->getRole() === 'admin' || $params['user']->getRole() === 'organizer'): ?>
             <a href="<?= BASE_PATH ?>/dashboard/create-event"  title="Créer un évènement">
                 <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

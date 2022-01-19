@@ -6,14 +6,15 @@ final class User extends Model
     private $email;
     private $firstName;
     private $lastName;
-    private $hash;    
+    private $hash;
     private $role;
     private $created_at;
     private $updated_at;
     private $points;
     private $avatar;
+    private $connectionCount;
 
-    public function __construct($email, $firstName, $lastName, $hash, $points = 0, $id = null, $role = 'donor', $created_at = null, $updated_at = null, $avatar = null)
+    public function __construct($email, $firstName, $lastName, $hash, $points = 1000, $connectionCount = 0, $id = null, $role = 'member', $created_at = null, $updated_at = null, $avatar = null)
     {
         $this->id = $id;
         $this->email = $email;
@@ -25,6 +26,7 @@ final class User extends Model
         $this->updated_at = $updated_at;
         $this->points = $points;
         $this->avatar = $avatar;
+        $this->connectionCount = $connectionCount;
     }
 
     public static function find($limit = -1): array
@@ -36,7 +38,7 @@ final class User extends Model
         $users = [];
         foreach ($rows as $row) {
             $user = new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
+                $row['connection_count'], $row['id'], $row['role'], $row['created_at'], $row['updated_at'], null);
             $users[] = $user;
         }
         return $users;
@@ -59,7 +61,7 @@ final class User extends Model
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return (int) $row['sum'];
+        return (int)$row['sum'];
     }
 
     public static function getById($id): ?User
@@ -72,7 +74,7 @@ final class User extends Model
 
         if ($row) {
             return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
+                $row['connection_count'], $row['id'], $row['role'], $row['created_at'], $row['updated_at'], null);
         }
 
         return null;
@@ -88,11 +90,13 @@ final class User extends Model
 
         if ($row) {
             return new User($row['email'], $row['first_name'], $row['last_name'], $row['hash'], $row['points'],
-                $row['id'], $row['role'], $row['created_at'], $row['updated_at']);
+                $row['connection_count'], $row['id'], $row['role'], $row['created_at'], $row['updated_at'], null);
         }
-        
+
         return null;
     }
+
+
 
     /**
      * Création d'un utilisateur dans la base de donnée
@@ -126,7 +130,7 @@ final class User extends Model
     public function update()
     {
         $sql = 'UPDATE users 
-                SET last_name = :last_name, first_name = :first_name, email = :email, role = :role, hash = :hash, points = :points, updated_at = NOW()
+                SET last_name = :last_name, first_name = :first_name, email = :email, role = :role, hash = :hash, points = :points, updated_at = NOW(), connection_count = :connection_count
                 WHERE id = :id';
 
         $stmt = self::getDatabaseInstance()->prepare($sql);
@@ -137,6 +141,7 @@ final class User extends Model
         $stmt->bindParam(':hash', $this->hash);
         $stmt->bindParam(':role', $this->role);
         $stmt->bindParam(':points', $this->points);
+        $stmt->bindParam(':connection_count', $this->connectionCount);
         $stmt->execute();
     }
 
@@ -151,7 +156,21 @@ final class User extends Model
         $stmt->bindParam(':id', $this->id);
         $stmt->execute();
     }
+    /**
+     * @return int|mixed
+     */
+    public function getConnectionCount()
+    {
+        return $this->connectionCount;
+    }
 
+    /**
+     * @param int|mixed $connectionCount
+     */
+    public function setConnectionCount($connectionCount): void
+    {
+        $this->connectionCount = $connectionCount;
+    }
     /**
      * @return mixed
      */
@@ -171,10 +190,11 @@ final class User extends Model
     /**
      * @return mixed
      */
-    public function getHash() {
+    public function getHash()
+    {
         return $this->hash;
     }
-    
+
     /**
      * @param mixed $hash
      */
@@ -230,7 +250,7 @@ final class User extends Model
     {
         $this->lastName = $lastName;
     }
-    
+
     public function getName()
     {
         return $this->firstName . ' ' . $this->lastName;
@@ -273,22 +293,26 @@ final class User extends Model
     /**
      * @return int points
      */
-    public function getPoints() {
+    public function getPoints()
+    {
         return $this->points ?? 0;
     }
 
     /**
      * @param int $points
      */
-    public function setPoints($points) {
+    public function setPoints($points)
+    {
         $this->points = $points;
     }
 
-    public function getAvatar() {
+    public function getAvatar()
+    {
         return $this->avatar ?? 'https://www.gravatar.com/avatar/' . md5($this->email) . '?s=200';
     }
-    
-    public function setAvatar($avatar) {
+
+    public function setAvatar($avatar)
+    {
         $this->avatar = $avatar;
     }
 }

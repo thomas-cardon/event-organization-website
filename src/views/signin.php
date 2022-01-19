@@ -1,4 +1,7 @@
-<?php View::setTitle('Connexion'); ?>
+<?php 
+    View::setTitle('Connexion');
+    View::addScript('resetPassword', '/assets/js/resetPassword.js', '', '', true, 'text/javascript', 'head');
+?>
 
 <main>
     <?php View::show('components/header', $params); ?>
@@ -25,7 +28,7 @@
 
                 <div class="horizontal justify-start" style="gap: 1rem">
                     <input type="submit" class="btn action slide-in-bottom" value="Se connecter" />
-                    <a href="signin/resetPassword" onclick="prompt('Quelle est votre adresse e-mail ?');">Mot de passe oublié?</a>
+                    <a href="javascript:void(0);" onclick="resetPassword()">Mot de passe oublié?</a>
                 </div>
             </form>
         </section>

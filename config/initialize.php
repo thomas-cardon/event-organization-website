@@ -33,11 +33,12 @@ $sql = [
         `hash` varchar(255),
         `email` varchar(255) NOT NULL,
         `role` varchar(255) NOT NULL DEFAULT \'member\',
-        `points` int(11) NOT NULL DEFAULT 0,
+        `points` int(11) NOT NULL DEFAULT 1000,
         `avatar` varchar(255),
         `created_at` DATETIME DEFAULT NOW(),
         `updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
-        PRIMARY KEY (`id`)
+        `connection_count` int(11) NOT NULL DEFAULT 0,
+         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
     //table des campagnes
@@ -99,13 +100,12 @@ $sql = [
 
     // table de vote pour les jurys
     'CREATE TABLE `votes`(
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `event_id`int(11) NOT NULL,
-    `user_id` int(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
-)ENGINE=InnoDB DEFAULT CHARSET=utf8'
+        `event_id`int(11) NOT NULL,
+        `user_id` int(11) NOT NULL,
+        FOREIGN KEY (`event_id`) REFERENCES `events`(`id`) ON DELETE CASCADE,
+        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+        CONSTRAINT `votes_unique` UNIQUE (`user_id`, `event_id`)
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8'
 ];
 
 
@@ -113,10 +113,20 @@ $sql_data = [
 
 
     "INSERT INTO `users` (`id`, `first_name`, `last_name`, `hash`, `email`, `role`, `created_at`, `updated_at`) VALUES
-        (1, 'Jane', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test.test@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (1, 'Anne', 'Héantie', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Anne.Heantie@test.fr', 'admin', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
         (2, 'Thor', 'Odinson', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'thomas.cardon@etu.univ-amu.fr', 'organizer', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
-        (3, 'John', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test1.test2@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
-        (4, 'Heureux', 'Donateur', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'heureux.donateur@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54');",
+        (3, 'John', 'Doe', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'test1.test2@test.fr', 'organizer', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (4, 'Heureux', 'Donateur', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'heureux.donateur@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (5, 'Jean', 'Bonno', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Jean.Bonno@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (6, 'Ali', 'Gator', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Ali.Gator@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (7, 'Harry ', 'Cover', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Ali.Gator@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (8, 'Gérard', 'Manvussa', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Gerard.Manvussa@test.fr', 'jury', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (9, 'Axel ', 'Ère', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Axel.ere@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (10, 'Anne', 'Halle', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Anne.Halle@test.fr', 'jury', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (11, 'Pierre', 'Kiroule', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Pierre.kiroule@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (12, 'Jean', 'Némard', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Jean.Némard@test.fr', 'donor', '2021-12-29 12:08:25', '2021-12-29 12:08:54'),
+        (13, 'Élie', 'Coptère', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'elie.Coptère@test.fr', 'member', '2022-01-10 12:08:25', '2022-01-10 12:08:25'),
+        (14, 'Barack', 'Affrit', '$2y$10\$ecbqAqsHQZ.xXVzCN93P5ucVv7J4vUlNDeCZ315HsxLzPdaYwXsMC', 'Barack.Affrit@test.fr', 'member', '2022-01-10 12:08:25', '2022-01-10 12:08:25');",
 
     "INSERT INTO `campaigns` (`id`, `name`, `description`, `startDate`, `endDate`) VALUES
         (1, 'Intégration première année', 'Cette campagne vise à faire les présentations entre les première et deuxième années', '2021-9-01', '2021-9-10'),
@@ -125,7 +135,8 @@ $sql_data = [
     "INSERT INTO `events` (`id`, `name`, `author`,`campaign_id`, `description`, `startDate`, `endDate`, `created_at`, `updated_at`) VALUES
         (1, 'Soirée au bord de la plage', 1,2, 'Cette soirée est organisée par le BDE', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
         (2, 'Soirée dans le centre-ville', 2,2, 'Cette soirée est organisée par le comité étudiant Aix en Provence', '2021-9-04 21:00:00', '2021-9-05 00:00:00', '2021-09-01 00:00:00', '2021-09-01 00:00:00'),
-        (3, 'event2', 1,1, 'la description', '2021-12-29 11:40:36', '2022-01-01 11:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
+        (3, 'bar', 1,1, 'Adresse: 40 Rue des Tanneurs, 13100 Aix-en-Provence. Rendez vous à 20heurs au bar PlatÔbar', '2021-12-29 20:0:0', '2022-01-01 23:40:36', '2021-12-29 11:40:36', '2021-12-29 12:51:19'),
+        (4, 'paintball', 1,2, 'Domaine du moulin de l arc Route de Rousset, 13530 Trets', '2021-12-29 15:00:00', '2021-12-29 18:00:00', '2021-12-29 11:40:36', '2021-12-29 12:51:19');",
 
     "INSERT INTO `transactions` (`id`, `user_id`, `event_id`, `amount`, `created_at`, `comment`) VALUES (1, 1, 2, 10, '2021-12-29 11:40:36', 'comment');",
 ];

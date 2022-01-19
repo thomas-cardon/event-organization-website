@@ -5,8 +5,8 @@
             <input autofocus type="text" class="text-white" name="Nom" aria-label="Nom" placeholder="Nom">
             <textarea type="text" class="text-white" name="Description" aria-label="Description" placeholder="Description" rows="5"></textarea>
 
-            <input type="datetime-local" class="text-white" min="<?= date('Y-m-d');?>T00:00" name="datedep" aria-label="Date et heure de départ" placeholder="Commence le:">
-            <input type="datetime-local" class="text-white" min="<?= date('Y-m-d');?>T00:00" name="datefin" aria-label="Date et heure de fin" placeholder="Termine le:">
+            <input type="date" class="text-white" min="<?= date('Y-m-d');?>" name="datedep" aria-label="Date de départ" placeholder="Commence le:">
+            <input type="date" class="text-white" min="<?= date('Y-m-d');?>" name="datefin" aria-label="Date de fin" placeholder="Termine le:">
             <p style="margin: 1rem 0; text-align: justify; font-size: large">
                 <i>
                     Pendant la période de la campagne, les organisateurs pourront ajouter des évènements.

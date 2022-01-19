@@ -29,7 +29,6 @@ final class EventController
     public function donateAction($params, $post, $session) {
         $id = $params[0];
         $event = Event::getById($id);
-
         if (!$event) {
             $this->redirect('/', array('alert' => array('message' => 'L’événement n’existe pas.', 'type' => 'red')));
         }
@@ -39,7 +38,7 @@ final class EventController
         }
 
         if ($post) {
-            $amount = $post['amount'];
+            $amount = $_POST['amount'];
             $comment = !isset($post['comment']) || $post['comment'] == '' ? null : $post['comment'];
 
             $user = $session['user'];
@@ -56,8 +55,13 @@ final class EventController
                 $this->redirect('/event/see/' . $id, array('alert' => array('message' => 'Le montant ne peut pas être supérieur à votre portefeuille.', 'type' => 'red')));
             }
 
+            $created = null;
+
             $transaction = new Transaction($user->getId(), $event->getId(), $amount, $comment);
             $transaction->save();
+
+            $user->setPoints($user->getPoints() - $amount);
+            $user->update();
 
             $this->redirect('/event/see/' . $id, array('alert' => array('message' => 'Votre don a bien été pris en compte.', 'type' => 'green')));
         }
@@ -73,12 +77,22 @@ final class EventController
     }
 
     public function winnersAction($params, $post, $session) {
+        $campaigns = Campaign::findOverCampaigns($_GET['limit'] ?? null, $_GET['offset'] ?? null);
+        $events = array();
+
+        foreach ($campaigns as $campaign) {
+            $events[$campaign->getId()] = array_filter(Event::findByCampaignId($campaign->getId()), function($event) use (&$events) {
+                return Vote::hasVotes($event->getId()) || true;
+            });
+        }
+
         View::show('event', array(
             'authentified' => $this->isAuthentified(),
             'alert' => $session['alert'] ?? null,
             'user' => $session['user'] ?? null,
             'body' => View::get('event/winners', array(
-                'events' => array()
+                'campaigns' => $campaigns,
+                'events' => $events
             ))
         ));
 

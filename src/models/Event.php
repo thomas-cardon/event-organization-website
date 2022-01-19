@@ -89,40 +89,21 @@ final class Event extends Model
         return $events;
     }
 
-    public static function findByCampaign(Campaign $campaign): array
-    {        
-        $sql = "SELECT * FROM events WHERE DATE(`startDate`) <= :startDate AND DATE(`endDate`) >= :endDate";
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':startDate', $startDate);
-        $stmt->bindParam(':endDate', $endDate);
-        $stmt->execute();
-
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $events = [];
-        foreach ($rows as $row) {
-            $event = new Event($row['name'], $row['description'], $row['author'], $row['campaign_id'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
-            $events[] = $event;
-        }
-
-        return $events;
-    }
-
-    public static function getByIdCampaign(int $campaignId): array
+    public static function findByCampaignId($campaignId): array
     {
-        $sql = "SELECT * FROM events WHERE campaign_id = :campaignId";
+        $sql = 'SELECT * FROM events WHERE campaign_id = :campaignId';
         $stmt = self::getDatabaseInstance()->prepare($sql);
         $stmt->bindParam(':campaignId', $campaignId);
         $stmt->execute();
-
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $events = [];
         foreach ($rows as $row) {
             $event = new Event($row['name'], $row['description'], $row['author'], $row['campaign_id'], $row['startDate'], $row['endDate'], $row['created_at'], $row['updated_at'], $row['status'], $row['id']);
             $events[] = $event;
         }
-
         return $events;
     }
+
     public static function nbCountPerAuthor(): array
     {
         $sql = 'SELECT COUNT(*) as nb, author FROM events GROUP BY author';
@@ -374,13 +355,11 @@ final class Event extends Model
 
     public function getCampaign(): Campaign
     {
-        $sql = 'SELECT * FROM campaigns WHERE id = (SELECT id FROM campaigns WHERE startDate <= :startDate AND endDate >= :endDate)';
-        $stmt = self::getDatabaseInstance()->prepare($sql);
-        $stmt->bindParam(':startDate', $this->startDate);
-        $stmt->bindParam(':endDate', $this->endDate);
-        $stmt->execute();
+        return Campaign::getById($this->campaignId);
+    }
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Campaign($row['name'], $row['description'], $row['startDate'], $row['endDate'], $row['id'], $row['created_at'], $row['updated_at']);
+    public function hasUserVoted($user): bool
+    {
+        return Vote::hasVoted($this->getId(), $user);
     }
 }

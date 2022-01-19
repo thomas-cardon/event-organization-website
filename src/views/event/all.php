@@ -3,7 +3,7 @@
 ?>
 
 <section class="lead">
-    <h1 class="font-hero slide-in-bottom-h1">Idées d'évènement</h1>
+    <h1 class="font-hero slide-in-bottom-h1">Idées d'évènements</h1>
     <p>Validées ou non par le jury</p>
 
     <div class="glass fade-in" style="margin-top: 2rem">
