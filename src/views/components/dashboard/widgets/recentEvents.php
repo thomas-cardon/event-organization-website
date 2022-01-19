@@ -35,6 +35,7 @@
                     <td><?php echo $event->getPointsAmount() ?></td>
                     <td class="xs">
                         <a href="<?php echo BASE_PATH . '/event/see/' . $event->getId(); ?>">Voir</a>
+                        | <a href="<?php echo BASE_PATH . '/dashboard/edit-event/' . $event->getId(); ?>">Modifier</a>
                     </td>
                 </tr>
             <?php endforeach ?>
