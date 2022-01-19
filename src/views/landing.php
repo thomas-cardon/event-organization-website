@@ -46,7 +46,7 @@
                     <ul>
                         <?php foreach ($params['events'] as $event): ?>
                         <li>
-                            <a href="<?= BASE_PATH; ?>/event/see/1" class="flex items-center text-gray-2">
+                            <a href="<?= BASE_PATH; ?>/event/see/<?= $event->getId(); ?>" class="flex items-center text-gray-2">
                                 <div class="body">
                                     <h4 class="font-hero">
                                         <?= $event->getName() ?>
