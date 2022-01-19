@@ -92,7 +92,7 @@
                 <?php if (empty($params['donations'])): ?>
                     <p>
                         Aucun don n'a été effectué pour l'instant. &nbsp;
-                        <?php if ($params['user']->getRole() === 'admin' || $params['user']->getRole() === 'donor'): ?>
+                        <?php if (isset($params['user']) && ($params['user']->getRole() === 'admin' || $params['user']->getRole() === 'donor')): ?>
                             <a href="<?= BASE_PATH . '/event/donate/' . $params['event']->getId(); ?>">
                                 Donner des points
                             </a>
@@ -140,7 +140,7 @@
                         </tbody>
                     </table>
                     <center>
-                        <?php if ($params['user']->getRole() === 'admin' || $params['user']->getRole() === 'donor'): ?>
+                        <?php if (isset($params['user']) && ($params['user']->getRole() === 'admin' || $params['user']->getRole() === 'donor')): ?>
                             <a href="<?= BASE_PATH . '/event/donate/' . $params['event']->getId(); ?>">
                                 Donner des points
                             </a>

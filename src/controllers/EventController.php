@@ -19,6 +19,7 @@ final class EventController
             'user' => $session['user'] ?? null,
             'body' => View::get('event/see', array(
                 'event' => $event,
+                'user' => $session['user'] ?? null,
                 'donations' => Transaction::findByEventId($id)
             ))
         ));
