@@ -48,7 +48,7 @@ final class SigninController
         $user = User::getByEmail($email);
         if ($user) {
             if (password_verify($password, $user->getHash())) {
-                if ($user->getConnectionCount() > 1) {
+                if ($user->getConnectionCount() > 0) {
                     $_SESSION['user'] = $user;
                     $this->redirect('/', array( 'alert' => array('message' => 'Connexion réussie.', 'type' => 'green')));
                 }
